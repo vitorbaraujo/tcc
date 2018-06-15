@@ -1,9 +1,44 @@
 \chapter*[Introdução]{Introdução}
 \addcontentsline{toc}{chapter}{Introdução}
 
-Este documento apresenta considerações gerais e preliminares relacionadas 
-à redação de relatórios de Projeto de Graduação da Faculdade UnB Gama 
-(FGA). São abordados os diferentes aspectos sobre a estrutura do trabalho, 
-uso de programas de auxilio a edição, tiragem de cópias, encadernação, etc.
+% Este documento apresenta considerações gerais e preliminares relacionadas
+% à redação de relatórios de Projeto de Graduação da Faculdade UnB Gama
+% (FGA). São abordados os diferentes aspectos sobre a estrutura do trabalho,
+% uso de programas de auxilio a edição, tiragem de cópias, encadernação, etc.
 
-Este template é uma adaptação do ABNTeX2\footnote{\url{https://github.com/abntex/abntex2/}}.
+% Este template é uma adaptação do ABNTeX2\footnote{\url{https://github.com/abntex/abntex2/}}.
+
+Desenvolver jogos eletrônicos pode ser uma tarefa complicada, especialmente quando não se tem suporte financeiro, visibilidade e reconhecimento, o que é o caso de muitos desenvolvedores que sonham em seguir carreira nessa área. Em vista dessa limitação de recursos, a estratégia adotada envolve montar equipes para desenvolver jogos com baixo custo de produção. Os produtos finais deste cenário são conhecidos como jogos eletrônicos independentes, ou, como são popularmente chamados, jogos \textit{indie}.
+
+Jogos \textit{indie} são jogos criados por organizações independentes com recursos limitados operando fora da indústria convencional de publicação de jogos \cite{end2end}. Essas organizações, pelo fato de terem recursos limitados, tendem a operar com um número baixo de funcionários. Segundo dados de 2016 da \textit{Entertainment Software Association} \cite{esa2016}, das quase 2500 empresas de jogos sediadas nos Estados Unidos, 99,7\% são consideradas empresas de pequeno porte, sendo que 94,57\% foram fundadas domesticamente. Além disso, 91,4\% das empresas americanas de jogos empregam 30 funcionários ou menos.
+
+Com investimentos baixos e poucas pessoas envolvidas, essas empresas geralmente optam por modelos de negócio de baixo risco. Seguindo esse modelo, essas empresas tendem a utilizar \textit{game engines} para produzir seus jogos. Segundo \textit{Lewis} e \textit{Jacobson} \cite{gameengines}, \textit{game engines} são coleções de módulos de código de simulação que não ditam, diretamente, o comportamento ou ambiente do jogo. Elas incluem módulos para tratar o \textit{input}, \textit{output} e físicas e comportamentos gerais do jogo \cite{gameengines}, isto é, são construídas de forma genérica. Sendo assim, a utilização de \textit{game engines} no desenvolvimento de jogos independentes traz certas vantagens, como diminuir custos que seriam gerados ao se desenvolver comportamentos e mecânicas gerais, além de evitar retrabalho e facilitar a publicação do jogo para diversas plataformas.
+
+Apesar de tais benefícios, o uso dessas ferramentas pode não ser recomendado, por exemplo, quando performance é um fator essencial no jogo. Jogos são muito complicados e, em alguns casos, possuem mecânicas e características muito específicas. Em casos assim, a utilização dessas ferramentas gera a necessidade do uso de \textit{workarounds}, que podem gerar desperdícios de processamento e memória e, consequentemente, prejudicar a performance do jogo.
+
+Sendo assim, como prosseguir quando se deseja desenvolver um jogo de alta performance? Quando há cenários onde a performance de um jogo é indispensável (por exemplo, quando se desenvolve jogos para plataformas antigas, onde não há memória ou armazenamento abundantes, ou quando é necessária a utilização máxima de recursos de uma plataforma, como em jogos com gráficos robustos). Nestes casos, é preciso trabalhar com diversas otimizações como, por exemplo, gerenciamento eficiente de memória, utilização de algoritmos customizados, otimização de imagens e recursos do jogo, dentre outros.
+
+Um cenário possível onde tais limitações de recursos ocorrem é o desenvolvimento de jogos para \textit{Game Boy Advance}. Este console possui memória e poder de processamento limitados quando comparado a consoles atuais, o que o torna um bom candidato a objeto de comparação e avaliação de performance de jogos.
+
+\section{Objetivos}
+
+O objetivo geral deste trabalho é reescrever um jogo desenvolvido na disciplina de Introdução aos Jogos Eletrônicos, originalmente para PC, para o \textit{Nintendo Gameboy Advance}.
+
+Os objetivos específicos são:
+
+\begin{itemize}
+\item Comprimir imagens e músicas do jogo original para reduzir o uso de memória;
+\item Criar módulos para renderização de imagens e texto;
+\item Criar módulos para manipulação de inputs dos botões e carregamento de áudio;
+\item Criar módulos para detecção de colisões e manipulação de eventos;
+\item criar métodos para carregamento do level design das fases do jogo;
+\item Executar e testar o jogo desenvolvido na plataforma escolhida.
+\end{itemize}
+
+\section{Estrutura do trabalho}
+
+FIXME
+
+Este trabalho será dividido em quatro capítulos: Fundamentação teórica, Metodologia, Resultados e Considerações Finais.
+
+No desenvolvimento serão apresentados a fundamentação teórica, a metodologia utilizada na execução do projeto o cronograma que será seguido durante o projeto e o detalhamento dos problemas que serão resolvidos, assim como das suas respectivas soluções. Por fim, na conclusão, serão explicados os resultados alcançados com o trabalho ao fim do projeto.
