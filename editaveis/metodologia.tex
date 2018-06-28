@@ -1,0 +1,29 @@
+\chapter[Metodologia]{Metodologia}
+
+O processo de reescrita do jogo para a plataforma \textit{Game Boy Advance} será dividido entre as seguintes tarefas que serão desenvolvidas concomitantemente:
+
+\begin{itemize}
+\item Estudar a documentação fornecida no \textit{GBATek}, documento que possui informações técnicas sobre o GBA.
+
+\item Desenvolver uma \textit{engine} com o objetivo de encapsular cada uma das principais funcionalidades necessárias para se desenvolver um jogo, como por exemplo desenhar \textit{sprites} na tela, trabalhar com colisões e atualizar os estados do jogo.
+
+\item Ajustar recursos como imagens e áudios para que possam ser carregados no GBA, levando em consideração que os recursos originais foram projetados para uma plataforma com mais memória e poder de processamento que os disponíveis no GBA.
+
+\item Desenvolver o jogo utilizando a engine desenvolvida e os recursos ajustados durante o projeto.
+\end{itemize}
+
+\section{Desenvolvimento da \textit{Engine}}
+
+Entre as principais funções a serem desenvolvidas para a \textit{engine} estão:
+
+\begin{itemize}
+\item Um método para renderização de imagens. Ele deverá receber a imagem já no formato adequado para o GBA, a posição da tela em que ela deverá ser renderizada e as dimensões da imagem.
+
+\item Um método para atualização do estado dos itens do jogo. Esse método deverá lidar com os componentes de acordo com as regras do jogo. Por exemplo, se é esperado que um projétil se mova a uma velocidade x em determinado momento do jogo, esse método irá atualizar a posição do projétil continuamente, de acordo com a velocidade estabelecida.
+
+\item Um método responsável por detectar colisões do jogo. Esse método irá receber dois ou mais objetos do jogo e deverá informar se tais objetos estão colidindo, sem lidar com as consequências da colisão.
+\end{itemize}
+
+\section{Ajuste de Recursos do Jogo}
+
+Os recursos como imagens e áudios do jogo precisarão ser editados para que possam ser carregados em memória e utilizados no GBA. No caso das imagens, por exemplo, poderão ser modificadas características como dimensões e cores a fim de diminuir seu tamanho para que possam, posteriormente, ser convertidas para um formato utilizável no GBA.
