@@ -12,7 +12,7 @@ A \textit{On-Board Work RAM}, citada pelo \textit{GBATek}, é tratada como \text
 
 A \textit{On-Chip Work RAM} é tratada pelo o \textit{Cowbite Virtual Specifications} como \textit{Internal Work RAM} (IWRAM) e possui 32 KBytes de espaço. Dentre as RAM's do GBA, essa é a mais rápida. Levando em consideração que seu barramento possui 32 \textit{bits} de tamanho, enquanto o da \textit{System ROM} e da EWRAM possuem apenas 16 \textit{bits}, é recomendado que o código ARM de 32 \textit{bits} seja utilizado aqui, deixando o código \textit{THUMB} para ser utilizado na \textit{System ROM} e EWRAM \cite{cowbite}
 
-A \textit{I/O RAM}, citada anteriormente como textit{I/O Registers}, possui 1 KByte de extensão e é utilizada para acesso direto à memória, controle dos gráficos, do áudio e de outras funções do GBA \cite{cowbite}.
+A \textit{I/O RAM}, citada anteriormente como \textit{I/O Registers}, possui 1 KByte de extensão e é utilizada para acesso direto à memória, controle dos gráficos, do áudio e de outras funções do GBA \cite{cowbite}.
 
 A \textit{Pallete RAM} possui 1 KByte de tamanho e tem como função armazenar as cores de 16 \textit{bits} necessárias quando se deseja utilizar paletas de cores. Ela possui duas áreas: uma para \textit{backgrounds} e outra para \textit{sprites}. Cada uma dessas áreas pode ser utilizada como uma única paleta de cores ou como 16 paletas de 16 cores cada \cite{cowbite}.
 
