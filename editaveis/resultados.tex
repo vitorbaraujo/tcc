@@ -1,0 +1,15 @@
+\chapter[Resultados]{Resultados}
+
+A fim de atestar a viabilidade do porte do jogo \textit{Traveling Will}, desenvolvido inicialmente para PC, para a plataforma \textit{Nintendo Game Boy Advance}, foi feita uma versão funcional do menu original do jogo, tendo essa versão sido testada em um GBA real. Para isso, a principal ferramenta utilizada foi a libtonc \cite{libtonc}, que nessa versão inicial fez o papel de engine do jogo.
+
+Após a finalização do protótipo, foi iniciado o desenvolvimento da engine que deverá substituir a libtonc na versão final do jogo. Ela irá padronizar a utilização dos recursos providos pelo GBA e irá conter um módulo de vídeo, áudio, \textit{input}, física, dentre outros.
+
+Até o momento, apenas o módulo de \textit{input} e parte do módulo de vídeo foram implementados. Em relação ao módulo de vídeo, já foram implementados:
+
+\begin{itemize}
+
+\item Método para definição do modo de vídeo a ser utilizado;
+\item Método para definição da camada em que será inserida a imagem de fundo;
+\item Método para inserção da imagem de fundo na tela.
+
+\end{itemize}
