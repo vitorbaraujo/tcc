@@ -1,5 +1,17 @@
 \chapter[Metodologia]{Metodologia}
 
+\section{Ferramentas de desenvolvimento}
+
+compilador
+
+devkitARM PRO
+
+emulador
+
+Nintendo DS
+
+\section{Metodologia de desenvolvimento}
+
 O processo de reescrita do jogo para a plataforma \textit{Game Boy Advance} será dividido entre as seguintes tarefas que serão desenvolvidas concomitantemente:
 
 \begin{itemize}
@@ -12,17 +24,36 @@ O processo de reescrita do jogo para a plataforma \textit{Game Boy Advance} ser�
 \item Desenvolver o jogo utilizando a engine desenvolvida e os recursos ajustados durante o projeto.
 \end{itemize}
 
-\section{Desenvolvimento da \textit{Engine}}
+\subsection{Desenvolvimento da \textit{Engine}}
 
-Entre as principais funções a serem desenvolvidas para a \textit{engine} estão:
+botar esquemáticos
 
-\begin{itemize}
-\item Um método para renderização de imagens. Ele deverá receber a imagem já no formato adequado para o GBA, a posição da tela em que ela deverá ser renderizada e as dimensões da imagem.
+módulo de vídeo (renderização de imagens)
 
-\item Um método para atualização do estado dos itens do jogo. Esse método deverá lidar com os componentes de acordo com as regras do jogo. Por exemplo, se é esperado que um projétil se mova a uma velocidade x em determinado momento do jogo, esse método irá atualizar a posição do projétil continuamente, de acordo com a velocidade estabelecida.
+módulo de áudio
 
-\item Um método responsável por detectar colisões do jogo. Esse método irá receber dois ou mais objetos do jogo e deverá informar se tais objetos estão colidindo, sem lidar com as consequências da colisão.
-\end{itemize}
+módulo de física
+
+módulo de input
+
+\subsubsection{Módulo de vídeo}
+  FIXME
+
+  Um método para renderização de imagens. Ele deverá receber a imagem já no formato adequado para o GBA, a posição da tela em que ela deverá ser renderizada e as dimensões da imagem.
+
+\subsubsection{Módulo de áudio}
+
+\subsubsection{Módulo de física}
+
+\subsubsection{Módulo de \textit{input}}
+
+% \begin{itemize}
+% \item
+
+% \item Um método para atualização do estado dos itens do jogo. Esse método deverá lidar com os componentes de acordo com as regras do jogo. Por exemplo, se é esperado que um projétil se mova a uma velocidade x em determinado momento do jogo, esse método irá atualizar a posição do projétil continuamente, de acordo com a velocidade estabelecida.
+
+% \item Um método responsável por detectar colisões do jogo. Esse método irá receber dois ou mais objetos do jogo e deverá informar se tais objetos estão colidindo, sem lidar com as consequências da colisão.
+% \end{itemize}
 
 \section{Ajuste de recursos do jogo}
 
