@@ -5,19 +5,19 @@ Na engenharia de software, porte é definido como ``mover um sistema entre ambie
 Segundo \citeonline{wawro}, o processo de porte de um jogo para uma plataforma específica consiste, geralmente, em três passos:
 
 \begin{enumerate}
-  \item Primeiramente deve-se conseguir executar o jogo na plataforma de destino (pelo menos compilar, com chamadas \textit{stub} \footnote{``\textit{Stub is a dummy function that assists in testing part of a program. A stub has the same name and interface as a function that actually would be called by the part of the program being tested, but it is usually much simpler.}'' \cite{dale}} para a biblioteca de gráficos). Este processo tende a ser o mais difícil, pois há diversos problemas com bibliotecas específicas da plataforma de destino;
+  \item Primeiramente deve-se conseguir executar o jogo na plataforma de destino (pelo menos compilar, com chamadas \textit{stub} \footnote{\textit{Stub is a dummy function that assists in testing part of a program. A stub has the same name and interface as a function that actually would be called by the part of the program being tested, but it is usually much simpler.} \cite{dale}} para a biblioteca de gráficos). Este processo tende a ser o mais difícil, pois há diversos problemas com bibliotecas específicas da plataforma de destino;
   \item Adicionar o suporte à biblioteca de gráficos da plataforma de destino, criando uma interface comum para todas as plataformas (de modo a manter o código mais manutenível);
   \item Após adicionar o suporte à bliblioteca de gráficos, é necessário otimizar a performance do jogo, principalmente otimizações que levam em conta a performance da CPU, que podem afetar a execução do jogo de maneiras difíceis de antecipar.
 \end{enumerate}
 
 Realizar o porte de jogos para diferentes plataformas pode ser um trabalho desafiador. Diversas dificuldades podem ser encontradas durante o processo de porte, geralmente relacionadas ao retrabalho de se reescrever o código do jogo e adaptá-lo para a plataforma de destino. Tomando como exemplo o porte do jogo \textit{Fez} para a plataforma \textit{PlayStation}, Horna diz que os principais desafios ao realizar o porte desse jogo foram a falta de suporte da linguagem no qual o jogo foi escrito e a performance dos gráficos após o porte:
 
-\begin{quotation}
-  ``\textit{
+\begin{quote}
+  \textit{
     The most difficult challenge we had was that the original Fez game was written in C\#, and there was no C\# support for PlayStation platforms when we started the port.}
 
     \textit{If we continued using C\#, we would be hitting CPU performance problems, as even the original game on the Xbox 360 experienced some slowdowns. On the other hand, converting the game code (and Monogame itself) to C++ was a very long and tedious task, but it would offer us some unique optimization opportunities. As we wanted to achieve the best possible port, we finally opted for the C++ way.}
 
-    \textit{Another big problem was graphics performance. Although it might look like a simple 2D game, Fez worlds have a very complex 3D structure (pictured) -- there could even be pixel-sized polygons. We were using the PC version as a base for the port, and graphics performance was not a big problem on that platform as current video cards could already handle that workload quite easily, but the shaders and geometry caused us some performance trouble when running on previous-gen or portable consoles. So we had to rewrite some parts of the drawing code and optimize a few shaders to particularly fit each console.}''
+    \textit{Another big problem was graphics performance. Although it might look like a simple 2D game, Fez worlds have a very complex 3D structure (pictured) -- there could even be pixel-sized polygons. We were using the PC version as a base for the port, and graphics performance was not a big problem on that platform as current video cards could already handle that workload quite easily, but the shaders and geometry caused us some performance trouble when running on previous-gen or portable consoles. So we had to rewrite some parts of the drawing code and optimize a few shaders to particularly fit each console.}
     \cite{wawro}
-\end{quotation}
+\end{quote}

@@ -10,9 +10,9 @@ O \textit{GBATek} classifica a memória utilizável como memória interna geral,
 
 A \textit{System ROM} possui 16 KBytes de tamanho e contém a BIOS do sistema. Essa região de memória pode ser usada somente para escrita e qualquer tentativa de leitura resultará em falha \cite{cowbite}.
 
-A \textit{On-Board Work RAM}, citada pelo \textit{GBATek}, é tratada como \textit{External Work RAM} (EWRAM) pelo \textit{CowBite Virtual Specifications}. Ela possui 256 KBytes de tamanho e é utilizada para inserir código e dados do jogo. Se um cabo \textit{multiboot} estiver presente quando o console for iniciado, a BIOS irá detectá-lo e automaticamente deverá transferir o código binário para essa região \cite{cowbite}. 
+A \textit{On-Board Work RAM}, citada pelo \textit{GBATek}, é tratada como \textit{External Work RAM} (EWRAM) pelo \textit{CowBite Virtual Specifications}. Ela possui 256 KBytes de tamanho e é utilizada para inserir código e dados do jogo. Se um cabo \textit{multiboot} estiver presente quando o console for iniciado, a BIOS irá detectá-lo e automaticamente deverá transferir o código binário para essa região \cite{cowbite}.
 
-A \textit{On-Chip Work RAM} é tratada pelo o \textit{Cowbite Virtual Specifications} como \textit{Internal Work RAM} (IWRAM) e possui 32 KBytes de espaço. Dentre as RAM's do GBA, essa é a mais rápida. Levando em consideração que seu barramento possui 32 \textit{bits} de tamanho, enquanto o da \textit{System ROM} e da EWRAM possuem apenas 16 \textit{bits}, é recomendado que o código ARM \footnote{``A32 instructions, known as Arm instructions in pre-Armv8 architectures, are 32 bits wide, and are aligned on 4-byte boundaries. A32 instructions are supported by both A-profile and R-profile architectures.'' \cite{arm}} de 32 \textit{bits} seja utilizado aqui, deixando o código \textit{THUMB} \footnote{``The T32 instruction set, known as Thumb in pre-Armv8 architectures, is a mixed 32- and 16-bit length instruction set that offers the designer excellent code density for minimal system memory size and cost.'' \cite{arm}} para ser utilizado na \textit{System ROM} e EWRAM \cite{cowbite}
+A \textit{On-Chip Work RAM} é tratada pelo o \textit{Cowbite Virtual Specifications} como \textit{Internal Work RAM} (IWRAM) e possui 32 KBytes de espaço. Dentre as RAM's do GBA, essa é a mais rápida. Levando em consideração que seu barramento possui 32 \textit{bits} de tamanho, enquanto o da \textit{System ROM} e da EWRAM possuem apenas 16 \textit{bits}, é recomendado que o código ARM \footnote{\textit{A32 instructions, known as Arm instructions in pre-Armv8 architectures, are 32 bits wide, and are aligned on 4-byte boundaries. A32 instructions are supported by both A-profile and R-profile architectures.} \cite{arm}} de 32 \textit{bits} seja utilizado aqui, deixando o código \textit{THUMB} \footnote{\textit{The T32 instruction set, known as Thumb in pre-Armv8 architectures, is a mixed 32- and 16-bit length instruction set that offers the designer excellent code density for minimal system memory size and cost.} \cite{arm}} para ser utilizado na \textit{System ROM} e EWRAM \cite{cowbite}
 
 A \textit{I/O RAM}, citada anteriormente como \textit{I/O Registers}, possui 1 KByte de extensão e é utilizada para acesso direto à memória, controle dos gráficos, do áudio e de outras funções do GBA \cite{cowbite}.
 
@@ -22,7 +22,11 @@ A \textit{Video RAM} (VRAM) possui 96 KBytes de espaço e é onde devem ser arma
 
 \subsection{Renderização de Vídeo}
 
-Segundo Vijn, o GBA possui 3 tipos de representação de gráficos: \begin{quote}``\textit{All things considered, the GBA knows 3 types of graphics representations: bitmaps, tiled backgrounds and sprites. The bitmap and tiled background (also simply known as background) types affect how the whole screen is built up and as such cannot both be activated at the same time.}'' \cite[p. 38]{tonc}\end{quote}
+Segundo Vijn, o GBA possui 3 tipos de representação de gráficos:
+
+\begin{quote}
+  \textit{All things considered, the GBA knows 3 types of graphics representations: bitmaps, tiled backgrounds and sprites. The bitmap and tiled background (also simply known as background) types affect how the whole screen is built up and as such cannot both be activated at the same time.} \cite[p. 38]{tonc}
+\end{quote}
 
 O GBA possui 3 modos de vídeo baseados em \textit{bitmaps} e a principal diferença entre eles está no fato de utilizarem ou não paletas de cores, no número de \textit{bits} utilizados para representar as cores e na resolução \cite{harbour}. Nesses modos, a memória de vídeo funciona como se fosse um grande \textit{bitmap}, de tal forma que cada pixel da tela é representado por uma posição na memória \cite{tonc}.
 
