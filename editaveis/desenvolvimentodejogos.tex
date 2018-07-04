@@ -25,7 +25,7 @@ De forma geral, um jogo é composto pelos seguintes módulos: vídeo, áudio, f�
 \end{itemize}
 
 
-Além dos componentes gerais, todo jogo contém um mecanismo que é responsável pelo controle do estado atual do jogo, conhecido como game loop. Luciano Santos e Carla Castanho \cite{gameplayunb} caracterizam a estrutura de um game loop por quatro tipos de tarefas (utilizando como exemplo uma partida do jogo Tetris):
+Além dos componentes gerais, todo jogo contém um mecanismo que é responsável pelo controle do estado atual do jogo, conhecido como \textit{game loop}. Luciano Santos e Carla Castanho \cite{gameplayunb} caracterizam a estrutura de um game loop por quatro tipos de tarefas (utilizando como exemplo uma partida do jogo Tetris):
 
 \begin{enumerate}
 \item tarefas que serão executadas somente uma vez quando a partida iniciar como, por exemplo, zerar a quantidade de pontos e escolher uma peça inicial;
@@ -55,7 +55,7 @@ Esta arquitetura tem como objetivo principal desacoplar mecânicas gerais (como 
 
 Segundo Rollings e Morris \cite{rollings2004game}, uma arquitetura bem implementada facilita a flexibilidade e reutilização de código, e mecânicas que tendem a mudar bastante durante o desenvolvimento do jogo estão atrás de uma interface consistente.
 
-Rollings e Morris \cite{rollings2004game} definem esse modelo como “Arquitetura sólida” (do inglês, Hard Architecture). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação.
+Rollings e Morris \cite{rollings2004game} definem esse modelo como “Arquitetura sólida” (do inglês, \textit{Hard Architecture}). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/reusable-architecture.eps}
@@ -64,4 +64,4 @@ Rollings e Morris \cite{rollings2004game} definem esse modelo como “Arquitetur
    \label{arch-reutilizavel}
 \end{figure}
 
-No modelo de arquitetura sólido, as mecânicas gerais do jogo estão definidas à parte e são providas interfaces para a utilização destas mecânicas. A partir dessa interface, as funcionalidades específicas do jogo são construídas. Esse conjunto de funcionalidades específicas do jogo é chamado de “Arquitetura Flexível” (do inglês, Soft Architecture). Rollings e Morris \cite{rollings2004game} definem arquitetura flexível como “Uma arquitetura de um domínio específico, geralmente não reutilizada entre projetos diferentes, construída em cima da arquitetura sólida e fazendo o uso de seus serviços providos”.
+No modelo de arquitetura sólido, as mecânicas gerais do jogo estão definidas à parte e são providas interfaces para a utilização destas mecânicas. A partir dessa interface, as funcionalidades específicas do jogo são construídas. Esse conjunto de funcionalidades específicas do jogo é chamado de “Arquitetura Flexível” (do inglês, \textit{Soft Architecture}). Rollings e Morris \cite{rollings2004game} definem arquitetura flexível como “Uma arquitetura de um domínio específico, geralmente não reutilizada entre projetos diferentes, construída em cima da arquitetura sólida e fazendo o uso de seus serviços providos”.
