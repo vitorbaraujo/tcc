@@ -56,3 +56,6 @@ dist: clean
 
 dist-clean: clean
 	rm -f $(PDF_FILE) $(TARGET)
+
+crun:
+	make clean && make -j
