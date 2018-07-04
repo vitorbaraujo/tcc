@@ -2,7 +2,7 @@
 
 Antes de se falar como se dá o desenvolvimento de jogos eletrônicos, é necessário definir o que é um jogo, quais os componentes que fazem parte de um jogo e como um jogo é estruturado.
 
-Segundo Raph Koster \cite{koster2014a}, um jogo pode ser definido como uma experiência interativa que dá ao jogador uma série de padrões com desafios cada vez mais difíceis ao ponto que ele eventualmente os domine. Jogos diferentes contém temáticas diferentes, mecânicas diferentes e são executados em plataformas diferentes. Porém, a construção desses diferentes jogos tendem a ser bastante semelhantes. Levando em consideração a semelhança de construção de jogos eletrônicos, Dave Roderick diz que “Um jogo é somente um banco de dados em tempo real com um front-end bonito” \cite[p.~625]{rollings2004game}.
+Segundo Raph Koster \cite{koster2014a}, um jogo pode ser definido como uma experiência interativa que dá ao jogador uma série de padrões com desafios cada vez mais difíceis ao ponto que ele eventualmente os domine. Jogos diferentes contém temáticas diferentes, mecânicas diferentes e são executados em plataformas diferentes. Porém, a construção desses diferentes jogos tendem a ser bastante semelhante. Levando em consideração a semelhança de construção de jogos eletrônicos, Dave Roderick diz que “Um jogo é somente um banco de dados em tempo real com um front-end bonito” \cite[p.~625]{rollings2004game}.
 
 Na próxima seção serão detalhados os componentes principais que compõem jogos eletrônicos.
 
@@ -42,7 +42,12 @@ Segundo Gregory, a separação entre um jogo e sua engine é uma linha turva \ci
 
 A primeira abordagem trata da construção do jogo utilizando um design de arquitetura monolítico. Nesta arquitetura cada objeto do jogo contém toda a sua implementação de mecânicas de renderização de gráficos, detecção de colisões, física, inteligência artificial, etc. Este modelo não é adequado para jogos mais complexos, pois, de acordo com Jeff Plummer \cite{jeffthesis}, o código não é reutilizável porque as mecânicas estão altamente acopladas com o comportamento dos objetos e, além disso, o design não é flexível, prejudicando a manutenção do código, pois qualquer modificação pode afetar o sistema inteiro.
 
-*inserir diagrama de classes que ilustra o design monolítico*
+\begin{figure}[H]
+ \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/monolithic-architecture.eps}
+   \caption{Arquitetura monolítica}
+   \makebox[\width]{Fonte: \textit{Autores}.}
+   \label{arch-monolitica}
+\end{figure}
 
 \subsubsection{Arquitetura reutilizável}
 
@@ -52,6 +57,11 @@ Segundo Rollings e Morris \cite{rollings2004game}, uma arquitetura bem implement
 
 Rollings e Morris \cite{rollings2004game} definem esse modelo como “Arquitetura sólida” (do inglês, Hard Architecture). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação.
 
-*inserir diagrama de uma arquitetura sólida*
+\begin{figure}[H]
+ \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/reusable-architecture.eps}
+   \caption{Arquitetura reutilizável}
+   \makebox[\width]{Fonte: \textit{Autores}.}
+   \label{arch-reutilizavel}
+\end{figure}
 
 No modelo de arquitetura sólido, as mecânicas gerais do jogo estão definidas à parte e são providas interfaces para a utilização destas mecânicas. A partir dessa interface, as funcionalidades específicas do jogo são construídas. Esse conjunto de funcionalidades específicas do jogo é chamado de “Arquitetura Flexível” (do inglês, Soft Architecture). Rollings e Morris \cite{rollings2004game} definem arquitetura flexível como “Uma arquitetura de um domínio específico, geralmente não reutilizada entre projetos diferentes, construída em cima da arquitetura sólida e fazendo o uso de seus serviços providos”.
