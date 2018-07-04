@@ -26,15 +26,55 @@ Até o momento, o módulo de \textit{input} e parte do módulo de vídeo foram i
 
 \subsection{Módulo de \textit{input}}
 
-  TODO
+Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} no valor guardado por esse registrador. Sempre que um botão é apertado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}. Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expotente o \textit{bit} em questão (4, nesse exemplo). Nas imagens abaixo é possível vizualizar no código do módulo de input a definição das constantes que representam os botões no código, assim como a função utilizada para checar o estado de cada um deles:
 
-  explicar pra quê serve e explicar funcionamento
+\begin{minted}[frame=lines, linenos]
+{c++}
+#ifndef INPUT_H
+#define INPUT_H
 
-  botar código
+#include <stdbool.h>
+#include "base_types.h"
 
-  botar print da demo dos botões
+#define BUTTON_A 1
+#define BUTTON_B 2
+#define BUTTON_SELECT 4
+#define BUTTON_START 8
+#define BUTTON_RIGHT 16
+#define BUTTON_LEFT 32
+#define BUTTON_UP 64
+#define BUTTON_DOWN 128
+#define BUTTON_R 256
+#define BUTTON_L 512
 
-  \subsubsection{Método para checagem dos estados dos botões}
+#define N_BUTTON 10
+
+int pressed_state[N_BUTTON];
+
+void check_buttons_states();
+bool pressed(int button);
+
+#endif
+\end{minted}
+\makebox[\width]{Cabeçalho do módulo de input. Fonte: \textit{Autores}.}
+
+\begin{minted}[frame=lines, linenos]
+{c++}
+#include "input.h"
+
+volatile unsigned int *buttons_mem = (volatile unsigned int *)0x04000130;
+
+void check_buttons_states() {
+    for(int i = 0; i < N_BUTTON; i++) {
+        pressed_state[i] = !((*buttons_mem) & (1 << i));
+    }   
+}
+
+bool pressed(int button) {
+    return pressed_state[button];
+}
+\end{minted}
+\makebox[\width]{Código fonte do módulo de input. Fonte: \textit{Autores}.}
 
 \subsection{Módulo de vídeo}
 
