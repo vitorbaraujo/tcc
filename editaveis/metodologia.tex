@@ -24,27 +24,28 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{Emulador}
 
-      Para a realização de testes com os executáveis gerados pelo devkitARM está sendo utilizado um emulador de Game Boy Advance, chamado \textbf{VisualBoyAdvance-M} \footnote{VisualBoyAdvance-M, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}.
+      Para a realização de testes com os executáveis gerados pelo devkitARM está sendo utilizado um emulador de \textit{Game Boy Advance}, chamado \textbf{VisualBoyAdvance-M} \footnote{VisualBoyAdvance-M, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}.
 
     \subsubsection{\textit{Console}}
 
-      O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}} \footnote{Nintendo DS, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um slot para cartuchos de Game Boy Advance. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis nele.
+      O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}} \footnote{Nintendo DS, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
 
-      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{EZFlash II} \footnote{EZ Flash II, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para upload dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}} \footnote{Sistema operacional da Microsoft, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
+      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{EZFlash II} \footnote{EZ Flash II, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}} \footnote{Sistema operacional da Microsoft, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
 
 \section{Metodologia de desenvolvimento}
 
   \subsection{Desenvolvimento da \textit{Engine}}
 
-    Para contribuir com uma arquitetura mais manutenível, foi optado por desacoplar a engine do jogo em si. A engine ficará responsável por manter os módulos genéricos do jogo, enquanto que o jogo em si conterá as funcionalidades mais específicas.
+    Para contribuir com uma arquitetura mais manutenível, foi optado por desacoplar a \textit{engine} do jogo em si. A \textit{engine} ficará responsável por implementar os módulos genéricos do jogo, enquanto que o jogo em si conterá as funcionalidades mais específicas.
 
-    A engine conterá uma classe que irá representar um objeto do jogo (do inglês, \textit{game object}). Esta classe ficará responsável por conter o comportamento genérico de um objeto dentro do jogo (podendo este ser um personagem, uma plataforma, um item coletável, etc.). Ele será representado da seguinte maneira:
+    A \textit{engine} conterá uma classe que irá representar um objeto do jogo (do inglês, \textit{game object}). Esta classe ficará responsável por conter o comportamento genérico de um objeto dentro do jogo (podendo este ser um personagem, uma plataforma, um item coletável, etc.). Ele será representado da seguinte maneira:
 
     \vspace{\onelineskip}
 
     \begin{figure}[H]
       \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/game-object.eps}
-      \caption{Modelagem inicial da classe \textit{GameObject}. Fonte: \textit{Autores}.}
+      \caption[Modelagem inicial da classe \textit{GameObject}]
+        {Modelagem inicial da classe \textit{GameObject}. Fonte: \textit{Autores}.}
       \label{game-object}
     \end{figure}
 
@@ -52,7 +53,7 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     É importante frisar que os métodos \textbf{\textit{update()}} e \textbf{\textit{draw()}} devem ser puramente virtuais, pois isso garante que qualquer classe que venha a extender de \textit{GameObject} seja obrigada a implementer suas próprias rotinas específicas de atualização e renderização.
 
-    Além da classe \textit{GameObject}, os principais componentes da engine a serem implementados são: módulo de vídeo, módulo de áudio, módulo de física e módulo de input.
+    Além da classe \textit{GameObject}, os principais componentes da \textit{engine} a serem implementados são: módulo de vídeo, módulo de áudio, módulo de física e módulo de input.
 
     \subsubsection{Módulo de vídeo}
 
@@ -60,12 +61,12 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
       \begin{itemize}
         \item Renderizar uma imagem de fundo;
-        \item Renderizar uma sprite;
-        \item Renderizar uma animação (como uma série de sprites);
+        \item Renderizar uma \textit{sprite};
+        \item Renderizar uma animação (como uma série de \textit{sprites});
         \item Movimentar horizontalmente uma imagem de fundo (\textit{horizontal scroll});
-        \item Renderizar textos cor determinada cor;
-        \item Remover uma imagem, sprite, texto ou animação que esteja renderizado da tela;
-        \item Atualizar a renderização a cada frame.
+        \item Renderizar textos com uma determinada cor;
+        \item Remover uma imagem, \textit{sprite}, texto ou animação que esteja renderizado da tela;
+        \item Atualizar a renderização a cada frame, levando em consideração as posições \textit{x} e \textit{y} do \textit{sprite}, animação ou texto.
       \end{itemize}
 
       Deve-se lembrar que as imagens e textos que serão renderizados já estarão ajustados para a resolução e formato de cores corretos do GBA.
@@ -94,7 +95,7 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{Módulo de \textit{input}}
 
-      O módulo de input é responsável por receber qualquer pressionamento de qualquer um dos 10 botões do GBA.
+      O módulo de \textit{input} é responsável por receber qualquer pressionamento de qualquer um dos 10 botões e teclas do GBA.
 
   \subsection{Desenvolvimento do jogo}
 
@@ -108,7 +109,8 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
       \begin{figure}[H]
         \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/class-diagram-1.eps}
-        \caption{Modelagem inicial dos objetos do jogo. Fonte: \textit{Autores}.}
+        \caption[Modelagem inicial dos objetos do jogo]
+          {Modelagem inicial dos objetos do jogo. Fonte: \textit{Autores}.}
         \label{game-object-children}
       \end{figure}
 
@@ -120,7 +122,8 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
       \begin{figure}[H]
         \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/class-diagram-2.eps}
-        \caption{Modelagem inicial dos níveis do jogo. Fonte: \textit{Autores}.}
+        \caption[Modelagem inicial dos níveis do jogo]
+          {Modelagem inicial dos níveis do jogo. Fonte: \textit{Autores}.}
         \label{game-object-levels}
       \end{figure}
 

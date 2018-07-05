@@ -2,19 +2,21 @@
 
 \section{Protótipo inicial}
 
-A fim de atestar a viabilidade do porte do jogo \textit{Traveling Will}, desenvolvido inicialmente para PC, para a plataforma \textit{Nintendo Game Boy Advance}, foi feita uma versão funcional do menu original do jogo, tendo essa versão sido testada em um GBA real. Para isso, a principal ferramenta utilizada foi a libtonc \footnote{libtonc, disponível em \url{http://www.coranac.com/files/tonc-code.zip}}, que nessa versão inicial fez o papel de engine do jogo.
+A fim de atestar a viabilidade do porte do jogo \textit{Traveling Will}, desenvolvido inicialmente para PC, para a plataforma \textit{Nintendo Game Boy Advance}, foi feita uma versão funcional do menu original do jogo, tendo essa versão sido testada em um GBA real. Para isso, a principal ferramenta utilizada foi a \textit{libtonc} \footnote{libtonc, disponível em \url{http://www.coranac.com/files/tonc-code.zip}}, que nessa versão inicial fez o papel de engine do jogo.
 
 Abaixo é possível comparar o menu principal do jogo original com o protótipo implementado sendo executado em um emulador de \textit{Game Boy Advance}:
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/tw-original-1.eps}
-   \caption{Jogo original \textit{Traveling Will} sendo executado em um PC. Fonte: \textit{Autores}.}
+   \caption[Jogo original sendo executado em um PC]
+    {Jogo original sendo executado em um PC. Fonte: \textit{Autores}.}
    \label{tw-original-1}
 \end{figure}
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/tw-gba-1.eps}
-   \caption{Protótipo implementado sendo executado em um emulador de GBA. Fonte: \textit{Autores}.}
+   \caption[Protótipo sendo executado no emulador de GBA]
+    {Protótipo sendo executado no emulador de GBA. Fonte: \textit{Autores}.}
    \label{tw-gba-1}
 \end{figure}
 
@@ -56,7 +58,8 @@ bool pressed(int button);
 
 #endif
 \end{minted}
-\makebox[\width]{Cabeçalho do módulo de input. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Cabeçalho do módulo de input. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
 
 \begin{minted}[frame=lines, linenos]
 {c++}
@@ -67,18 +70,62 @@ volatile unsigned int *buttons_mem = (volatile unsigned int *)0x04000130;
 void check_buttons_states() {
     for(int i = 0; i < N_BUTTON; i++) {
         pressed_state[i] = !((*buttons_mem) & (1 << i));
-    }   
+    }
 }
 
 bool pressed(int button) {
     return pressed_state[button];
 }
 \end{minted}
-\makebox[\width]{Código fonte do módulo de input. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Código fonte do módulo de input. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
+Abaixo é possível visualizar um teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Na imagem abaixo, os botões B, R, \textit{LEFT}, \textit{RIGHT} e \textit{START} estão sendo pressionados simultaneamente.
+
+\begin{figure}[H]
+ \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/demo-input.eps}
+   \caption[Demonstração do pressionamento de botões no emulador]
+    {Teste de pressionamento de botões no emulador. Fonte: \textit{Autores}.}
+   \label{demo-input}
+\end{figure}
+
+Abaixo se encontra o código fonte escrito para a realização deste teste:
+
+\begin{minted}[frame=lines, linenos]
+{c++}
+#include "video.h"
+#include "input.h"
+
+#define RED 0x0000FF
+
+unsigned short *vid_mem = (unsigned short *)0x6000000;
+
+int main() {
+    reset_dispcnt();
+    set_video_mode(3);
+    set_background_number(2);
+
+    while(1) {
+        check_buttons_states();
+
+        for(int i=0;i<=9;i++){
+            if (pressed(i)) {
+                vid_mem[50 * 240 + i * 10] = RED;
+            } else {
+                vid_mem[50 * 240 + i * 10] = 0;
+            }
+        }
+    }
+
+    return 0;
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
 
 \subsection{Módulo de vídeo}
 
-O módulo de vídeo deve possuir funções para controle do modo de vídeo, dos \textit{backgrounds} e da renderização das \textit{sprites}. Atualmente o módulo de vídeo desenvolvido trata apenas, de forma limitada, do modo de vídeo e do \textit{background}. Ele permite a renderização de um determinado \textit{background} desde que sejam passados a paleta de cores utilizada, um vetor com os \textit{tiles} utilizados no \textit{background} e um vetor representando o mapa de \textit{tiles} a ser utilizado para renderizar o \textit{background}. O módulo copia cada uma das informações passadas para as regiões de memória apropriadas. Atualmente, o módulo sempre utiliza o \textit{background} 2 e parte do princípio de que o modo utilizado não é baseado em \textit{bitmap}, não permitindo, portanto, o uso de múltiplos \textit{backgrounds}. Além disso, o módulo ainda não permite definir a posição exata de memória aonde o vetor de \textit{tiles} e o \textit{tilemap} deverão ser escritos, o que inviabiliza o uso de diferentes \textit{tilemaps}. Abaixo é possível visualizar a versão atual do código fonte do módulo de vídeo:
+O módulo de vídeo deve possuir funções para controle do modo de vídeo, dos \textit{backgrounds} e da renderização das \textit{sprites}. Atualmente o módulo de vídeo desenvolvido trata apenas, de forma limitada, do modo de vídeo e do \textit{background}. Ele permite a renderização de um determinado \textit{background} desde que sejam passados a paleta de cores utilizada, um vetor com os \textit{tiles} utilizados no \textit{background} e um vetor representando o mapa de \textit{tiles} a ser utilizado para renderizar o \textit{background}. O módulo copia cada uma das informações passadas para as regiões de memória apropriadas. Atualmente, o módulo sempre utiliza o \textit{background} 2 e parte do princípio de que o modo utilizado não é baseado em \textit{bitmap}, não permitindo, portanto, o uso de múltiplos \textit{backgrounds}. Além disso, o módulo ainda não permite definir a posição exata de memória aonde o vetor de \textit{tiles} e o \textit{tilemap} deverão ser escritos, o que inviabiliza o uso de diferentes \textit{tilemaps} e a renderização de fontes de forma correta. Abaixo é possível visualizar a versão atual do código fonte do módulo de vídeo:
 
 \begin{minted}[frame=lines, linenos]
 {c++}
@@ -118,4 +165,14 @@ void set_background(const void *pal, int pal_len, const void *tiles, int tiles_l
   REG_BG2CNT = BG_CBB(0) | BG_SBB(31) | BG_8BPP | BG_REG_64x32;
 }
 \end{minted}
-\makebox[\width]{Código fonte do módulo de vídeo. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Código fonte do módulo de vídeo. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
+Abaixo é possível visualizar o teste realizado com o módulo de vídeo da nova \textit{engine}.
+
+\begin{figure}[H]
+ \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/video-test.eps}
+   \caption[Demonstração do módulo de vídeo]
+    {Demonstração do módulo de vídeo. Fonte: \textit{Autores}.}
+   \label{demo-video}
+\end{figure}
