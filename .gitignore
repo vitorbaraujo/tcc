@@ -19,3 +19,5 @@
 *.brf
 *.toc
 *.idx
+
+_minted-tcc/
