@@ -14,23 +14,23 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{\textit{devkitPro} e \textit{devkitARM}}
 
-      O devkitPro \footnote{devkitPro, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da Nintendo, como Nintendo GBA, Nintendo Wii, Nintendo Switch, dentre outros.
+      O devkitPro\footnote{devkitPro, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da Nintendo, como Nintendo GBA, Nintendo Wii, Nintendo Switch, dentre outros.
 
       Dentre esses conjuntos de ferramentas encontra-se o devkitARM, \textit{toolchain} que contém o ambiente de desenvolvimento necessário para realizar a compilação do código escrito em C/C++ para a arquitetura de processadores ARM existente no GBA, citado no capítulo X.
 
-    Para o ajuste das imagens do jogo para a resolução de tela do GBA, será utilizada a ferramenta de manipulação de imagens \textbf{GIMP} \footnote{GNU Image Manipulation Program, disponível em \url{https://www.gimp.org/}}, versão 2.8.
+    Para o ajuste das imagens do jogo para a resolução de tela do GBA, será utilizada a ferramenta de manipulação de imagens \textbf{GIMP}\footnote{GNU Image Manipulation Program, disponível em \url{https://www.gimp.org/}}, versão 2.8.
 
   \subsection{Ambiente de teste}
 
     \subsubsection{Emulador}
 
-      Para a realização de testes com os executáveis gerados pelo devkitARM está sendo utilizado um emulador de \textit{Game Boy Advance}, chamado \textbf{VisualBoyAdvance-M} \footnote{VisualBoyAdvance-M, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}.
+      Para a realização de testes com os executáveis gerados pelo devkitARM está sendo utilizado um emulador de \textit{Game Boy Advance}, chamado \textbf{VisualBoyAdvance-M}\footnote{VisualBoyAdvance-M, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}.
 
     \subsubsection{\textit{Console}}
 
-      O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}} \footnote{Nintendo DS, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
+      O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}}\footnote{Nintendo DS, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
 
-      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{EZFlash II} \footnote{EZ Flash II, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}} \footnote{Sistema operacional da Microsoft, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
+      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{EZFlash II}\footnote{EZ Flash II, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}}\footnote{Sistema operacional da Microsoft, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
 
 \section{Metodologia de desenvolvimento}
 
@@ -131,3 +131,13 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
       Os recursos como imagens, áudios e arquivos de fonte do jogo precisarão ser editados para que possam ser carregados em memória e utilizados no GBA. No caso das imagens, por exemplo, serão modificadas características como dimensões e quantidade de cores a fim de diminuir seu tamanho para que possam ser convertidas para um formato utilizável no GBA.
 
+\section{Cronograma de desenvolvimento}
+
+  Abaixo se encontra o cronograma de desenvolvimento das tarefas planejadas para a conclusão do trabalho.
+
+  \begin{figure}[H]
+    \centering \includegraphics[keepaspectratio=true,scale=0.8]{figuras/cronograma.eps}
+    \caption[Cronograma de desenvolvimento]
+      {Cronograma de desenvolvimento. Fonte: \textit{Autores}.}
+    \label{cronograma}
+  \end{figure}
