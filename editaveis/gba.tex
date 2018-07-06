@@ -1,4 +1,4 @@
-\section{\textit{Game Boy Advance}}
+\section{\textit{Game Boy Advance}} \label{gba}
 
   O \textit{Game Boy Advance} é um vídeo game portátil lançado em 2001 pela Nintendo, possuindo tela com resolução de $240\times160$ \textit{pixels} e até 32768 cores possíveis, sistema de som estéreo PCM e processador ARM de 32 bits com memória incorporada \cite{nintendo}.
 
@@ -6,7 +6,7 @@
 
     O \textit{Game Boy Advance} possui várias semelhanças com um PC como por exemplo processador, memória \textit{RAM}, ferramentas para entrada de dados e placa mãe \cite{harbour}. Ao desenvolver jogos para ambas as plataformas, porém, há uma nítida diferença em se tratando do controle do hardware por parte do programador. Ao programar em um PC, o sistema operacional fornece uma série de funções que facilitam o acesso ao hardware, enquanto no GBA, o acesso ao hardware é feito acessando diretamente uma determinada posição de memória (registrador) \cite{harbour}.
 
-    \citeonline{gbatek}, no GBATek, classifica a memória utilizável como memória interna geral, memória interna do display e memória externa. A memória interna geral é dividida em \textit{System ROM} (BIOS), \textit{On-Board Work RAM}, \textit{On-chip Work RAM} e \textit{I/O Registers}. Já a memória interna do display divide-se em \textit{Pallete RAM}, \textit{Video RAM} (VRAM) e \textit{OBJ Attributes Memory} (OAM). Por fim, de acordo com o \citeonline{gbatek}, a memória externa é formada por 4 \textit{Game PAK ROM's} e uma \textit{Game PAK SRAM}. Por sua vez, o \textit{CowBite Virtual Especifications} trata essa última região de memória de forma mais geral, como \textit{Cart RAM}, e explica que ela pode ser utilizada como SRAM, \textit{Flash ROM} ou EEPROM \cite{cowbite}.
+    \citeonline{gbatek}, no \textit{GBATek}, classifica a memória utilizável como memória interna geral, memória interna do display e memória externa. A memória interna geral é dividida em \textit{System ROM} (BIOS), \textit{On-Board Work RAM}, \textit{On-chip Work RAM} e \textit{I/O Registers}. Já a memória interna do display divide-se em \textit{Pallete RAM}, \textit{Video RAM} (VRAM) e \textit{OBJ Attributes Memory} (OAM). Por fim, de acordo com o \citeonline{gbatek}, a memória externa é formada por 4 \textit{Game PAK ROM's} e uma \textit{Game PAK SRAM}. Por sua vez, o \textit{CowBite Virtual Especifications} trata essa última região de memória de forma mais geral, como \textit{Cart RAM}, e explica que ela pode ser utilizada como SRAM, \textit{Flash ROM} ou EEPROM \cite{cowbite}.
 
     A \textit{System ROM} possui 16 \textit{KBytes} de tamanho e contém a BIOS do sistema. Essa região de memória pode ser usada somente para escrita e qualquer tentativa de leitura resultará em falha \cite{cowbite}.
 
@@ -37,7 +37,7 @@
       \label{link-bitmap}
     \end{figure}
 
-    O GBA também possui 3 modos de vídeo baseados em \textit{tiles} e a principal diferença entre eles está na quantidade de \textit{backgrounds} que podem ser utilizados em cada um dos três modos e nas operações (rotação/\textit{zoom}) que podem ser aplicadas ou não em cada um deles \cite{harbour}. Nesses modos, são construídos tiles de 8x8 \textit{bits} para que posteriormente possam ser utilizados em \textit{tilemaps}, que por sua vez serão utilizados para renderizar os objetos necessários. \cite{tonc}
+    O GBA também possui 3 modos de vídeo baseados em \textit{tiles} e a principal diferença entre eles está na quantidade de \textit{backgrounds} que podem ser utilizados em cada um dos três modos e nas operações (rotação/\textit{zoom}) que podem ser aplicadas ou não em cada um deles \cite{harbour}. Nesses modos, são construídos \textit{tiles} de $8\times8$ \textit{bits} para que posteriormente possam ser utilizados em \textit{tilemaps}, que por sua vez serão utilizados para renderizar os objetos necessários. \cite{tonc}
 
     Há ainda a camada reservada para as \textit{sprites}: ``\textit{Sprites are small ($8\times8$ to $64\times64$ pixels) graphical objects that can be transformed independently from each other and can be used in conjunction with either bitmap or background types.}'' \cite[p. 38]{tonc}
 

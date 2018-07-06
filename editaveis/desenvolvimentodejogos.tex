@@ -2,30 +2,30 @@
 
 Antes de se falar como se dá o desenvolvimento de jogos eletrônicos, é necessário definir o que é um jogo, quais os componentes que fazem parte de um jogo e como um jogo é estruturado.
 
-Segundo \citeonline{koster2014a}, um jogo pode ser definido como uma experiência interativa que dá ao jogador uma série de padrões com desafios cada vez mais difíceis ao ponto que ele eventualmente os domine. Jogos diferentes contém temáticas diferentes, mecânicas diferentes e são executados em plataformas diferentes. Porém, a construção desses diferentes jogos tendem a ser bastante semelhante. Levando em consideração a semelhança de construção de jogos eletrônicos, Dave Roderick diz que ``Um jogo é somente um banco de dados em tempo real com um front-end bonito'' \cite{rollings2004game}.
+Segundo \citeonline{koster2014a}, um jogo pode ser definido como uma experiência interativa que dá ao jogador uma série de padrões com desafios cada vez mais difíceis ao ponto que ele eventualmente os domine. Jogos diferentes contém temáticas diferentes, mecânicas diferentes e são executados em plataformas diferentes. Porém, a construção desses diferentes jogos tendem a ser bastante semelhante. Levando em consideração a semelhança de construção de jogos eletrônicos, Dave Roderick diz que ``Um jogo é somente um banco de dados em tempo real com um \textit{front-end} bonito'' \cite{rollings2004game}.
 
 Na próxima seção serão detalhados os componentes principais que compõem jogos eletrônicos.
 
 \subsection{Componentes de um jogo}
 
-De forma geral, um jogo é composto pelos seguintes módulos: vídeo, áudio, física, entrada, gerenciamento de recursos e eventos.
+De forma geral, um jogo é composto pelos seguintes módulos: vídeo, áudio, física, \textit{input}, gerenciamento de recursos e eventos.
 
 \begin{itemize}
-\item \textbf{Módulo de vídeo:} módulo responsável por realizar a renderização de imagens, animações e textos. O vídeo de um jogo é composto por toda a parte de gameplay (onde o usuário está efetivamente jogando o jogo) e a parte de \textit{front-end}, que, segundo \citeonline[p.~39]{gregory2014game}, é composta pelo \textit{heads-up display} (HUD), menus e qualquer interface de usuário presente no jogo.
+\item \textbf{Módulo de vídeo:} módulo responsável por realizar a renderização de imagens, animações e textos. O vídeo de um jogo é composto por toda a parte de \textit{gameplay} (onde o usuário está efetivamente jogando o jogo) e a parte de \textit{front-end}, que, segundo \citeonline[p.~39]{gregory2014game}, é composta pelo \textit{heads-up display} (HUD), menus e qualquer interface de usuário presente no jogo.
 
 \item \textbf{Módulo de áudio:} módulo responsável por realizar o gerenciamento de áudio no jogo. O áudio de um jogo é composto por músicas de fundo e efeitos sonoros.
 
 \item \textbf{Módulo de física:} módulo responsável por simular a física do mundo real dentro do ambiente do jogo. A principal responsabilidade de um módulo de física é realizar a detecção de colisões entre objetos do jogo (personagens, cenários, chão, etc.)
 
-\item \textbf{Módulo de entrada:} módulo responsável por coletar inputs advindos do jogador por meio de teclado, mouse, controles, etc.. Também chamado de módulo HID (\textit{human interface device}), este pode ser simples ao ponto de somente coletar o pressionamento de botões, ou mais complexo, chegando a “detectar pressionamento de vários botões, sequências de botões pressionados e gestos, utilizando acelerômetros, por exemplo” \cite[p.~43]{gregory2014game}
+\item \textbf{Módulo de entrada:} módulo responsável por coletar \textit{inputs} advindos do jogador por meio de teclado, mouse, controles, etc.. Também chamado de módulo HID (\textit{human interface device}), este pode ser simples ao ponto de somente coletar o pressionamento de botões, ou mais complexo, chegando a “detectar pressionamento de vários botões, sequências de botões pressionados e gestos, utilizando acelerômetros, por exemplo” \cite[p.~43]{gregory2014game}
 
-\item \textbf{Módulo de gerenciamento de recursos:} Segundo \citeonline[p.~35]{gregory2014game}, este módulo é responsável por prover uma interface (ou conjunto de interfaces) unificada para acessar todo e qualquer tipo de recurso do jogo. Recurso do jogo, nesse caso, é qualquer imagem, script, fonte, áudio, mapa localizado nos arquivos do jogo, dentre outros.
+\item \textbf{Módulo de gerenciamento de recursos:} Segundo \citeonline[p.~35]{gregory2014game}, este módulo é responsável por prover uma interface (ou conjunto de interfaces) unificada para acessar todo e qualquer tipo de recurso do jogo. Recurso do jogo, nesse caso, é qualquer imagem, \textit{script}, fonte, áudio, mapa localizado nos arquivos do jogo, dentre outros.
 
 \item \textbf{Módulo de rede:} não necessariamente utilizado em todos os jogos, porém importante ao ponto de ser citado, este módulo é responsável por prover suporte à comunicação (local ou \textit{online}) entre diversos jogadores em um mesmo jogo.
 \end{itemize}
 
 
-Além dos componentes gerais, todo jogo contém um mecanismo que é responsável pelo controle do estado atual do jogo, conhecido como \textit{game loop}. \citeonline{gameplayunb} caracterizam a estrutura de um \textit{game loop} por quatro tipos de tarefas (utilizando como exemplo uma partida do jogo Tetris):
+Além dos componentes gerais, todo jogo contém um mecanismo que é responsável pelo controle do estado atual do jogo, conhecido como \textit{game loop}. \citeonline{gameplayunb} caracterizam a estrutura de um \textit{game loop} por quatro tipos de tarefas (utilizando como exemplo uma partida do jogo \textit{Tetris}):
 
 \begin{enumerate}
 \item tarefas que serão executadas somente uma vez quando a partida iniciar como, por exemplo, zerar a quantidade de pontos e escolher uma peça inicial;
