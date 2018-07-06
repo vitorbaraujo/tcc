@@ -1,4 +1,4 @@
-\chapter[Metodologia]{Metodologia}
+\chapter[Metodologia]{Metodologia} \label{metodologia}
 
 A metodologia deste trabalho está descrita nas próximas seções e está dividida em Ferramentas de Desenvolvimento e Metodologia de Desenvolvimento.
 
@@ -14,9 +14,9 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{\textit{devkitPro} e \textit{devkitARM}}
 
-      O devkitPro\footnote{devkitPro, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da Nintendo, como Nintendo GBA, Nintendo Wii, Nintendo Switch, dentre outros.
+      O \textit{devkitPro}\footnote{\textit{devkitPro}, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da \textit{Nintendo}, como \textit{Nintendo GBA}, \textit{Nintendo Wii}, \textit{Nintendo Switch}, dentre outros.
 
-      Dentre esses conjuntos de ferramentas encontra-se o devkitARM, \textit{toolchain} que contém o ambiente de desenvolvimento necessário para realizar a compilação do código escrito em C/C++ para a arquitetura de processadores ARM existente no GBA, citado no capítulo X.
+      Dentre esses conjuntos de ferramentas encontra-se o \textit{devkitARM}, \textit{toolchain} que contém o ambiente de desenvolvimento necessário para realizar a compilação do código escrito em C/C++ para a arquitetura de processadores ARM existente no GBA, citado na seção \ref{gba} do capítulo \ref{fundamentacao}.
 
     Para o ajuste das imagens do jogo para a resolução de tela do GBA, será utilizada a ferramenta de manipulação de imagens \textbf{GIMP}\footnote{GNU Image Manipulation Program, disponível em \url{https://www.gimp.org/}}, versão 2.8.
 
@@ -24,13 +24,13 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{Emulador}
 
-      Para a realização de testes com os executáveis gerados pelo devkitARM está sendo utilizado um emulador de \textit{Game Boy Advance}, chamado \textbf{VisualBoyAdvance-M}\footnote{VisualBoyAdvance-M, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}.
+      Para a realização de testes com os executáveis gerados pelo \textit{devkitARM} está sendo utilizado um emulador de \textit{Game Boy Advance}, chamado \textbf{\textit{VisualBoyAdvance-M}}\footnote{\textit{VisualBoyAdvance-M}, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}.
 
-    \subsubsection{\textit{Console}}
+    \subsubsection{\textit{Console}} \label{console}
 
-      O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}}\footnote{Nintendo DS, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
+      O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}}\footnote{\textit{Nintendo DS}, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
 
-      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{EZFlash II}\footnote{EZ Flash II, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}}\footnote{Sistema operacional da Microsoft, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
+      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{\textit{EZFlash II}}\footnote{\textit{EZ Flash II}, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}}\footnote{Sistema operacional da \textit{Microsoft}, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
 
 \section{Metodologia de desenvolvimento}
 
@@ -49,7 +49,7 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
       \label{game-object}
     \end{figure}
 
-    Onde, fora os metódos acessores e modificadores dos atributos da posição do objeto (\textit{x} e \textit{y}), têm-se o método \textbf{\textit{update()}}, que é puramente virtual e trata de qualquer atualização do objeto a cada frame e o método \textbf{\textit{draw()}}, também puramente virtual, que é responsável por renderizar o objeto na posição (\textit{x}, \textit{y}) a cada frame.
+    Onde o método \textbf{\textit{update()}}, que é puramente virtual, trata de qualquer atualização do objeto a cada frame e o método \textbf{\textit{draw()}}, também puramente virtual, é responsável por renderizar o objeto na posição (\textit{x}, \textit{y}) a cada frame.
 
     É importante frisar que os métodos \textbf{\textit{update()}} e \textbf{\textit{draw()}} devem ser puramente virtuais, pois isso garante que qualquer classe que venha a extender de \textit{GameObject} seja obrigada a implementer suas próprias rotinas específicas de atualização e renderização.
 
@@ -103,7 +103,7 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{Objetos do jogo}
 
-      O personagem principal, os itens coletáveis, plataformas, portais (para acesso e saída das fases) e elementos de HUD (\textit{heads-up display}) serão representadas como \textit{game objects}.
+      O personagem principal, os itens coletáveis, plataformas, portais (para acesso e saída das fases) e elementos de HUD (\textit{heads-up display}) serão representados como \textit{game objects}.
 
       Abaixo se encontra a modelagem inicial dos objetos do jogo.
 
@@ -116,7 +116,7 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     \subsubsection{Níveis}
 
-      A classe \textit{Level} contém a generalização de um nível no jogo. No jogo, os menus (principal e de seleção de fases), cutscenes, fases e telas de vitória e derrota são representados como níveis do jogo.
+      A classe \textit{Level} contém a generalização de um nível no jogo. No jogo, os menus (principal e de seleção de fases), \textit{cutscenes}, fases e telas de vitória e derrota são representados como níveis do jogo.
 
       Abaixo se encontra a modelagem inicial dessas classes.
 

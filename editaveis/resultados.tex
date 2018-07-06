@@ -2,7 +2,7 @@
 
 \section{Protótipo inicial}
 
-A fim de atestar a viabilidade do porte do jogo \textit{Traveling Will}, desenvolvido inicialmente para PC, para a plataforma \textit{Nintendo Game Boy Advance}, foi feita uma versão funcional do menu original do jogo, tendo essa versão sido testada em um GBA real. Para isso, a principal ferramenta utilizada foi a \textit{libtonc}\footnote{libtonc, disponível em \url{http://www.coranac.com/files/tonc-code.zip}}, que nessa versão inicial fez o papel de engine do jogo.
+A fim de atestar a viabilidade do porte do jogo \textit{Traveling Will}, desenvolvido inicialmente para PC, para a plataforma \textit{Nintendo Game Boy Advance}, foi feita uma versão funcional do menu original do jogo, já testada em um \textit{Nintendo DS} (como explicado na seção \ref{console} do capítulo \ref{metodologia}). Para isso, a principal ferramenta utilizada foi a \textit{libtonc}\footnote{\textit{libtonc}, disponível em \url{http://www.coranac.com/files/tonc-code.zip}}, que nessa versão inicial fez o papel de engine do jogo.
 
 Abaixo é possível comparar o menu principal do jogo original com o protótipo implementado sendo executado em um emulador de \textit{Game Boy Advance}:
 
@@ -24,13 +24,13 @@ O protótipo desenvolvido está disponível no seguinte repositório: \url{https
 
 \section{Desenvolvimento da \textit{engine}}
 
-Após a finalização do protótipo inicial, foi iniciado o desenvolvimento da engine que irá substituir a libtonc na versão final do jogo. Ela irá padronizar a utilização dos recursos providos pelo GBA e irá conter um módulo de vídeo, áudio, \textit{input}, física, dentre outros.
+Após a finalização do protótipo inicial, foi iniciado o desenvolvimento da \textit{engine} que irá substituir a \textit{libtonc} na versão final do jogo. Ela irá padronizar a utilização dos recursos providos pelo GBA e irá conter um módulo de vídeo, áudio, \textit{input}, física, dentre outros.
 
 Até o momento, o módulo de \textit{input} e parte do módulo de vídeo foram implementados.
 
 \subsection{Módulo de \textit{input}}
 
-Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} no valor guardado por esse registrador. Sempre que um botão é apertado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}. Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expotente o \textit{bit} em questão (4, nesse exemplo). Abaixo é possível vizualizar no código do módulo de input a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles:
+Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} no valor guardado por esse registrador. Sempre que um botão é apertado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}. Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expotente o \textit{bit} em questão (4, nesse exemplo). Abaixo é possível vizualizar no código do módulo de \textit{input} a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles:
 
 \begin{minted}[frame=lines, linenos]
 {c++}
@@ -156,7 +156,8 @@ void set_background_number(int background) {
   }
 }
 
-void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len) {
+void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len,
+                    const void *map, int map_len) {
   // Load palette
   memcpy(pal_bg_mem, pal, pal_len);
   // Load tiles into CBB 0

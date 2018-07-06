@@ -1,4 +1,4 @@
-# Fixme installation and compile instructions
+# Updated installation and compile instructions
 
 ## Instale as bibliotecas necessárias do latex para instalação do abntex2
 
@@ -16,7 +16,8 @@
 	$ make
 
 
-#Template TCC FGA-UnB
+# Template TCC FGA-UnB
+
 Template para Trabalhos de Conclusão de Cursos (TCC) na Faculdade do
 Gama (FGA) em Latex.
 
