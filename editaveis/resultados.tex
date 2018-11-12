@@ -24,9 +24,7 @@ O protótipo desenvolvido está disponível no seguinte repositório: \url{https
 
 \section{Desenvolvimento da \textit{engine}}
 
-Após a finalização do protótipo inicial, foi iniciado o desenvolvimento da \textit{engine} que irá substituir a \textit{libtonc} na versão final do jogo. Ela irá padronizar a utilização dos recursos providos pelo GBA e irá conter um módulo de vídeo, áudio, \textit{input}, física, dentre outros.
-
-Até o momento, o módulo de \textit{input} e parte do módulo de vídeo foram implementados.
+Logo após a finalização do protótipo inicial, foi iniciado o desenvolvimento da \textit{engine} responsável por substituir a \textit{libtonc} e gerenciar os recursos do jogo. Ela foi desenvolvida contendo os seguintes módulos: vídeo, audio, \textit{input} e física. Cada um dos módulos foi desenvolvido tendo como base a \textit{ijengine}... FIXME: Explicar o que é a ijengine.
 
 \subsection{Módulo de \textit{input}}
 
@@ -127,56 +125,20 @@ int main() {
 
 \subsection{Módulo de vídeo}
 
-O módulo de vídeo deve possuir funções para controle do modo de vídeo, dos \textit{backgrounds} e da renderização das \textit{sprites}. Atualmente o módulo de vídeo desenvolvido trata apenas, de forma limitada, do modo de vídeo e do \textit{background}. Ele permite a renderização de um determinado \textit{background} desde que sejam passados a paleta de cores utilizada, um vetor com os \textit{tiles} utilizados no \textit{background} e um vetor representando o mapa de \textit{tiles} a ser utilizado para renderizar o \textit{background}. O módulo copia cada uma das informações passadas para as regiões de memória apropriadas. Atualmente, o módulo sempre utiliza o \textit{background} 2 e parte do princípio de que o modo utilizado não é baseado em \textit{bitmap}, não permitindo, portanto, o uso de múltiplos \textit{backgrounds}. Além disso, o módulo ainda não permite definir a posição exata de memória aonde o vetor de \textit{tiles} e o \textit{tilemap} deverão ser escritos, o que inviabiliza o uso de diferentes \textit{tilemaps} e a renderização de fontes de forma correta. Abaixo é possível visualizar a versão atual do código fonte do módulo de vídeo:
+O módulo de vídeo é responsável pelo controle do modo de vídeo, dos \textit{backgrounds} e da renderização das \textit{sprites}.
 
-\begin{minted}[frame=lines, linenos]
-{c++}
-#include "video.h"
+Para gerenciar a renderização das \textit{sprites} foi desenvolvida uma classe chamada \textit{Texture}. Ela foi planejada de forma a não apenas copiar os dados da imagem para a região de memória apropriada, mas também permitir a animação das \textit{sprites} de uma textura e controlar os metadados das imagens renderizadas no jogo.
 
-#include <string.h>
+A seguir, será explicado, com o auxílo de trechos do código, o funcionamento dos principais elementos dessa classe.
 
-void reset_dispcnt() {
-  REG_DISPCNT = 0;
-}
+Inicialmente, é necessário explicar os construtores dessa classe.
 
-void set_video_mode(int video_mode) {
-  REG_DISPCNT |= video_mode;
-}
+Logo abaixo, é possível visualizar o código do primeiro construtor. Ele recebe os ponteiros para a paleta de cores e para o vetor de \textit{tiles} utilizados pela imagem, os tamanhos das regiões de memória alocadas pra cada um desses ponteiros e a quantidade de bits por pixel que a imagem utiliza. Cada um desses atributos é guardado na própria classe, e, já nesse construtor, são chamados os métodos \textit{set_sprite_pal} e \textit{set_sprite}, responsáveis por copiá-los para as regiões apropriadas. Por fim, ainda nesse construtor, são setados os índices do \textit{tile base} e da paleta de cores utilizada pela imagem. O cálculo desses índices será explicado logo adiante, nos tópicos dedicados aos métodos \textit{set_sprite_pal} e \textit{set_sprite}.
 
-void set_background_number(int background) {
-  switch (background) {
-    case 0:
-      REG_DISPCNT |= 0x0100;
-    case 1:
-      REG_DISPCNT |= 0x0200;
-    case 2:
-      REG_DISPCNT |= 0x0400;
-    case 3:
-      REG_DISPCNT |= 0x0800;
-  }
-}
+O segundo construtor funciona de forma similar ao anterior, com a diferença de que em vez de receber todos aqueles atributos da imagem, ele recebe apenas um ponteiro para outra textura. Esse construtor serve para quando se deseja renderizar réplicas de uma mesma textura. Utilizar ele permite que tais texturas compartilhem a paleta de cores e o vetor de \textit{tiles}, fazendo-se necessário alocar espaço apenas para os metadados, que são diferentes pra cada textura.
 
-void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len) {
-  // Load palette
-  memcpy(pal_bg_mem, pal, pal_len);
-  // Load tiles into CBB 0
-  memcpy(&tile_mem[0][0], tiles, tiles_len);
-  // Load map into SBB 31
-  memcpy(&se_mem[31][0], map, map_len);
+ 
 
-  REG_BG2CNT = BG_CBB(0) | BG_SBB(31) | BG_8BPP | BG_REG_64x32;
-}
-\end{minted}
-\makebox[\linewidth]{Código fonte do módulo de vídeo. Fonte: \textit{Autores}.}
-\vspace{\onelineskip}
-
-Abaixo é possível visualizar o teste realizado com o módulo de vídeo da nova \textit{engine}.
-
-\begin{figure}[H]
- \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/video-test.eps}
-   \caption[Demonstração do módulo de vídeo]
-    {Demonstração do módulo de vídeo. Fonte: \textit{Autores}.}
-   \label{demo-video}
-\end{figure}
+Para a renderização dos \textit{backgrounds}, foi desenvolvida uma classe que recebe ponteiros para a paleta de cores,  para o vetor de \textit{tiles} e para o mapa de \textit{tiles} utilizados pelo \textit{background}, assim como os tamanhos das regiões alocadas pra cada um desses ponteiros. Assim que é instanciada, essa classe calcula qual o melhor \textit{charblock} e o melhor \textit{screenblock} para guardar os \textit{tiles} e o mapa de \textit{tiles}, respectivamente. Vale ressaltar que os \textit{charblocks} e \textit{screenblocks} compartilham a mesma região de memória e precisam de um espaço contíguo na memória do \textit{GBA} para que o \textit{background} seja renderizado corretamente. Por esse motivo não é recomendado apenas copiá-los para a memória do \textit{GBA} de forma sequencial, já que isso poderia causar um \textit{overlap} entre um \textit{charblock} e um \textit{screenblock}, e também poderia preencher a memória do \textit{GBA} de forma não-ótima, o que pode fazer com que não caibam todos os \textit{backgrounds} necessários para uma ou mais fases do jogo.
 
 A \textit{engine} desenvolvida está disponível no seguinte repositório: \url{https://github.com/traveling-will-gba/game}
