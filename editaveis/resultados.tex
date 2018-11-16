@@ -32,28 +32,28 @@ Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses est
 
 \begin{minted}[frame=lines, linenos]
 {c++}
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef INPUT\_H
+#define INPUT\_H
 
 #include <stdbool.h>
-#include "base_types.h"
+#include "base\_types.h"
 
-#define BUTTON_A 1
-#define BUTTON_B 2
-#define BUTTON_SELECT 4
-#define BUTTON_START 8
-#define BUTTON_RIGHT 16
-#define BUTTON_LEFT 32
-#define BUTTON_UP 64
-#define BUTTON_DOWN 128
-#define BUTTON_R 256
-#define BUTTON_L 512
+#define BUTTON\_A 1
+#define BUTTON\_B 2
+#define BUTTON\_SELECT 4
+#define BUTTON\_START 8
+#define BUTTON\_RIGHT 16
+#define BUTTON\_LEFT 32
+#define BUTTON\_UP 64
+#define BUTTON\_DOWN 128
+#define BUTTON\_R 256
+#define BUTTON\_L 512
 
-#define N_BUTTON 10
+#define N\_BUTTON 10
 
-int pressed_state[N_BUTTON];
+int pressed\_state[N\_BUTTON];
 
-void check_buttons_states();
+void check\_buttons\_states();
 bool pressed(int button);
 
 #endif
@@ -135,14 +135,105 @@ Inicialmente, é necessário explicar os construtores dessa classe.
 
 Logo abaixo, é possível visualizar o código do primeiro construtor. Ele recebe os ponteiros para a paleta de cores e para o vetor de \textit{tiles} utilizados pela imagem, os tamanhos das regiões de memória alocadas pra cada um desses ponteiros e a quantidade de \textit{bits} por \textit{pixel} que a imagem utiliza. Cada um desses atributos é guardado na própria classe, e, já nesse construtor, são chamados os métodos \textit{set\_sprite\_pal} e \textit{set\_sprite}, responsáveis por copiá-los para as regiões apropriadas. Por fim, ainda nesse construtor, são setados os índices do \textit{tile base} e da paleta de cores utilizada pela imagem. O cálculo desses índices será explicado logo adiante, nos tópicos dedicados aos métodos \textit{set\_sprite\_pal} e \textit{set\_sprite}.
 
+\begin{minted}[frame=lines, linenos]
+{c++}
+Texture::Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
+        const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP)
+{
+    this->pallete = pallete;
+    this->pallete_len = pallete_len;
+    this->pallete_id = 0;
+    this->bpp = bpp;
+    this->num_sprites = num_sprites;
+    this->num_tiles = tiles_len / ((bpp == _4BPP) ? 32 : 64);
+    this->tiles_per_sprite = num_tiles / num_sprites;
+    this->tiles = tiles;
+    this->tiles_len = tiles_len;
+
+    memory_manager = MemoryManager::get_memory_manager();
+
+    set_sprite_pal();
+    set_sprite();
+    oam_entry = memory_manager->alloc_oam_entry();
+
+    metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
+    metadata.pb = pallete_id;
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
 O segundo construtor funciona de forma similar ao anterior, com a diferença de que em vez de receber todos aqueles atributos da imagem, ele recebe apenas um ponteiro para outra textura. Esse construtor serve para quando se deseja renderizar réplicas de uma mesma textura. Utilizar ele permite que tais texturas compartilhem a paleta de cores e o vetor de \textit{tiles}, fazendo-se necessário alocar espaço apenas para os metadados, que são diferentes pra cada textura.
+
+\begin{minted}[frame=lines, linenos]
+{c++}
+Texture::Texture(const Texture *texture)
+{
+    this->num_sprites = texture->num_sprites;
+    this->pallete = texture->pallete;
+    this->pallete_len = texture->pallete_len;
+    this->tiles = texture->tiles;
+    this->tiles_len = texture->tiles_len;
+    this->bpp = texture->bpp;
+    this->pallete_id = texture->pallete_id;
+    this->num_tiles = texture->num_tiles;
+    this->tiles_per_sprite = texture->tiles_per_sprite;
+    this->tile_base = texture->tile_base;
+
+    memory_manager = MemoryManager::get_memory_manager();
+
+    oam_entry = memory_manager->alloc_oam_entry();
+
+    metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
+    metadata.pb = pallete_id;
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
 
 O método \textit{set\_sprite\_pal} é responsável por chamar o método \textit{alloc\_texture\_pal} da classe \textit{MemoryManager} passando como parâmetro o tamanho da paleta de cores a ser alocada. Como resultado, ele irá receber o endereço de memória aonde a paleta deverá ser guardada. Após fazer a cópia da paleta, é preciso calcular o índice da paleta escolhida na memória, já que esse é um dos metadados necessários para renderização da imagem a 4 \textit{bits} por \textit{pixel}. Como a região reservada para as paletas de cores no \textit{GBA} é divida em regiões de 32 \textit{bytes}, para realizar tal cálculo basta pegar a diferença entre o início da região escolhida para a cópia e o início da região reservada para as paletas e dividir por 32.
 Como uma imagem renderizada a 8 \textit{bits} por \textit{pixel} ocupa toda a região reservada para as paletas, o cálculo do índice não é necessário para uma imagem que utilize 256 cores.
 
+\begin{minted}[frame=lines, linenos]
+{c++}
+bool Texture::set_sprite_pal() {
+    volatile uint8_t *teste = memory_manager->alloc_texture_palette(32);
+    mem16cpy(teste, pallete, 32);
+
+    this->pallete_id = (teste - (volatile uint8_t *)0x05000200) / 32;
+
+    return true;
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
 O método \textit{set\_sprite} funciona de forma similar ao \textit{set\_sprite\_pal}, tendo como diferença relevante apenas o cálculo do índice do \textit{tile\_base} da imagem, que é feito subtraindo o início da região escolhida para a cópia e o início da região reservada para os \textit{tiles}. Essa diferença ocorre porque diferentemente da paleta de cores, cada unidade do vetor que representa a \textit{tile\_mem} no nosso código é, de fato, um \textit{tile}.
 
+\begin{minted}[frame=lines, linenos]
+{c++}
+bool Texture::set_sprite() {
+    volatile struct tile *teste = memory_manager->alloc_texture(tiles_len);
+
+    mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
+    tile_base = teste - memory_manager->base_texture_mem();
+
+    return true;
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
 O método \textit{update\_metadata} apenas copia os metadados para a \textit{OAM} (\textit{Object Attributes Memory}).
+
+\begin{minted}[frame=lines, linenos]
+{c++}
+void Texture::update_metadata() {
+    mem16cpy(oam_entry, &metadata, sizeof(struct attr));
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
 
 Por fim, o método \textit{update} calcula qual a próxima sprite a ser renderizada e seta o primeiro \textit{tile} dela como \textit{tile\_id}. Esse processo é o que permite a animação das \textit{sprites} do jogo. O cálculo é feito somando o \textit{tile\_id} atual com a quantidade de \textit{tiles} por \textit{sprite} da textura que está sendo renderizada. Vale ressaltar que os índices dos \textit{tiles} são contabilizados sempre de 32 em 32 \textit{bytes}, mesmo que a imagem utilize 8 \textit{bits} por \textit{pixel} e por isso o número de \textit{tiles} por \textit{sprite} é multiplicado por 2 quando o número de \textit{bits} por \textit{pixel} da textura é 8.
 
