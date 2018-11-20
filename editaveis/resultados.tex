@@ -129,7 +129,7 @@ Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um mód
 
     \subsubsection{Funcionamento do gerenciador de memória}
 
-    O modelo de gerenciamento escolhido para ser utilizado neste projeto foi o modelo de gerenciamento com partições variáveis \cite{tannembaum}. Esse modelo se faz necessário pois os recursos a serem alocados durante a execução do jogo contém tamanhos distintos (uma sprite ocupa menos espaço que um \textit{background} que, por sua vez, ocupa menos espaço do que uma música). Além disso, é importante citar que este gerenciador aloca os recursos contiguamente na memória, isto é, ele sempre irá optar pelo primeiro espaço disponível a partir do começo da memória.
+    O modelo de gerenciamento escolhido para ser utilizado neste projeto foi o modelo de gerenciamento com partições variáveis \cite{tanenbaum}. Esse modelo se faz necessário pois os recursos a serem alocados durante a execução do jogo contém tamanhos distintos (uma sprite ocupa menos espaço que um \textit{background} que, por sua vez, ocupa menos espaço do que uma música). Além disso, é importante citar que este gerenciador aloca os recursos contiguamente na memória, isto é, ele sempre irá optar pelo primeiro espaço disponível a partir do começo da memória.
 
     Utilizando esse modelo como base, o gerenciador funciona da seguinte maneira:
 
@@ -290,10 +290,10 @@ Texture::Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete
     metadata.pb = pallete_id;
 }
 \end{minted}
-\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Construtor da classe \textit{Texture}. Fonte: \textit{Autores}.}
 \vspace{\onelineskip}
 
-O segundo construtor funciona de forma similar ao anterior, com a diferença de que em vez de receber todos aqueles atributos da imagem, ele recebe apenas um ponteiro para outra textura. Esse construtor serve para quando se deseja renderizar réplicas de uma mesma textura. Utilizar ele permite que tais texturas compartilhem a paleta de cores e o vetor de \textit{tiles}, fazendo-se necessário alocar espaço apenas para os metadados, que são diferentes pra cada textura.
+O segundo construtor funciona de forma similar ao anterior, com a diferença de que em vez de receber todos os atributos da imagem, ele recebe apenas um ponteiro para outra textura. Esse construtor serve para quando se deseja renderizar réplicas de uma mesma textura. Utilizar ele permite que tais texturas compartilhem a paleta de cores e o vetor de \textit{tiles}, fazendo-se necessário alocar espaço apenas para os metadados, que são diferentes pra cada textura.
 
 \begin{minted}[frame=lines, linenos]
 {c++}
@@ -318,7 +318,7 @@ Texture::Texture(const Texture *texture)
     metadata.pb = pallete_id;
 }
 \end{minted}
-\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Construtor por cópia da classe \textit{Texture}. Fonte: \textit{Autores}.}
 \vspace{\onelineskip}
 
 O método \textit{set\_sprite\_pal} é responsável por chamar o método \textit{alloc\_texture\_pal} da classe \textit{MemoryManager} passando como parâmetro o tamanho da paleta de cores a ser alocada. Como resultado, ele irá receber o endereço de memória aonde a paleta deverá ser guardada. Após fazer a cópia da paleta, é preciso calcular o índice da paleta escolhida na memória, já que esse é um dos metadados necessários para renderização da imagem a 4 \textit{bits} por \textit{pixel}. Como a região reservada para as paletas de cores no \textit{GBA} é divida em regiões de 32 \textit{bytes}, para realizar tal cálculo basta pegar a diferença entre o início da região escolhida para a cópia e o início da região reservada para as paletas e dividir por 32.
@@ -335,7 +335,7 @@ bool Texture::set_sprite_pal() {
     return true;
 }
 \end{minted}
-\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Função de alocação da paleta de cores de uma textura. Fonte: \textit{Autores}.}
 \vspace{\onelineskip}
 
 O método \textit{set\_sprite} funciona de forma similar ao \textit{set\_sprite\_pal}, tendo como diferença relevante apenas o cálculo do índice do \textit{tile\_base} da imagem, que é feito subtraindo o início da região escolhida para a cópia e o início da região reservada para os \textit{tiles}. Essa diferença ocorre porque diferentemente da paleta de cores, cada unidade do vetor que representa a \textit{tile\_mem} no nosso código é, de fato, um \textit{tile}.
@@ -351,7 +351,7 @@ bool Texture::set_sprite() {
     return true;
 }
 \end{minted}
-\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Função de alocação das \textit{sprites} de uma textura. Fonte: \textit{Autores}.}
 \vspace{\onelineskip}
 
 O método \textit{update\_metadata} apenas copia os metadados para a \textit{OAM} (\textit{Object Attributes Memory}).
@@ -362,7 +362,7 @@ void Texture::update_metadata() {
     mem16cpy(oam_entry, &metadata, sizeof(struct attr));
 }
 \end{minted}
-\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\makebox[\linewidth]{Função de cópia dos metadados das texturas. Fonte: \textit{Autores}.}
 \vspace{\onelineskip}
 
 Por fim, o método \textit{update} calcula qual a próxima sprite a ser renderizada e seta o primeiro \textit{tile} dela como \textit{tile\_id}. Esse processo é o que permite a animação das \textit{sprites} do jogo. O cálculo é feito somando o \textit{tile\_id} atual com a quantidade de \textit{tiles} por \textit{sprite} da textura que está sendo renderizada. Vale ressaltar que os índices dos \textit{tiles} são contabilizados sempre de 32 em 32 \textit{bytes}, mesmo que a imagem utilize 8 \textit{bits} por \textit{pixel} e por isso o número de \textit{tiles} por \textit{sprite} é multiplicado por 2 quando o número de \textit{bits} por \textit{pixel} da textura é 8.
