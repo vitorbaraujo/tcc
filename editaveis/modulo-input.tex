@@ -1,43 +1,43 @@
 \subsection{Módulo de \textit{input}}
 
-Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} no valor guardado por esse registrador. Sempre que um botão é apertado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}. Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expotente o \textit{bit} em questão (4, nesse exemplo). Abaixo é possível vizualizar no código do módulo de \textit{input} a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles:
+Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} do valor guardado por esse registrador. Sempre que um botão é pressionado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}.
 
-\begin{minted}[frame=lines, linenos]
-{c++}
-#ifndef INPUT\_H
-#define INPUT\_H
+Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expoente o \textit{bit} em questão (4, nesse exemplo). Abaixo é possível visualizar no código do módulo de \textit{input} a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles:
+
+\vspace{\onelineskip}
+\begin{lstlisting}[caption={Cabeçalho do módulo de \textit{input}.}]
+#ifndef INPUT_H
+#define INPUT_H
 
 #include <stdbool.h>
-#include "base\_types.h"
+#include "base_types.h"
 
-#define BUTTON\_A 1
-#define BUTTON\_B 2
-#define BUTTON\_SELECT 4
-#define BUTTON\_START 8
-#define BUTTON\_RIGHT 16
-#define BUTTON\_LEFT 32
-#define BUTTON\_UP 64
-#define BUTTON\_DOWN 128
-#define BUTTON\_R 256
-#define BUTTON\_L 512
+#define BUTTON_A 1
+#define BUTTON_B 2
+#define BUTTON_SELECT 4
+#define BUTTON_START 8
+#define BUTTON_RIGHT 16
+#define BUTTON_LEFT 32
+#define BUTTON_UP 64
+#define BUTTON_DOWN 128
+#define BUTTON_R 256
+#define BUTTON_L 512
+#define N_BUTTON 10
 
-#define N\_BUTTON 10
+int pressed_state[N_BUTTON];
 
-int pressed\_state[N\_BUTTON];
-
-void check\_buttons\_states();
+void check_buttons_states();
 bool pressed(int button);
 
 #endif
-\end{minted}
-\makebox[\linewidth]{Cabeçalho do módulo de input. Fonte: \textit{Autores}.}
+\end{lstlisting}
 \vspace{\onelineskip}
 
-\begin{minted}[frame=lines, linenos]
-{c++}
+\vspace{\onelineskip}
+\begin{lstlisting}[caption={Código-fonte do módulo de \textit{input}.}]
 #include "input.h"
 
-volatile unsigned int *buttons_mem = (volatile unsigned int *)0x04000130;
+volatile unsigned int *buttons_mem = (volatile unsigned int *) 0x04000130;
 
 void check_buttons_states() {
     for(int i = 0; i < N_BUTTON; i++) {
@@ -48,8 +48,7 @@ void check_buttons_states() {
 bool pressed(int button) {
     return pressed_state[button];
 }
-\end{minted}
-\makebox[\linewidth]{Código fonte do módulo de input. Fonte: \textit{Autores}.}
+\end{lstlisting}
 \vspace{\onelineskip}
 
 Abaixo é possível visualizar um teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Na imagem abaixo, os botões B, R, \textit{LEFT}, \textit{RIGHT} e \textit{START} estão sendo pressionados simultaneamente.
@@ -63,8 +62,8 @@ Abaixo é possível visualizar um teste implementado para checar o pressionament
 
 Abaixo se encontra o código fonte escrito para a realização deste teste:
 
-\begin{minted}[frame=lines, linenos]
-{c++}
+\vspace{\onelineskip}
+\begin{lstlisting}[caption={Código de teste de \textit{input}.}]
 #include "video.h"
 #include "input.h"
 
@@ -91,6 +90,5 @@ int main() {
 
     return 0;
 }
-\end{minted}
-\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\end{lstlisting}
 \vspace{\onelineskip}

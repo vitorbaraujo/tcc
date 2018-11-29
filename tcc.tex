@@ -4,6 +4,27 @@
 \usepackage{enumerate}
 \usepackage{float}
 \usepackage{minted}
+\usepackage{listings}
+
+\renewcommand{\lstlistingname}{Código}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{Lista de \lstlistingname s}% List of Listings -> List of Algorithms
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset {
+  language=C++,
+  basicstyle=\footnotesize,
+  frame=single,
+  numbers=left,
+  captionpos=b,
+  label=DescriptiveLabel,
+  breaklines=true,
+  keywordstyle=\color{blue},
+  stringstyle=\color{mymauve},
+  commentstyle=\color{mygreen},
+}
 
 
 \input{editaveis/informacoes}
