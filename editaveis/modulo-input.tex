@@ -47,7 +47,7 @@ bool pressed(int button) {
 }
 \end{lstlisting}
 
-Abaixo é possível visualizar um teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Na imagem abaixo, os botões B, R, \textit{LEFT}, \textit{RIGHT} e \textit{START} estão sendo pressionados simultaneamente.
+A figura \ref{demo-input} apresenta o teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Nesta figura, os botões B, R, \textit{LEFT}, \textit{DOWN} e \textit{START} estão sendo pressionados simultaneamente. O código \ref{lst:inputtest} apresenta este teste.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/demo-input.eps}
@@ -56,9 +56,7 @@ Abaixo é possível visualizar um teste implementado para checar o pressionament
    \label{demo-input}
 \end{figure}
 
-Abaixo se encontra o código fonte escrito para a realização deste teste:
-
-\begin{lstlisting}[float,caption={Código de teste de \textit{input}.}]
+\begin{lstlisting}[float,caption={Código de teste de \textit{input}.},label={lst:inputtest}]
 #include "video.h"
 #include "input.h"
 
