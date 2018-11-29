@@ -8,5 +8,5 @@
 \contentsline {lstlisting}{\numberline {3.8}Construtor da classe \textit {Texture}.}{45}{lstlisting.3.8}
 \contentsline {lstlisting}{\numberline {3.9}Construtor por c\IeC {\'o}pia da classe \textit {Texture}.}{46}{lstlisting.3.9}
 \contentsline {lstlisting}{\numberline {3.10}Fun\IeC {\c c}\IeC {\~a}o de aloca\IeC {\c c}\IeC {\~a}o da paleta de cores de uma textura.}{46}{lstlisting.3.10}
-\contentsline {lstlisting}{\numberline {3.11}Fun\IeC {\c c}\IeC {\~a}o de aloca\IeC {\c c}\IeC {\~a}o das \textit {sprites} de uma textura.}{47}{lstlisting.3.11}
+\contentsline {lstlisting}{\numberline {3.11}Fun\IeC {\c c}\IeC {\~a}o de aloca\IeC {\c c}\IeC {\~a}o das \textit {sprites} de uma textura.}{46}{lstlisting.3.11}
 \contentsline {lstlisting}{\numberline {3.12}Fun\IeC {\c c}\IeC {\~a}o de c\IeC {\'o}pia dos metadados das texturas.}{47}{lstlisting.3.12}

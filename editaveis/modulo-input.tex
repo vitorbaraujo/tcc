@@ -4,7 +4,6 @@ Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses est
 
 Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expoente o \textit{bit} em questão (4, nesse exemplo). No código \ref{lst:input1} é possível visualizar a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles.
 
-\vspace{\onelineskip}
 \begin{lstlisting}[float,caption={Cabeçalho do módulo de \textit{input}.},label={lst:input1}]
 #ifndef INPUT_H
 #define INPUT_H
@@ -31,9 +30,7 @@ bool pressed(int button);
 
 #endif
 \end{lstlisting}
-\vspace{\onelineskip}
 
-\vspace{\onelineskip}
 \begin{lstlisting}[float,caption={Código-fonte do módulo de \textit{input}.}]
 #include "input.h"
 
@@ -49,7 +46,6 @@ bool pressed(int button) {
     return pressed_state[button];
 }
 \end{lstlisting}
-\vspace{\onelineskip}
 
 Abaixo é possível visualizar um teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Na imagem abaixo, os botões B, R, \textit{LEFT}, \textit{RIGHT} e \textit{START} estão sendo pressionados simultaneamente.
 
@@ -62,7 +58,6 @@ Abaixo é possível visualizar um teste implementado para checar o pressionament
 
 Abaixo se encontra o código fonte escrito para a realização deste teste:
 
-\vspace{\onelineskip}
 \begin{lstlisting}[float,caption={Código de teste de \textit{input}.}]
 #include "video.h"
 #include "input.h"
@@ -91,4 +86,3 @@ int main() {
     return 0;
 }
 \end{lstlisting}
-\vspace{\onelineskip}
