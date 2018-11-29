@@ -1,0 +1,129 @@
+\subsection{Módulo gerenciador de memória}
+
+Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um módulo que trata do gerenciamento de memória dos objetos do jogo. A principal responsabilidade deste módulo é garantir que a alocação e desalocação de recursos seja feita de forma eficiente e segura.
+
+    \subsubsection{Funcionamento do gerenciador de memória}
+
+    O modelo de gerenciamento escolhido para ser utilizado neste projeto foi o modelo de gerenciamento com partições variáveis \cite{tanenbaum}. Esse modelo se faz necessário pois os recursos a serem alocados durante a execução do jogo contém tamanhos distintos (uma sprite ocupa menos espaço que um \textit{background} que, por sua vez, ocupa menos espaço do que uma música). Além disso, é importante citar que este gerenciador aloca os recursos contiguamente na memória, isto é, ele sempre irá optar pelo primeiro espaço disponível a partir do começo da memória.
+
+    Utilizando esse modelo como base, o gerenciador funciona da seguinte maneira:
+
+    \begin{itemize}
+        \item o construtor do gerenciador de memória é responsável por inicializar todos os ponteiros correspondentes aos endereços dos registradores de \textit{backgrounds}, texturas e atributos das texturas;
+        \item quando ocorre uma chamada de alocação, o gerenciador procura pelo primeiro espaço disponível na memória correspondente para alocar tal recurso. Caso não ache nenhum espaço disponível, retorna um endereço nulo;
+        \item após achar um endereço disponível, é verificado se há espaço suficiente para alocar o recurso. Caso não haja espaço suficiente, um endereço nulo é retornado;
+        \item após garantir que há um espaço disponível e com espaço suficiente para alocação, a posição deste endereço no vetor auxiliar (responsável por indicar se determinado endereço está disponível ou não) é ligada (indicando que o espaço foi ocupado) e é retornado o endereço desta posição para o cliente realizar a cópia do recurso.
+    \end{itemize}
+
+    Abaixo segue a função responsável por realizar a alocação de paletas (tanto para \textit{backgrounds} quanto para texturas). Segundo \citeonline{gbatek}, as paletas possuem 256 entradas de 2 \textit{bytes}, totalizando 512 \textit{bytes}.
+
+    \begin{minted}[frame=lines, linenos]
+    {c++}
+    volatile uint8_t *MemoryManager::alloc_palette(bitset<512>& used,
+        volatile uint8_t *palette, size_t size)
+    {
+        int used_size = used.size();
+
+        for (size_t i = 0; i < used_size; i++) {
+            // if this position is taken, skip it
+            if (used[i] == true) {
+                continue;
+            }
+
+            uint32_t available_pal_len = used_size - i;
+
+            // if there is no space to allocate this pallete, skip it
+            if (size > available_pal_len) {
+                continue;
+            }
+
+            // mark positions from i to size as used
+            for (size_t j = 0; j < size; j++) {
+                used[i + j] = true;
+            }
+
+            memory_map[palette + i] = size;
+
+            return palette + i;
+        }
+
+        return NULL;
+    }
+    \end{minted}
+
+    \makebox[\linewidth]{Código de alocação de paletas para \textit{backgrounds} e texturas. Fonte: \textit{Autores}.}
+    \vspace{\onelineskip}
+
+
+    \subsubsection{Gerenciamento seguro de memória}
+
+    Para garantir que novos recursos sejam alocados e que nenhum objeto já carregado na memória seja sobrescrito ou corrompido, qualquer chamada que envolva a alocação de novos recursos passa por um processo onde é verificado se a memória que será populada contém espaço suficiente realizar tal alocação. Para realizar esta verificação, o gerenciador possui um mapa que associa um endereço na memória com o tamanho que o objeto alocado neste endereço ocupa. Deste modo, quando há uma chamada de alocação com tamanho \textit{size} e uma posição \textit{i} está disponível, as posições de \textit{i} até \textit{i + size / (tamanho de cada partição da memória correspondente em bytes) - 1} são marcadas como utilizadas.
+
+    \subsubsection{Gerenciamento eficiente de memória}
+
+    As estratégias utilizadas para garantir um gerenciamento eficiente de memória envolvem a utilização de \textit{singleton} para a criação do objeto gerenciador de memória e  utilização de estruturas de dados que permitam configurar o tamanho a ser utilizado.
+
+    \begin{itemize}
+        \item \textbf{Utilização de \textit{singleton} para o gerenciador de memória}: Para que haja um único objeto encarregado de gerenciar a alocação de recursos no jogo, a classe \textit{MemoryManager} foi modelada utilizado o padrão de projeto \textit{Singleton}. Com este padrão de projeto, cada chamada de criação de uma nova instância do gerenciador de memória passa por uma verificação, que checa se já existe uma instância desta classe (por meio de uma variável dentro da própria classe que armazena uma instância de \textit{MemoryManager} ou nulo). Caso haja, esta instância é retornada. Caso contrário, é criada uma nova instância. Segue o código exemplificando o \textit{singleton} (trechos de código desta classe foram omitidos para melhor foco no padrão de projeto):
+
+        \begin{minted}[frame=lines, linenos]
+        {c++}
+        class MemoryManager {
+            private:
+                MemoryManager *instance;
+
+            public:
+                MemoryManager *get_memory_manager() {
+                    if (!instance) {
+                        instance = new MemoryManager();
+                    }
+
+                    return instance;
+                }
+        };
+        \end{minted}
+        \makebox[\linewidth]{\textit{Singleton} do gerenciador de memória. Fonte: \textit{Autores}.}
+        \vspace{\onelineskip}
+
+
+        \item \textbf{Estruturas de dados apropriadas para configuração de tamanho utilizado}: A fim de não utilizar memória desnecessariamente, em alguns pontos do jogo foram utilizadas estruturas que permitem configurar a quantidade de \textit{bits} que podem ser utilizados por cada variável. O primeiro exemplo mostra uma \textit{struct} que armazena os atributos das texturas, onde cada atributo só precisa de um pequeno número de bytes. Já o segundo exemplo demonstra a utilização de \textit{bitsets} (que mantém a disponibilidade de cada posição do endereço de memória) com tamanho fixo correspondente ao tamanho total da respectiva região de memória (neste exemplo, \textit{Object Attribute Memory}).
+
+        \begin{minted}[frame=lines, linenos]
+        {c++}
+        struct attr {
+            uint8_t y;
+            uint8_t om : 2;
+            uint8_t gm : 2;
+            uint8_t mos : 1;
+            uint8_t cm : 1;
+            uint8_t sh : 2;
+
+            uint16_t x : 9;
+            uint8_t aid : 5;
+            uint8_t sz : 2;
+
+            uint16_t tid : 10;
+            uint8_t pr : 2;
+            uint8_t pb : 4;
+
+            uint16_t filler;
+        };
+        \end{minted}
+        \makebox[\linewidth]{\textit{Struct} com \textit{bitfields} para atributos das texturas. Fonte: \textit{Autores}.}
+        \vspace{\onelineskip}
+
+        \begin{minted}[frame=lines, linenos]
+        {c++}
+        // backgrounds and textures have 512 bytes each for palette memory
+        bitset<512> background_palette_used;
+        bitset<512> texture_palette_used;
+
+        // max number of charblocks that can be stored in VRAM
+        bitset<4> charblock_used;
+        // max number of screenblocks that can be stored in VRAM
+        bitset<32> screenblock_used;
+        \end{minted}
+        \makebox[\linewidth]{\textit{Bitsets} para checagem de disponibilidade na memória. Fonte: \textit{Autores}.}
+        \vspace{\onelineskip}
+
+    \end{itemize}
