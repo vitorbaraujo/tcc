@@ -18,7 +18,7 @@ Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um mód
     Abaixo segue a função responsável por realizar a alocação de paletas (tanto para \textit{backgrounds} quanto para texturas). Segundo \citeonline{gbatek}, as paletas possuem 256 entradas de 2 \textit{bytes}, totalizando 512 \textit{bytes}.
 
     \vspace{\onelineskip}
-    \begin{lstlisting}[caption={Código de alocação de paletas para \textit{backgrounds} e texturas.}]
+    \begin{lstlisting}[float,caption={Código de alocação de paletas para \textit{backgrounds} e texturas.}]
     volatile uint8_t *MemoryManager::alloc_palette(bitset<512>& used,
         volatile uint8_t *palette, size_t size)
     {
@@ -65,7 +65,7 @@ Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um mód
         \item \textbf{Utilização de \textit{singleton} para o gerenciador de memória}: Para que haja um único objeto encarregado de gerenciar a alocação de recursos no jogo, a classe \textit{MemoryManager} foi modelada utilizado o padrão de projeto \textit{Singleton}. Com este padrão de projeto, cada chamada de criação de uma nova instância do gerenciador de memória passa por uma verificação, que checa se já existe uma instância desta classe (por meio de uma variável dentro da própria classe que armazena uma instância de \textit{MemoryManager} ou nulo). Caso haja, esta instância é retornada. Caso contrário, é criada uma nova instância. Segue o código exemplificando o \textit{singleton} (trechos de código desta classe foram omitidos para melhor foco no padrão de projeto):
 
         \vspace{\onelineskip}
-        \begin{lstlisting}[caption={\textit{Singleton} do gerenciador de memória.}]
+        \begin{lstlisting}[float,caption={\textit{Singleton} do gerenciador de memória.}]
         class MemoryManager {
             private:
                 MemoryManager *instance;
@@ -85,7 +85,7 @@ Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um mód
         \item \textbf{Estruturas de dados apropriadas para configuração de tamanho utilizado}: A fim de não utilizar memória desnecessariamente, em alguns pontos do jogo foram utilizadas estruturas que permitem configurar a quantidade de \textit{bits} que podem ser utilizados por cada variável. O primeiro exemplo mostra uma \textit{struct} que armazena os atributos das texturas, onde cada atributo só precisa de um pequeno número de bytes. Já o segundo exemplo demonstra a utilização de \textit{bitsets} (que mantém a disponibilidade de cada posição do endereço de memória) com tamanho fixo correspondente ao tamanho total da respectiva região de memória (neste exemplo, \textit{Object Attribute Memory}).
 
         \vspace{\onelineskip}
-        \begin{lstlisting}[caption={\textit{Struct} com \textit{bitfields} para atributos das texturas.}]
+        \begin{lstlisting}[float,caption={\textit{Struct} com \textit{bitfields} para atributos das texturas.}]
         {c++}
         struct attr {
             uint8_t y;
@@ -109,7 +109,7 @@ Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um mód
         \vspace{\onelineskip}
 
         \vspace{\onelineskip}
-        \begin{lstlisting}[caption={\textit{Bitsets} para checagem de disponibilidade na memória.}]
+        \begin{lstlisting}[float,caption={\textit{Bitsets} para checagem de disponibilidade na memória.}]
         {c++}
         // backgrounds and textures have 512 bytes each for palette memory
         bitset<512> background_palette_used;
