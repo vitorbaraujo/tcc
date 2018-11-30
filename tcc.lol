@@ -18,6 +18,16 @@
 \contentsline {lstlisting}{\numberline {3.18}Classe \texttt {GameObject}}{50}{lstlisting.3.18}
 \contentsline {lstlisting}{\numberline {3.19}Classe \texttt {Level}}{51}{lstlisting.3.19}
 \contentsline {lstlisting}{\numberline {3.20}Comando para convers\IeC {\~a}o das imagens em c\IeC {\'o}digo/}{52}{lstlisting.3.20}
+<<<<<<< 57fae45b563868c131bfc2a531140b143f8fdbd7
 \contentsline {lstlisting}{\numberline {3.21}\textit {Header} da parte superior da imagem da plataforma da primeira fase.}{53}{lstlisting.3.21}
 \contentsline {lstlisting}{\numberline {3.22}\textit {C\IeC {\'o}digo fonte} da parte superior da imagem da plataforma da primeira fase.}{53}{lstlisting.3.22}
 \contentsline {lstlisting}{\numberline {3.23}Comando para convers\IeC {\~a}o dos \textit {backgrounds} em c\IeC {\'o}digo/}{54}{lstlisting.3.23}
+=======
+\contentsline {lstlisting}{\numberline {3.21}Estrutura do \textit {level design} do jogo original}{53}{lstlisting.3.21}
+\contentsline {lstlisting}{\numberline {3.22}Exemplo do \textit {level design} da fase 1 do jogo original}{53}{lstlisting.3.22}
+\contentsline {lstlisting}{\numberline {3.23}\textit {script python} para realizar o \textit {parse}}{54}{lstlisting.3.23}
+\contentsline {lstlisting}{\numberline {3.24}C\IeC {\'o}digo-fonte gerado pelo \textit {level design parser}}{56}{lstlisting.3.24}
+\contentsline {lstlisting}{\numberline {3.25}Amostra do \textit {header} gerado pelo \textit {level design parser}}{56}{lstlisting.3.25}
+\contentsline {lstlisting}{\numberline {3.26}Implementa\IeC {\c c}\IeC {\~a}o da reutiliza\IeC {\c c}\IeC {\~a}o das \textit {sprites} de uma plataforma}{57}{lstlisting.3.26}
+\contentsline {lstlisting}{\numberline {3.27}Implementa\IeC {\c c}\IeC {\~a}o da checagem da plataforma prestes a aparecer}{58}{lstlisting.3.27}
+>>>>>>> Add level construction section

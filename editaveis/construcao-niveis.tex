@@ -1,1 +1,214 @@
 \subsection{Construção dos níveis do jogo}
+
+A construção dos níveis do jogo tem como base o \textit{level design} desenvolvido para cada nível do jogo original. Este \textit{level design} possui a seguinte estrutura:
+
+\begin{lstlisting}[caption={Estrutura do \textit{level design} do jogo original}]
+level_tempo
+num_platforms num_backgrounds
+platform_height is_enemy_present [enemy_type enemy_height] is_collectable_present [collectable_height]
+\end{lstlisting}
+
+A primeira linha do \textit{level design} contém a velocidade da música que será reproduzida no nível. A linha abaixo contém dois valores: número de plataformas e de \textit{backgrounds} do nível. Após isso, seguem \texttt{num\_platform} linhas caracterizando cada plataforma: sua altura, se possui um inimigo, tipo e altura do inimigo (caso haja um inimigo), se possui coletável, altura do coletável (caso haja um coletável).
+
+O bloco \ref{lst:leveldesignexample} mostra um trecho do level design da primeira fase do jogo original
+
+\begin{lstlisting}[label={lst:leveldesignexample},caption={Exemplo do \textit{level design} da fase 1 do jogo original}]
+100
+220 3
+50 0 0
+50 0 0
+50 0 0
+50 0 0
+50 0 0
+50 0 0
+50 0 0
+115 0 1 155
+115 0 0
+115 0 0
+111 0 0
+111 0 1 151
+111 0 0
+111 0 0
+111 0 0
+111 0 1 155
+111 0 0
+111 0 0
+111 0 0
+111 0 1 151
+...
+\end{lstlisting}
+
+Para que o \textit{level design} consiga ser lido e utilizado no jogo portado, foi necessário criar um \textit{parser} do \textit{level design} original para um formato legível no GBA. O \textit{parser} tem como responsabilidade ler o arquivo de \textit{level design} e criar vetores de inteiros correspondentes a: altura das plataformas, presença de inimigo, tipo do inimigo, altura do inimigo, presença de coletável e altura do coletável. O código \ref{lst:levelparser} apresenta o \textit{script python} criado para realizar o \textit{parser} e os códigos \ref{lst:parsedheader} e \ref{lst:parsedcpp} mostram o resultado do \textit{parse}.
+
+\begin{lstlisting}[language=python,label={lst:levelparser},caption={\textit{script python} para realizar o \textit{parse}}]
+import sys
+
+if len(sys.argv) < 3:
+    print("File name and level_design path must be passed as arguments")
+    sys.exit()
+
+file_name = sys.argv[1]
+level_design_path = sys.argv[2]
+
+f = open(level_design_path, "r")
+
+header_file = open("{}.h".format(file_name), "w")
+
+level_tempo = f.readline()
+level_len, background_num = f.readline().split()
+
+header_file.write("#ifndef {}_H\n".format(file_name.upper()))
+header_file.write("#define {}_H\n\n".format(file_name.upper()))
+header_file.write("#define {}_tempo {}\n".format(file_name, level_tempo))
+header_file.write("#define {}_len {}\n".format(file_name, level_len))
+
+header_file.write("extern const int {}_platform_heights[{}];\n".format(file_name, str(level_len)))
+header_file.write("extern const int {}_enemy_present[{}];\n".format(file_name, str(level_len)))
+header_file.write("extern const int {}_enemy_type[{}];\n".format(file_name, str(level_len)))
+header_file.write("extern const int {}_enemy_heights[{}];\n".format(file_name, str(level_len)))
+header_file.write("extern const int {}_collectable_present[{}];\n".format(file_name, str(level_len)))
+header_file.write("extern const int {}_collectable_heights[{}];\n".format(file_name, str(level_len)))
+
+header_file.write("\n#endif")
+
+heights = []
+ep = []
+et = []
+eh = []
+cp = []
+ch = []
+
+for line in f.readlines():
+    args = line.split()
+
+    platform_height = 0
+    enemy_present = False
+    enemy_type = 0
+    enemy_height = 0
+    collectable_present = False
+    collectable_height = 0
+
+    if len(args) == 0:
+        continue
+
+    platform_height = args[0]
+    enemy_present = int(args[1])
+
+    if enemy_present:
+        enemy_type = args[2]
+        enemy_height = args[3]
+    else:
+        collectable_present = int(args[2])
+        if collectable_present:
+            collectable_height = args[3]
+
+
+    heights.append(str(platform_height))
+    ep.append(str("1" if enemy_present else "0"))
+    et.append(str(enemy_type))
+    eh.append(str(enemy_height))
+    cp.append(str("1" if collectable_present else "0"))
+    ch.append(str(collectable_height))
+
+header_file.close()
+
+cpp_file = open("{}.c".format(file_name), "w")
+
+cpp_file.write("#include\"{}.h\"\n\n".format(file_name))
+cpp_file.write("const int {}_platform_heights[{}] = {{ {} }};\n".format(file_name, str(len(heights)), ', '.join(heights)))
+cpp_file.write("const int {}_enemy_present[{}] = {{ {} }};\n".format(file_name, str(len(ep)), ', '.join(ep)))
+cpp_file.write("const int {}_enemy_type[{}] = {{ {} }};\n".format(file_name, str(len(et)), ', '.join(et)))
+cpp_file.write("const int {}_enemy_heights[{}] = {{ {} }};\n".format(file_name, str(len(eh)), ', '.join(eh)))
+cpp_file.write("const int {}_collectable_present[{}] = {{ {} }};\n".format(file_name, str(len(cp)), ', '.join(cp)))
+cpp_file.write("const int {}_collectable_heights[{}] = {{ {} }};\n".format(file_name, str(len(ch)), ', '.join(ch)))
+
+cpp_file.close()
+\end{lstlisting}
+
+\begin{lstlisting}[label={lst:parsedheader},caption={Código-fonte gerado pelo \textit{level design parser}}]
+#ifndef LEVEL1_H
+#define LEVEL1_H
+
+#define level1_tempo 100
+
+#define level1_len 220
+extern const int level1_platform_heights[220];
+extern const int level1_enemy_present[220];
+extern const int level1_enemy_type[220];
+extern const int level1_enemy_heights[220];
+extern const int level1_collectable_present[220];
+extern const int level1_collectable_heights[220];
+
+#endif
+\end{lstlisting}
+
+\begin{lstlisting}[label={lst:parsedcpp},caption={Amostra do \textit{header} gerado pelo \textit{level design parser}}]
+#include"level1.h"
+
+const int level1_platform_heights[220] = { 50, 50, 50, 50, 50, 50, 50, 115, 115, 115, 111, 111, 111, ... };
+const int level1_enemy_present[220] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... };
+const int level1_enemy_type[220] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... };
+const int level1_enemy_heights[220] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... };
+const int level1_collectable_present[220] = { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, ... };
+const int level1_collectable_heights[220] = { 0, 0, 0, 0, 0, 0, 0, 155, 0, 0, 0, 151, 0, 0, 0, 155, ... };
+\end{lstlisting}
+
+Em um cenário ideal, o carregamento dos elementos do nível (plataformas, inimigos e coletáveis) seria feito por completo no momento que o nível inicia. Porém, essa abordagem não é possível no \textit{GBA} devido ao fato de que a região de memória que armazena as \textit{sprites} e paletas é bastante limitada e não comporta o carregamento de todas as plataformas. Dessa forma, a solução encontrada envolve a utilização de duas abordagens em conjunto: reutilizar texturas e carregar somente os itens visíveis.
+
+A primeira abordagem envolve utilizar somente uma textura em todas as plataformas. Dessa maneira, somente as \textit{sprites} de uma plataforma e de um coletável são carregados em memória. Essa primeira abordagem é possível utilizando o construtor por cópia da classe \texttt{Texture}, explicado na seção \ref{modulo-video}. O código \ref{lst:reuse-textures}
+
+\begin{lstlisting}[caption={Implementação da reutilização das \textit{sprites} de uma plataforma},label={lst:reuse-textures}]
+for (int i = 0; i < max_platforms_loaded; i++)
+{
+    if (i == 0)
+    {
+        platforms[i] = new TWPlatform(level, i * platform_width, platform_height[i]);
+        collectables[i] = new TWCollectable(level, i * platform_width + platform_width / 2 - collectable_width / 2,
+            collectable_height[i]);
+    }
+    else
+    {
+        // reusing platform and collectable textures
+        platforms[i] = new TWPlatform(i * platform_width, platform_height[i], platforms[0]->textures());
+        collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
+            collectable_height[i], collectables[0]->texture());
+    }
+
+    platforms[i]->set_collectable(collectables[i]);
+    collectables[i]->set_visibility(collectable_present[i]);
+
+    add_child(platforms[i]);
+    q.push(platforms[i]);
+}
+\end{lstlisting}
+
+Já a segunda abordagem se trata de carregar somente as plataformas e coletáveis visíveis na tela durante a execução do nível. A largura da tela do \textit{GBA} é 240px e a largura das plataformas utilizadas nos níveis é 16px. Dados esses dois valores, é possível notar que, caso as plataformas não se mexam, o número máximo de plataformas que podem aparecer simultaneamente na tela é 15.
+
+\begin{equation}
+\label{maxplats}
+\frac{240}{16} = 15
+\end{equation}
+
+Porém, com as plataformas se movendo esse número sobe para 16. Portanto, só é necessário renderizar 16 plataformas simultaneamente em qualquer momento do nível. Com isso, a solução pode ser dada utilizando uma fila, onde as 16 primeiras plataformas são carregadas em memória e, assim que a próxima for aparecer na tela, a primeira plataforma é removida da fila e inserida novamente ao final, com sua posição e altura modificadas. Assim, o carregamento das plataformas e coletáveis se faz possível utilizando apenas o número máximo de itens visíveis na tela. O código \ref{lst:platvisible} apresenta como é feita a checagem da plataforma que está prestes a aparecer e a remoção da primeira plataforma e sua inserção ao fim da fila.
+
+\begin{lstlisting}[caption={Implementação da checagem da plataforma prestes a aparecer},label={lst:platvisible}]
+// neste exemplo, platform_idx corresponde ao indice da plataforma mais a direita da tela
+while (1) {
+    if (platform_idx * platform_width <= m_backgrounds[0]->x() + screen_width) {
+        auto plat = q.front();
+        q.pop();
+
+        plat->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
+        plat->set_y(platform_height[platform_idx]);
+
+        plat->collectable()->set_y(collectable_height[platform_idx]);
+        plat->collectable()->set_visibility(collectable_present[platform_idx]);
+
+        q.push(plat);
+    } else break;
+
+    platform_idx++;
+}
+\end{lstlisting}
+
+Por fim, é importante explicitar que a velocidade das plataformas é dada pela velocidade do \textit{background} mais à frente e, que, quando a última plataforma é renderizada, a velocidade tanto dos \textit{backgrounds} quanto da plataforma são zeradas e o personagem principal corre para a direita (na mesma velocidade das plataformas antes de serem zeradas) até sair da tela, indicando o fim do nível.
