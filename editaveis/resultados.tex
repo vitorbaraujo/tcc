@@ -241,7 +241,60 @@ Para a renderização dos \textit{backgrounds}, foi desenvolvida uma classe que 
 
 \subsection{Módulo de Física}
 
-O módulo de física é responsável por checar continuamente se os objetos estão colidindo e caso estejam chamar as funções responsáveis por lidar com a colisão para cada objeto. Para realizar tal procedimento esse módulo guarda uma lista de objetos que devem ser considerados na checagem e um ponteiro para o objeto alvo. Dessa forma, sempre que algum objeto colide com o objeto alvo, o método \textit{on\_collision} do alvo e do objeto com o qual ele colidiu é chamado.
+O módulo de física é responsável por checar continuamente se os objetos estão colidindo e caso estejam chamar as funções responsáveis por lidar com a colisão para cada objeto. Para realizar tal procedimento esse módulo guarda uma lista de objetos que devem ser considerados na checagem e um ponteiro para o objeto alvo. Dessa forma, sempre que algum objeto colide com o objeto alvo, o método \textit{on\_collision} do alvo e do objeto com o qual ele colidiu é chamado. Logo abaixo, é possível visualizar o código do método responsável por checar se a colisão aconteceu e chamar os métodos \textit{on\_collision} dos objetos envolvidos. 
 
+\begin{minted}[frame=lines, linenos]
+{c++}
+void Physics::do_collisions() {
+    for (auto obj : objects) {
+        if (obj == target) continue;
+
+        if (check_collision(target, obj)) {
+            target->on_collision(obj);
+            obj->on_collision(target);
+        }
+    }   
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
+Da forma como foi desenvolvido o módulo de física, cada objeto do jogo possui uma \textit{bounding box}, que é uma caixa (retângulo), que representa as extremidades do objeto. Sendo assim, dois objetos estão colidindo somente quando suas caixas possuem uma interseção. Logo abaixo é possível visualizar o método \textit{check\_collision}, responsável por indicar se a colisão entre 2 objetos ocorreu ou não. O método recebe os dois objetos a serem checados, acessa as caixas de cada um e chama o método \textit{intersection}, que é quem de fato vai fazer os cálculos necessários para descobrir se os retângulos possuem ou não uma interseção. Logo abaixo é possível visualizar, respectivamente, os métodos \textit{check\_collision} e o método \textit{intersection}.
+
+\begin{minted}[frame=lines, linenos]
+{c++}
+bool Physics::check_collision(Collidable *a, Collidable *b) {
+    if (not a || not b) return false;
+    auto bbA = a->bounding_box();
+    auto bbB = b->bounding_box();
+
+    return bbA.intersection(bbB);
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
+
+\begin{minted}[frame=lines, linenos]
+{c++}
+bool Rectangle::intersection(const Rectangle& r) const
+{
+    int xa = x() - w() / 2;
+    int xb = x() + w() / 2;
+    int xc = r.x() - r.w() / 2;
+    int xd = r.x() + r.w() / 2;
+
+    int ya = y() - h() / 2;
+    int yb = y() + h() / 2;
+    int yc = r.y() - r.h() / 2;
+    int yd = r.y() + r.h() / 2;
+
+    pair <int, int> interX = make_pair(max(xa, xc), min(xb, xd));
+    pair <int, int> interY = make_pair(max(ya, yc), min(yb, yd));
+
+    return (interX.second - interX.first >=0 && interY.second - interY.first >= -1);
+}
+\end{minted}
+\makebox[\linewidth]{Código fonte do teste de \textit{input}. Fonte: \textit{Autores}.}
+\vspace{\onelineskip}
 
 A \textit{engine} desenvolvida está disponível no seguinte repositório: \url{https://github.com/traveling-will-gba/game}
