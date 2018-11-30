@@ -83,7 +83,7 @@ class MemoryManager {
 };
 \end{lstlisting}
 
-A fim de não utilizar memória desnecessariamente, em alguns pontos do jogo foram utilizadas estruturas que permitem configurar a quantidade de \textit{bits} que podem ser utilizados por cada variável. O primeiro exemplo mostra uma \texttt{struct} que armazena os atributos das texturas, onde cada atributo só precisa de um pequeno número de \textit{bytes}. Já o segundo exemplo demonstra a utilização de \texttt{bitsets} (que mantém a disponibilidade de cada posição do endereço de memória) com tamanho fixo correspondente ao tamanho total da respectiva região de memória (neste exemplo, \texttt{Object Attribute Memory}).
+A fim de não utilizar memória desnecessariamente, em alguns pontos do jogo foram utilizadas estruturas que permitem configurar a quantidade de \textit{bits} que podem ser utilizados por cada variável. O primeiro exemplo mostra uma \texttt{struct} que armazena os atributos das texturas, onde cada atributo só precisa de um pequeno número de \textit{bytes}. Já o segundo exemplo demonstra a utilização de \texttt{bitsets} (que mantém a disponibilidade de cada posição do endereço de memória) com tamanho fixo correspondente ao tamanho total da respectiva região de memória (neste exemplo, \texttt{Video RAM}).
 
 \begin{lstlisting}[float,caption={\texttt{Struct} com \texttt{bitfields} para atributos das texturas.}]
 struct attr {

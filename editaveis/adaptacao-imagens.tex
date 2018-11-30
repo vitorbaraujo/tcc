@@ -95,7 +95,7 @@ Já para a conversão dos \textit{backgrounds} foi utilizado o seguinte comando:
 $ grit nome-da-imagem.png -gB4 -ftc -mRtf -mp0
 \end{lstlisting}
 
-Assim como na imagem anterior, o código é gerado em C a 4 \textit{bits} por \textit{pixel}. Além disso, o código é gerado utilizando redução completa de \textit{tiles} (\textbf{-mRtf}) e, diferentemente das sprites, onde o índice a ser utilizado na paleta de cores é especificado apenas no código, é necessário especificar, já nessa instrução, o índice da paleta de cores que será utilizada no código para guardar as cores da imagem. Vale ressaltar que isso é necessário apenas caso a imagem esteja sendo convertida a 4 \textit{bits} por \textit{pixel}, já que a 8 \textit{bits} por \textit{pixel} é possível utilizar apenas uma única paleta de cores, assim como já explicado na seção \ref{gba-memory}.
+Assim como na imagem anterior, o código é gerado em C a 4 \textit{bits} por \textit{pixel}. Além disso, o código é gerado utilizando redução completa de \textit{tiles} (\textbf{-mRtf}) e, diferentemente das sprites, onde o índice a ser utilizado na paleta de cores é especificado apenas no código, é necessário especificar, já nessa instrução (\textbf{-mp0}), o índice da paleta de cores que será utilizada no código para guardar as cores da imagem. Vale ressaltar que isso é necessário apenas caso a imagem esteja sendo convertida a 4 \textit{bits} por \textit{pixel}, já que a 8 \textit{bits} por \textit{pixel} é possível utilizar apenas uma única paleta de cores, assim como já explicado na seção \ref{gba-memory}.
 
 
 % \begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
