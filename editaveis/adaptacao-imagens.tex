@@ -1,0 +1,20 @@
+\subsection{Adaptação das imagens do jogo}
+
+Esta fase foi marcada principalmente pelo entendimento de como imagens são carregadas e interpretadas pelo GBA.
+
+Primeiramente, era necessário conhecer a resolução das imagens no jogo original e no jogo a ser portado para que pudesse ser estabelecida uma proporção a ser utilizada na adaptação das imagens. Para isso, foram utilizadas as imagens de \textit{background}, pois elas ocupam todo o espaço da janela do jogo original. A altura dos \textit{backgrounds} no jogo original é \textit{480px} e, sabendo que o tamanho da tela do GBA é 160px, é possível estabelecer um fator de conversão bastante preciso, seguindo a fórmula
+
+\begin{equation}
+\label{Cálculo da proporção das imagens do jogo}
+\frac{480_{px}}{160_{px}} = \frac{3}{1}
+\end{equation}
+
+Portanto, a proporção das imagens do jogo original para o jogo a ser portado é de \texttt{3:1}.
+
+Após realizar o redimensionamento das imagens para o tamanho correto, foi necessário descobrir como utilizar essas imagens no GBA. Diferentemente de sistemas mais modernos, o GBA não carregas imagens de fato, e sim um código C que contém as informações da imagem, como paleta de cores, \textit{tiles} e o mapeamento desses \textit{tiles} na imagem. Para realizar a conversão da imagem para este código, foi utilizada a ferramenta GRIT (\textit{GBA Raster Image Transmogrifier}). Com essa ferramenta é possível converter a imagem utilizando uma série de parâmetros, como quantidade de bits por pixel da imagem, formato de redução de \textit{tiles}, formato de saída do arquivo gerado (C, \textit{Assembly}, entre outros), altura e largura de cada \textit{tile} na imagem (em bytes), dentre outras opções. Para a conversão das \textit{sprites} do jogo, o seguinte comando foi utilizado:
+
+\begin{lstlisting}[language=bash,caption={Comando para conversão das imagens em código/}]
+$ grit nome-da-imagem.png -gB4 -ftc -mRtf
+\end{lstlisting}
+
+Nesse commando, o código relativo à imagem é gerado utilizado 4 bits por pixel da imagem (\textbf{-gb4}), exportando a imagem como código C (\textbf{-ftc}) e utilizando redução completa de \textit{tiles} (\textbf{-mRtf}). O resultado desse programa é um \textit{header} e um código-fonte correspondentes à imagem, como mostrado nos códigos \ref{lst:imageheader} e \ref{lst:imagecpp}

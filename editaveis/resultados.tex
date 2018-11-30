@@ -28,24 +28,50 @@ O protótipo desenvolvido está disponível no seguinte repositório: \url{https
 
 \section{Desenvolvimento da \textit{engine}}
 
-Logo após a finalização do protótipo, foi iniciado o desenvolvimento da \textit{engine} responsável por substituir a \textit{libtonc} e gerenciar os recursos do jogo. Esta \textit{engine} contém os seguintes módulos: \textit{input}, vídeo, gerenciador de memória, áudio e física. Além disso, a \textit{engine} contém abstrações para os níveis (\textit{levels}) e objetos do jogo (\textit{game objects}) e um módulo utilitário para funções genéricas relacionadas ao \textit{hardware} do GBA.
+  Logo após a finalização do protótipo, foi iniciado o desenvolvimento da \textit{engine} responsável por substituir a \textit{libtonc} e gerenciar os recursos do jogo. Esta \textit{engine} contém os seguintes módulos: \textit{input}, vídeo, gerenciador de memória, áudio e física. Além disso, a \textit{engine} contém abstrações para os níveis (\textit{levels}) e objetos do jogo (\textit{game objects}) e um módulo utilitário para funções genéricas relacionadas ao \textit{hardware} do GBA.
 
-Os módulos de vídeo, \textit{input}, física e as abstrações para níveis e objetos do jogo foram desenvolvidos tendo como base a \textit{ijengine}\footnote{\textit{ijengine}, disponível em \url{https://github.com/fgagamedev/ijengine}}, \textit{engine} desenvolvida para a disciplina de Introdução aos Jogos Eletrônicos, que tem como foco a criação de jogos para PC utilizando \textit{C++}. Ela contém módulos de vídeo, áudio, manipulação de eventos, física, \textit{input}, dentre outros, e contém uma interface para a utilização de diferentes bibliotecas gráficas, como SDL\footnote{\textit{Simple DirectMedia Layer}, disponível em \url{https://www.libsdl.org}} e OpenGL\footnote{OpenGL, disponível em \url{https://www.opengl.org}}.
+  Os módulos de vídeo, \textit{input}, física e as abstrações para níveis e objetos do jogo foram desenvolvidos tendo como base a \textit{ijengine}\footnote{\textit{ijengine}, disponível em \url{https://github.com/fgagamedev/ijengine}}, \textit{engine} desenvolvida para a disciplina de Introdução aos Jogos Eletrônicos, que tem como foco a criação de jogos para PC utilizando \textit{C++}. Ela contém módulos de vídeo, áudio, manipulação de eventos, física, \textit{input}, dentre outros, e contém uma interface para a utilização de diferentes bibliotecas gráficas, como SDL\footnote{\textit{Simple DirectMedia Layer}, disponível em \url{https://www.libsdl.org}} e OpenGL\footnote{OpenGL, disponível em \url{https://www.opengl.org}}.
 
-\input{editaveis/modulo-input}
+  \input{editaveis/modulo-input}
 
-\input{editaveis/modulo-video}
+  \input{editaveis/modulo-video}
 
-\input{editaveis/modulo-gerenciador-memoria}
+  \input{editaveis/modulo-gerenciador-memoria}
 
-\input{editaveis/modulo-fisica}
+  \input{editaveis/modulo-fisica}
 
-\input{editaveis/modulo-utils}
-% falar sobre o módulo utilitário
+  \input{editaveis/modulo-utils}
 
-% falar sobre as abstrações de level e game object
+  \input{editaveis/level-game-object}
 
 \section{Desenvolvimento do jogo}
+
+  De acordo com o cronograma apresentado na versão anterior, as funcionalidades do jogo original que foram planejadas para a realização deste trabalho são:
+
+  \begin{itemize}
+    \item F1: implementação do menu principal do jogo
+    \item F2: implementação da rolagem infinita dos \textit{backgrounds}
+    \item F3: implementação do mecanismo de renderização das plataformas
+    \item F4: implementação da movimentação do personagem principal
+    \item F5: implementação do mecanismo de renderização dos itens coletáveis
+    \item F6: implementação das telas de finalização dos níveis
+    \item F7: carregamento dos níveis a partir do \textit{level design}
+    \item F8: implementação do seletor de fases
+    \item F9: implementação das opções do menu
+    \item F10: implementação do tutorial
+  \end{itemize}
+
+  Da lista acima, as funcionalidades \texttt{F8}, \texttt{F9} e \texttt{F10} foram removidas da realização do projeto.
+
+  O desenvolvimento do jogo foi marcado por quatro fases principais (que ocorreram simultaneamente): adaptação das imagens do jogo, construção dos níveis do jogo, transição entre os níveis do jogo e adaptação das músicas do jogo.
+
+  \input{editaveis/adaptacao-imagens}
+
+  \input{editaveis/construcao-niveis}
+
+  \input{editaveis/transicao-niveis}
+
+  \input{editaveis/adaptacao-musicas}
 
 % - adaptações em relação ao jogo original
 %   - não possui opção para configurar o áudio durante o jogo

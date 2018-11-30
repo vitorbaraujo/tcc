@@ -1,0 +1,60 @@
+\subsection{Abstrações de níveis e objetos do jogo}
+
+Além de implementar módulos relacionados a entrada (\textit{input}) e saída (vídeo, áudio, entre outros), a \textit{engine} também implementa abstrações para os níveis e para os objetos do jogo.
+
+Os \textit{game objects} são a base para qualquer elemento utilizado no jogo. Um \textit{game object} possui uma posição \texttt{(x, y)} no espaço do jogo, possui velocidade horizontal e vertical, possui \textit{game objects} filhos (que formam uma hierarquia de \textit{game objects}) e tem como responsabilidades atualizar seu próprio estado, se desenhar na tela e atualizar os seus filhos.
+
+Pelo fato de o mecanismo de renderização ser, de certa forma, automático (basta carregar as imagens na memória e especificar os metadados que elas já são renderizadas na tela), a função de se desenhar na tela não é utilizada. Porém, a atualização e controle dos filhos é importante para o comportamento correto desses objetos. O código \ref{lst:gameobj} apresenta a classe \texttt{GameObject}.
+
+\begin{lstlisting}[label={lst:gameobj},caption={Classe \texttt{GameObject}}]
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
+
+#include <vector>
+#include <stdint.h>
+
+using std::vector;
+
+class GameObject {
+    protected:
+        GameObject *m_parent;
+        int m_x, m_y;
+        int m_speed_x, m_speed_y;
+        vector <GameObject *> m_children;
+
+        GameObject *parent() const { return m_parent; }
+
+        virtual void update_self(uint64_t dt) = 0;
+        virtual void draw_self() = 0;
+
+    public:
+        void update(uint64_t dt);
+        void draw();
+
+        void set_parent(GameObject *obj) { m_parent = obj; }
+        void add_child(GameObject *);
+        void remove_child(GameObject *);
+};
+
+#endif
+\end{lstlisting}
+
+Com a definição e implementação dos \textit{game objects}, a caracterização da abstração dos níveis do jogo se torna bem simples. De forma geral, um nível é um \textit{game object} que, além de possuir todas as propriedades já explicitadas acima, possui uma variável que indica se o nível foi finalizado e outra que guarda o próximo nível a ser renderizado. O código \ref{lst:level} apresenta a implementação da classe \texttt{Level}.
+
+\begin{lstlisting}[label={lst:level},caption={Classe \texttt{Level}}]
+#ifndef LEVEL_H
+#define LEVEL_H
+
+#include "game_object.h"
+
+#include <stdio.h>
+
+class Level : public GameObject {
+    protected:
+        int m_x, m_y;
+        bool m_done;
+        int m_next;
+};
+
+#endif
+\end{lstlisting}
