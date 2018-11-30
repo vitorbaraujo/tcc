@@ -97,7 +97,88 @@ $ grit nome-da-imagem.png -gB4 -ftc -mRtf -mp0
 
 Assim como na imagem anterior, o código é gerado em C a 4 \textit{bits} por \textit{pixel}. Além disso, o código é gerado utilizando redução completa de \textit{tiles} (\textbf{-mRtf}) e, diferentemente das sprites, onde o índice a ser utilizado na paleta de cores é especificado apenas no código, é necessário especificar, já nessa instrução (\textbf{-mp0}), o índice da paleta de cores que será utilizada no código para guardar as cores da imagem. Vale ressaltar que isso é necessário apenas caso a imagem esteja sendo convertida a 4 \textit{bits} por \textit{pixel}, já que a 8 \textit{bits} por \textit{pixel} é possível utilizar apenas uma única paleta de cores, assim como já explicado na seção \ref{gba-memory}.
 
+Para passar a ideia de que o personagem está se movimentando durante o jogo, os \textit{backgrounds} se movem horizontalmente em velocidades diferentes. Fazer isso convertendo a imagem em uma maior, a replicando em um editor de imagens para posteriormente carregá-la por completo no código provavelmente funcionaria em uma plataforma atual. Porém, no GBA, onde a memória é extremamente limitada, não seria possível nem mesmo carregar tal imagem e mesmo em uma plataforma atual muita memória seria gasta desnecessariamente. Por isso, para realizar essa movimentação, os \textit{backgrounds} do jogo são reproduzidos mudando o ponto onde a renderização começa, sendo que sempre que o \textit{background} chega ao fim, a renderização continua do início.
 
-% \begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
-% //{{BLOCK(level1_plat0)
+Na versão original do jogo, o movimento dos \textit{backgrounds} também é realizado dessa forma, porém tendo que manualmente (no código), manipular os índices onde a renderização inicia para passar essa ideia de que o \textit{background} é infinito. O GBA facilita esse processo, pois possui registradores que sinalizam o ponto onde acontece o início da renderização da imagem e quando a imagem chega ao fim, ele automaticamente emenda o fim com o início. Dessa forma, se a imagem possuir \textit{256px} de largura, basta que o valor contido no registrador seja continuamente incrementado, sem que seja necessário resetar o valor quando a imagem chegar no seu limite. Outra vantagem que o GBA proporciona ao realizar essa movimentação dos \textit{backgrounds} é o fato de que não há tamanho mínimo para a interseção entre o fim e o início da imagem. Na versão original, por exemplo, em que a resolução era de \textit{852px x 480px}, era necessário que os \textit{852px} finais da imagem fossem iguais aos \textit{852px} iniciais, pois assim, quando o índice do fundo fosse resetado, isso não seria vísivel para quem está jogando, passando a ideia de continuidade. Esse fator facilitou até mesmo a edição das imagens, fazendo com que o \textit{background} pudesse ser mais diverso, sem que fosse necessário gastar grande parte do fim da imagem apenas replicando o início. Logo abaixo, é possível visualizar uma amostra de como é feita a atualização dos índices.
 
+\begin{lstlisting}[caption={Método responsável por atualizar os índices de renderização do \textit{background}},label={lst:update_bg}]
+void Background::update_self(uint64_t dt) {
+    if (dt % frames_to_skip == 0) {
+        m_x += m_speed_x;
+        m_y += m_speed_y;
+    }   
+
+    switch(this->background_id) {
+        case 0:
+            REG_BG0HOFS = m_x;
+            REG_BG0VOFS = m_y;
+            break;
+        case 1:
+            REG_BG1HOFS = m_x;
+            REG_BG1VOFS = m_y;
+            break;
+        case 2:
+            REG_BG2HOFS = m_x;
+            REG_BG2VOFS = m_y;
+            break;
+        case 3:
+            REG_BG3HOFS = m_x;
+            REG_BG3VOFS = m_y;
+            break;
+        default:
+            print("Invalid background id\n");
+            break;
+    }   
+}
+\end{lstlisting}
+
+Dessa forma, sempre que a variável m\_x, que representa o ponto no eixo X onde começa a renderização do \textit{backgrounds} na tela, é atualizado, o registrador correspondente também é atualizado. O mesmo se aplica à variável \textit{m\_y}, que representa o ponto no eixo Y.
+ 
+Na versão original do jogo, as imagens das plataformas possuíam \textit{20px} de largura e \textit {400px} de altura. Porém, o GBA, possui explícitas limitações em relação às dimensões das imagens a serem renderizadas. Sendo assim, é necessário que as imagens estejam em uma das dimensões mostradas na tabela \ref{table:sprite-sizes}. Tendo em vista que a altura máxima era \textit{64px}, foi necessário dividir a imagem em várias para que fosse possível atingir a altura necessária das plataformas no jogo. As dimensões escolhidas para essas novas imagens foram \textit{16px} de largura por \textit{32px} de altura, pois assim a largura ficava mais próxima da largura original, preservando ao máximo o \textit{level design} original. Essa altura foi escolhida tendo em vista que é a altura máxima que pode ser utilizada com largura \textit{16px}, assim como mostrado na tabela \ref{table:sprite-sizes}.
+
+\begin{table}[htb]
+\center
+\begin{tabular}{|l|l|l|l|}
+\hline
+8x8  & 16x16 & 32x32 & 64x64 \\ \hline
+16x8 & 32x8  & 32x16 & 64x32 \\ \hline
+8x16 & 8x32  & 16x32 & 32x64 \\ \hline
+\end{tabular}
+\caption{Dimensões válidas para renderização de \textit{sprites} no GBA}
+\label{table:sprite-sizes}
+\end{table}
+
+Devido a essa adaptação das plataformas, a classe \textit{Platform}, diferentemente das classes que representam os demais objetos do jogo (que possuem uma única textura), possui número variável de texturas, podendo ser representada por uma única textura (caso das plataformas que representam o chão, pois apenas a parte mais superior das plataformas é mostrada) ou por 4 texturas, podendo atingir uma altura máxima de \textit{128px}, o que representa 80\% da altura da tela do GBA. A seguir é possível visualizar um trecho do código responsável por carregar as texturas \ref{lst:platform-textures} e um trecho do código responsável por calcular as alturas de cada uma das texturas \ref{lst:platform-set-y}.
+
+\begin{lstlisting}[caption={\textit{std::vector} com as texturas das plataformas sendo preenchido.},label={lst:platform-textures}]
+m_textures.push_back(new Texture(1, level1_plat0Pal, level1_plat0PalLen, level1_plat0Tiles, level1_plat0TilesLen, _4BPP));
+if (not m_is_floor)
+{
+    m_textures.push_back(new Texture(1, level1_plat1Pal, level1_plat1PalLen, level1_plat1Tiles, level1_plat1TilesLen, _4BPP));
+    m_textures.push_back(new Texture(1, level1_plat2Pal, level1_plat2PalLen, level1_plat2Tiles, level1_plat2TilesLen, _4BPP));
+    m_textures.push_back(new Texture(1, level1_plat3Pal, level1_plat3PalLen, level1_plat3Tiles, level1_plat3TilesLen, _4BPP));
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Método responsável por calcular as alturas das texturas utilizadas nas plataformas},label={lst:platform-set-y}]
+void TWPlatform::set_y(int y) {
+    m_y = y;
+
+    for (size_t i = 0; i < m_textures.size(); i++) {
+        m_textures[i]->metadata.y = m_y + platform_height * i;
+
+        if (m_y + platform_height * (i + 1) >= 256) {
+            // hide sprite
+            m_textures[i]->metadata.om = 2;
+        } else {
+            m_textures[i]->metadata.om = 0;
+        }
+    }
+}
+\end{lstlisting}
+
+No código \ref{lst:platform-textures}, uma única textura é carregada caso a plataforma faça parte do chão do jogo e 4 plataformas são carregadas caso contrário. A variável \textit{m\_is\_floor} indica se a plataforma faz ou não parte do chão. 
+
+No código \ref{lst:platform-set-y}, é possível ver que a variável \textit{m\_y} representa o ponto y (ponto onde a plataforma começa a ser renderizada na tela) da plataforma em si e por isso é utilizado para calcular o y de cada uma das texturas utilizadas na classe.
+
+Ao falar sobre a adaptação do \textit{background}, foi explicado que o GBA automaticamente emenda o fim e o início da tela de fundo, a medida que o ponto onde a renderização da imagem é avançado. O mesmo funciona com as demais imagens do jogo. Sempre que uma imagem ultrapassa as dimensões do \textit{background}, ela começa a ser renderizada no sentido contrário. Por exemplo, levando em consideração uma altura de \textit{256px} para o \textit{background} e lembrando que a altura da tela do GBA é de \textit{160px}, se uma imagem de \textit{32px} for renderizada no ponto y = \textit{150} na tela, os \textit{22px} restantes serão renderizados a partir do topo do \textit{background}, o que não necessariamente significa que isso será mostrado na tela, isso pelo fato de serem mostrados na tela apenas os \textit{160px} finais da imagem do \textit{background}. Isso se torna um problema, porém, quando o número de \textit{pixels} que ultrapassam os limites inferiores da tela do GBA são suficientes para alcançar os \textit{160px} finais do \textit{background} e é para isso que serve o trecho que vai da linha 7 à linha 12 no código \ref{lst:platform-set-y}, ele esconde a textura caso ela ultrapasse o limite inferior do \textit{background} (independente de chegar ou não ao ponto do restante da imagem ser renderizado na parte de cima da tela) e mostra caso contrário.
