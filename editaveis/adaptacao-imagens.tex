@@ -2,7 +2,7 @@
 
 Esta fase foi marcada principalmente pelo entendimento de como imagens são carregadas e interpretadas pelo GBA.
 
-Primeiramente, era necessário conhecer a resolução das imagens no jogo original e no jogo a ser portado para que pudesse ser estabelecida uma proporção a ser utilizada na adaptação das imagens. Para isso, foram utilizadas as imagens de \textit{background}, pois elas ocupam todo o espaço da janela do jogo original. A altura dos \textit{backgrounds} no jogo original é \textit{480px} e, sabendo que o tamanho da tela do GBA é 160px, é possível estabelecer um fator de conversão bastante preciso, seguindo a fórmula
+Primeiramente, era necessário conhecer a resolução das imagens no jogo original e no jogo a ser portado para que pudesse ser estabelecida uma proporção a ser utilizada na adaptação das imagens. Para isso, foram utilizadas as imagens de \textit{background}, pois elas ocupam todo o espaço da janela do jogo original. A altura dos \textit{backgrounds} no jogo original é \textit{480px} e, sabendo que a tela do GBA possui \textit{160px} o tamanho da tela do GBA é \textit{160px}, é possível estabelecer um fator de conversão bastante preciso, seguindo a fórmula
 
 \begin{equation}
 \label{Cálculo da proporção das imagens do jogo}
@@ -11,10 +11,94 @@ Primeiramente, era necessário conhecer a resolução das imagens no jogo origin
 
 Portanto, a proporção das imagens do jogo original para o jogo a ser portado é de \texttt{3:1}.
 
-Após realizar o redimensionamento das imagens para o tamanho correto, foi necessário descobrir como utilizar essas imagens no GBA. Diferentemente de sistemas mais modernos, o GBA não carregas imagens de fato, e sim um código C que contém as informações da imagem, como paleta de cores, \textit{tiles} e o mapeamento desses \textit{tiles} na imagem. Para realizar a conversão da imagem para este código, foi utilizada a ferramenta GRIT (\textit{GBA Raster Image Transmogrifier}). Com essa ferramenta é possível converter a imagem utilizando uma série de parâmetros, como quantidade de bits por pixel da imagem, formato de redução de \textit{tiles}, formato de saída do arquivo gerado (C, \textit{Assembly}, entre outros), altura e largura de cada \textit{tile} na imagem (em bytes), dentre outras opções. Para a conversão das \textit{sprites} do jogo, o seguinte comando foi utilizado:
+Após realizar o redimensionamento das imagens para o tamanho correto, foi necessário descobrir como utilizar essas imagens no GBA. Diferentemente de sistemas mais modernos, o GBA não carrega imagens de fato, e sim um código C que contém as informações da imagem, como paleta de cores, \textit{tiles} e o mapeamento desses \textit{tiles} na imagem. Para realizar a conversão da imagem para este código, foi utilizada a ferramenta GRIT (\textit{GBA Raster Image Transmogrifier}). Com essa ferramenta é possível converter a imagem utilizando uma série de parâmetros, como quantidade de bits por pixel da imagem, formato de redução de \textit{tiles}, formato de saída do arquivo gerado (C, \textit{Assembly}, entre outros), altura e largura, em \textit{tiles} (conjuntos de \textit{8px} x \textit{8px}), da imagem , dentre outras opções. Para a conversão das \textit{sprites} do jogo, o seguinte comando foi utilizado:
 
 \begin{lstlisting}[language=bash,caption={Comando para conversão das imagens em código/}]
-$ grit nome-da-imagem.png -gB4 -ftc -mRtf
+$ grit nome-da-imagem.png -gB4 -ftc -Mw2 -Mh4
 \end{lstlisting}
 
-Nesse commando, o código relativo à imagem é gerado utilizado 4 bits por pixel da imagem (\textbf{-gb4}), exportando a imagem como código C (\textbf{-ftc}) e utilizando redução completa de \textit{tiles} (\textbf{-mRtf}). O resultado desse programa é um \textit{header} e um código-fonte correspondentes à imagem, como mostrado nos códigos \ref{lst:imageheader} e \ref{lst:imagecpp}
+Nesse commando, o código relativo à imagem é gerado a 4 \textit{bits} por \textit{pixel} (\textbf{-gb4}), exportando a imagem como código C (\textbf{-ftc}) e definindo a largura e a altura da imagem como sendo, respectivamente, \textit{16px} (\textbf{-Mw2}) e \textit{32px} (\textbf{-Mh4}). O resultado da execução dessa instrução é um \textit{header} e um código-fonte correspondentes à imagem, contendo uma paleta com as cores utilizadas e um vetor de tiles, assim como mostrado nos códigos \ref{lst:imageheader} e \ref{lst:imagecpp}.
+
+
+\begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
+//{{BLOCK(level1_plat0)
+
+//======================================================================
+//
+//  level1_plat0, 16x32@4,
+//  Transparent palette entry: 17.
+//  + palette 16 entries, not compressed
+//  + 8 tiles Metatiled by 2x4 not compressed
+//  Total size: 32 + 256 = 288
+//
+//  Time-stamp: 2018-11-28, 22:18:37
+//  Exported by Cearn's GBA Image Transmogrifier, v0.8.15
+//  ( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+#ifndef GRIT_LEVEL1_PLAT0_H
+#define GRIT_LEVEL1_PLAT0_H
+
+#define level1_plat0TilesLen 256
+extern const unsigned int level1_plat0Tiles[64];
+
+#define level1_plat0PalLen 32
+extern const unsigned short level1_plat0Pal[16];
+
+#endif // GRIT_LEVEL1_PLAT0_H
+
+//}}BLOCK(level1_plat0)
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\textit{Código fonte} da parte superior da imagem da plataforma da primeira fase.},label={lst:imagecpp}]
+//{{BLOCK(level1_plat0)
+
+//======================================================================
+//
+//  level1_plat0, 16x32@4,
+//  Transparent palette entry: 17.
+//  + palette 16 entries, not compressed
+//  + 8 tiles Metatiled by 2x4 not compressed
+//  Total size: 32 + 256 = 288
+//
+//  Time-stamp: 2018-11-28, 22:18:37
+//  Exported by Cearn's GBA Image Transmogrifier, v0.8.15
+//  ( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned int level1_plat0Tiles[64] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+    0xCCCCCCCC,0xAAACCCCC,0x888AACCB,0x89988BBA,0x99889888,0x99898221,0x98822222,0x81122444,
+    0xCCCCCCCC,0xCCCCCCBA,0xCCCCCA89,0xBB888989,0x78888988,0x25889988,0x44225889,0x22444168,
+    0x22244223,0x44444444,0x44444444,0x44444444,0x44444444,0x44444444,0x44444444,0x44444444,
+    0x44223432,0x44444244,0x44444444,0x44444444,0x44444444,0x44444444,0x44444444,0x44444444,
+    0x44444444,0x44444444,0x44444444,0x43344334,0x24422222,0x42222222,0x22222222,0x22222222,
+    0x44444444,0x44444444,0x44444444,0x33444344,0x44223432,0x22444244,0x22222222,0x11222222,
+    0x22222222,0x21122222,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
+    0x11222222,0x11111122,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
+};
+
+const unsigned short level1_plat0Pal[16] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+    0x0002,0x0889,0x088B,0x088D,0x10D0,0x092D,0x09AD,0x0A50,
+    0x0A90,0x1290,0x0AD0,0x1332,0x1B74,0x0000,0x0000,0x0000,
+};
+
+//}}BLOCK(level1_plat0)
+\end{lstlisting}
+
+Já para a conversão dos \textit{backgrounds} foi utilizado o seguinte comando:
+
+\begin{lstlisting}[language=bash,caption={Comando para conversão dos \textit{backgrounds} em código/}]
+$ grit nome-da-imagem.png -gB4 -ftc -mRtf -mp0
+\end{lstlisting}
+
+Assim como na imagem anterior, ó código é gerado em C a 4 \textit{bits} por \textit{pixel}. Além disso, o código é gerado utilizando redução completa de \textit{tiles} (\textbf(-mRtf))  
+Nesse commando, o código relativo à imagem é gerado a 4 \textit{bits} por \textit{pixel} (\textbf{-gb4}), exportando a imagem como código C (\textbf{-ftc}) e definindo a largura e a altura da imagem como sendo, respectivamente, \textit{16px} (\textbf{-Mw2}) e \textit{32px} (\textbf{-Mh4}). O resultado da execução dessa instrução é um \textit{header} e um código-fonte correspondentes à imagem, contendo uma paleta com as cores utilizadas e um vetor de tiles, assim como mostrado nos códigos \ref{lst:imageheader} e \ref{lst:imagecpp}.
+
+
+\begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
+//{{BLOCK(level1_plat0)
+

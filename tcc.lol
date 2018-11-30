@@ -18,3 +18,6 @@
 \contentsline {lstlisting}{\numberline {3.18}Classe \texttt {GameObject}}{50}{lstlisting.3.18}
 \contentsline {lstlisting}{\numberline {3.19}Classe \texttt {Level}}{51}{lstlisting.3.19}
 \contentsline {lstlisting}{\numberline {3.20}Comando para convers\IeC {\~a}o das imagens em c\IeC {\'o}digo/}{52}{lstlisting.3.20}
+\contentsline {lstlisting}{\numberline {3.21}\textit {Header} da parte superior da imagem da plataforma da primeira fase.}{53}{lstlisting.3.21}
+\contentsline {lstlisting}{\numberline {3.22}\textit {C\IeC {\'o}digo fonte} da parte superior da imagem da plataforma da primeira fase.}{53}{lstlisting.3.22}
+\contentsline {lstlisting}{\numberline {3.23}Comando para convers\IeC {\~a}o dos \textit {backgrounds} em c\IeC {\'o}digo/}{54}{lstlisting.3.23}
