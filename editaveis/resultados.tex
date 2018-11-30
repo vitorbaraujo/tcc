@@ -34,8 +34,83 @@ Os módulos de vídeo, \textit{input}, física e as abstrações para níveis e 
 
 \input{editaveis/modulo-input}
 
-\input{editaveis/modulo-gerenciador-memoria}
-
 \input{editaveis/modulo-video}
 
+\input{editaveis/modulo-gerenciador-memoria}
+
 \input{editaveis/modulo-fisica}
+
+\input{editaveis/modulo-utils}
+% falar sobre o módulo utilitário
+
+% falar sobre as abstrações de level e game object
+
+\section{Desenvolvimento do jogo}
+
+% - adaptações em relação ao jogo original
+%   - não possui opção para configurar o áudio durante o jogo
+%   - não possui mecanismo de salvamento de dados do jogo
+%   - não possui inimigos (ainda dá)
+%   - não possui seletor de fase
+%     - as fases são jogadas em ordem
+%     - é possível pular de fase pressionando SELECT
+
+% - transformar as imagens do jogo (Adaptação das imagens do jogo)
+%   - proporção 3:1
+%   - paleta de 15 cores
+%     - bit 0 transparente, mas o grit não faz isso certo
+%     - especificar comandos do grit gerados para backgrounds e paletas
+%   - backgrounds
+%     - especificar paleta de cores na hora de gerar o grit
+%     - como foi feito o scroll infinito dos backgrounds
+%       - falar sobre os registradores
+%   - texturas
+%     - animação -> como foi feita
+%     - plataformas -> uma plataforma contém várias sprites
+%       - metadata.om = 2 para esconder as plataformas da tela (senão portal)
+%         - colocar imagem do portal
+%     - problemas com lixo na OAM, sprites espelhando
+
+% - parse do level design (Construção de um nível do jogo)
+%   - explicar como é o level design do traveling will
+%   - explicar o que o parser gera e como ele é usado no jogo
+%   - colocar código do parser python
+%   - explicar o uso de fila para as plataformas (pouca memória)
+%     - construtor por cópia
+%   - velocidade das plataformas é dada pela velocidade do background mais a frente
+%   - fim do level tudo para
+%     - will se mexe
+
+% - Transição entre níveis do jogo
+%   - dois tipos de níveis (jogáveis e não-jogáveis)
+%   - escolha do nível a ser construído
+%     - switch case
+%       - não era possível modularizar por causa das variáveis (inferência de nome)
+
+% - Adaptação das músicas do jogo
+%   - falar brevemente sobre os canais de áudio do gba e colocar referência
+%   - falar que o módulo de áudio atual permite reproduzir notas únicas (ondas quadradas?)
+%   - colocar código da reprodução da notas
+%   - falar do parser do level design para extrair a música do level
+%     - explicar o que ele gera
+%   - colocar código do parser
+%   - explicar que esse modelo não foi utilizado por era muito simples
+%   - falar que o GBA consegue reproduzir apenas sons .mode
+%   - falar sobre conversão de wav pra mod
+%     - falar sobre a quantidade de bits do wav (colocar referência)
+%     - conversão da quantidade de bits do wav
+%     - conversão do wav pra mod (usando a ferramenta X)
+%       - qualidade do som diminui bastante
+%   - problemas em executar o nível e o áudio ao mesmo tempo
+%     - sincronização da música com o level e velocidade do jogo
+
+% - problemas gerais
+%   - depuração de código
+%     - rodar debuggers (gdb, etc)
+%     - somente a base de print
+
+% - o que não foi feito
+%   - mixer sofisticado
+%   - módulo de texto
+%     - fontes bitmap mode + outras prioridades
+%   - inimigos (ainda dá)

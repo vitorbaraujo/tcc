@@ -1,0 +1,72 @@
+\subsection{Módulo Utilitário}
+
+Este módulo contém funções utilitárias que estão relacionadas diretamente com \textit{hardware} do GBA.
+
+A primeira delas é a função \texttt{print}. Esta função é necessária pois, diferentemente de um programa executado em um PC, a ROM não possui redirecionamento de \textit{output} para uma saída padrão. Após diversas buscas em fóruns de desenvolvimento para GBA, foi encontrada uma solução que permite realizar o redirecionamento do \textit{output buffer} para a saída padrão (\textit{stdin}). A solução consiste em um código \textit{Assembly} que contém uma chamada de sistema \texttt{vbaprint}. O código \ref{lst:vbaprint} apresenta a implementação \textit{Assembly} mencionada.
+
+\begin{lstlisting}[label={lst:vbaprint}, caption={Código \textit{Assembly} para a função \texttt{vbaprint}}]
+.arm
+.global vbaprint
+.type   vbaprint STT_FUNC
+.text
+vbaprint:
+    swi 0xFF0000
+        bx lr
+\end{lstlisting}
+
+Após isso é necessário declarar a função \texttt{vbaprint} em um cabeçalho em C. O código \ref{lst:vbaprintheader} apresenta este cabeçalho.
+
+\begin{lstlisting}[label={lst:vbaprintheader}, caption={Cabeçalho da função \texttt{vbaprint}}]
+#ifndef VBAPRINT_H
+#define VBAPRINT_H
+
+extern "C" void vbaprint(const char *message);
+
+#endif
+\end{lstlisting}
+
+A implementação da função \texttt{print} utiliza o mesmo modelo de implementação da função \texttt{printf} da linguagem C. Ela recebe como parâmetros uma string e um \textit{wildcard} que indica que esta função recebe um número variável de parâmetros. Esse parâmetros variáveis são guardados em uma variável do tipo \texttt{va\_list}. Para realizar o \textit{parse} da \textit{string} recebida é utilizada a função \texttt{vsnprintf}, que recebe a lista de parâmetros e faz a resolução das variáveis na \textit{string} e retorna a string com as substituições feitas. Após isso, é chamada a função \texttt{vbaprint} que se encarrega de escrever o buffer recebido na saída padrão. O código \ref{lst:utilsprint} apresenta a implementação da função \texttt{print}.
+
+\begin{lstlisting}[float,caption={Implementação da função \texttt{print}},label={lst:utilsprint}]
+int print(const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    char buffer[4096];
+
+    int rc = vsnprintf(buffer, sizeof(buffer), fmt, args);
+
+    vbaprint(buffer);
+    va_end(args);
+
+    return rc;
+}
+\end{lstlisting}
+
+A próxima função utilitária é a \texttt{mem16cpy}. Esta função funciona de forma similar à função \texttt{memcpy} da linguagem C, porém, copia os dados de uma área de memória para outra 2 \textit{bytes} por vez. Isso se faz necessário pois
+
+TODO
+
+O código \ref{lst:mem16cpy} apresenta a implementação da função \texttt{mem16cpy}.
+
+\begin{lstlisting}[caption={Implementação da função \texttt{mem16cpy}},label={lst:mem16cpy}]
+void mem16cpy(volatile void *dest, const void *src, size_t n)
+{
+    if (n & 1) {
+        print("Size must be even");
+    }
+
+    for (int i = 0; i < n / 2; i++) {
+        *(((volatile uint16_t *)dest) + i) = *(((uint16_t *)src) + i);
+    }
+}
+\end{lstlisting}
+
+A última função deste módulo utilitário é a \texttt{vsync} (\textit{vertical synchronization}). Ela tem como responsabilidade servir como um mecanismo para garantir a atualização do jogo durante o período de VBlank (período onde há uma pausa na atualização vertical da tela do jogo). O código \ref{lst:vsync} apresenta a implementação do \texttt{vsync}.
+
+\begin{lstlisting}[caption={Implementação da função \texttt{vsync}},label={lst:vsync}]
+void vsync() {
+    while(REG_VCOUNT >= 160);
+    while(REG_VCOUNT < 160);
+}
+\end{lstlisting}
