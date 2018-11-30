@@ -91,14 +91,14 @@ const unsigned short level1_plat0Pal[16] __attribute__((aligned(4))) __attribute
 
 Já para a conversão dos \textit{backgrounds} foi utilizado o seguinte comando:
 
-\begin{lstlisting}[language=bash,caption={Comando para conversão dos \textit{backgrounds} em código/}]
+\begin{lstlisting}[language=bash,caption={Comando para conversão dos \textit{backgrounds} em código}]
 $ grit nome-da-imagem.png -gB4 -ftc -mRtf -mp0
 \end{lstlisting}
 
-Assim como na imagem anterior, ó código é gerado em C a 4 \textit{bits} por \textit{pixel}. Além disso, o código é gerado utilizando redução completa de \textit{tiles} (\textbf(-mRtf))  
+Assim como na imagem anterior, o código é gerado em C a 4 \textit{bits} por \textit{pixel}. Além disso, o código é gerado utilizando redução completa de \textit{tiles} (\textbf(-mRtf))
 Nesse commando, o código relativo à imagem é gerado a 4 \textit{bits} por \textit{pixel} (\textbf{-gb4}), exportando a imagem como código C (\textbf{-ftc}) e definindo a largura e a altura da imagem como sendo, respectivamente, \textit{16px} (\textbf{-Mw2}) e \textit{32px} (\textbf{-Mh4}). O resultado da execução dessa instrução é um \textit{header} e um código-fonte correspondentes à imagem, contendo uma paleta com as cores utilizadas e um vetor de tiles, assim como mostrado nos códigos \ref{lst:imageheader} e \ref{lst:imagecpp}.
 
 
-\begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
-//{{BLOCK(level1_plat0)
+% \begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
+% //{{BLOCK(level1_plat0)
 
