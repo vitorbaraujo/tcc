@@ -13,14 +13,14 @@ Portanto, a proporção das imagens do jogo original para o jogo a ser portado �
 
 Após realizar o redimensionamento das imagens para o tamanho correto, foi necessário descobrir como utilizar essas imagens no GBA. Diferentemente de sistemas mais modernos, o GBA não carrega imagens de fato, e sim um código C que contém as informações da imagem, como paleta de cores, \textit{tiles} e o mapeamento desses \textit{tiles} na imagem. Para realizar a conversão da imagem para este código, foi utilizada a ferramenta GRIT (\textit{GBA Raster Image Transmogrifier}). Com essa ferramenta é possível converter a imagem utilizando uma série de parâmetros, como quantidade de bits por pixel da imagem, formato de redução de \textit{tiles}, formato de saída do arquivo gerado (C, \textit{Assembly}, entre outros), altura e largura, em \textit{tiles} (conjuntos de \textit{8px} x \textit{8px}), da imagem , dentre outras opções. Para a conversão das \textit{sprites} do jogo, o seguinte comando foi utilizado:
 
-\begin{lstlisting}[language=bash,caption={Comando para conversão das imagens em código/}]
+\begin{lstlisting}[language=bash,caption={Comando para conversão das imagens em código}]
 $ grit nome-da-imagem.png -gB4 -ftc -Mw2 -Mh4
 \end{lstlisting}
 
 Nesse commando, o código relativo à imagem é gerado a 4 \textit{bits} por \textit{pixel} (\textbf{-gb4}), exportando a imagem como código C (\textbf{-ftc}) e definindo a largura e a altura da imagem como sendo, respectivamente, \textit{16px} (\textbf{-Mw2}) e \textit{32px} (\textbf{-Mh4}). O resultado da execução dessa instrução é um \textit{header} e um código-fonte correspondentes à imagem, contendo uma paleta com as cores utilizadas e um vetor de tiles, assim como mostrado nos códigos \ref{lst:imageheader} e \ref{lst:imagecpp}.
 
 
-\begin{lstlisting}[caption={\textit{Header} da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
+\begin{lstlisting}[caption={Cabeçalho da parte superior da imagem da plataforma da primeira fase.},label={lst:imageheader}]
 //{{BLOCK(level1_plat0)
 
 //======================================================================

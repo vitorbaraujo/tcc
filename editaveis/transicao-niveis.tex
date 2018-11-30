@@ -1,1 +1,86 @@
 \subsection{Transição entre os níveis do jogo}
+
+No jogo portado há dois tipos de níveis: jogáveis e não-jogáveis. Os níveis jogáveis são aqueles onde o usuário está realmente jogando o jogo, enquanto os não-jogáveis podem ser representados pelos menus e telas de vitória e derrota.
+
+O fluxo atual do jogo realiza a transição automática entre os níveis da seguinte forma: O jogo sempre começa no menu principal. Quando o jogador pressiona o botão \textit{START} no menu, ele é levado à primeira fase jogável do jogo. Quando a primeira fase acaba, ele é levado à tela de vitória. Na tela de vitória, o jogador é redirecionado ao menu principal caso pressione o botão B e é levado à próxima fase caso pressione o botão A. Na última fase jogável, após terminar o nível e ser levado à tela de vitória, ele é redirecionado ao menu principal do jogo.
+
+O esquema de transição entre os níveis se dá utilizando a propriedade \texttt{m\_next} da classe \texttt{TWLevel}, classe que herda da classe abstrata \texttt{Level}. Cada nível é representado por um identificador inteiro, como mostrado no código \ref{lst:niveisid}.
+
+\begin{lstlisting}[label={lst:niveisid},caption={Identificação dos níveis do jogo.]}]
+#define LEVEL_MENU 0
+#define LEVEL_1 1
+#define LEVEL_2 2
+#define LEVEL_3 3
+#define LEVEL_4 4
+#define LEVEL_5 5
+#define LEVEL_6 6
+#define MENU_VICTORY 7
+#define MENU_DEFEAT 8
+#define NEXT_LEVEL 42
+\end{lstlisting}
+
+Quando o nível acaba, a própria classe \texttt{TWLevel} decide para onde o jogador vai, utilizando duas dessas variáveis: \texttt{LEVEL\_MENU},  para redirecionar o jogador ao menu principal e \texttt{NEXT\_LEVEL}, para informar à classe \texttt{TWGame} que o jogador irá para o próximo nível. Sendo assim, a classe \texttt{TWGame}, responsável por instanciar os níveis do jogo, ao receber essa informação por meio do método \texttt{level->next()}, calcula qual o nível seguinte, altera sua propriedade \texttt{current\_level} e instancia o novo nível. O código \ref{lst:niveisid} apresenta esta implementação.
+
+\begin{lstlisting}[label={lst:niveisid},caption={Transição entre os níveis do jogo.]}]
+if (m_level->done()) {
+    if (m_level->next() == NEXT_LEVEL) {
+        current_level = (previous_playable_level + 1) % (LOADED_LEVELS + 1);
+        if (current_level == 0)
+            current_level++;
+    }
+    else {
+        previous_playable_level = current_level;
+        current_level = m_level->next();
+    }
+
+    delete m_level;
+
+    bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
+        && current_level != MENU_DEFEAT;
+
+
+    m_level = new TWLevel(current_level, is_playable);
+}
+\end{lstlisting}
+
+A criação das texturas relativas à cada nível é feita utilizando o nível como parâmetro para decidir quais plataformas, coletáveis e \textit{backgrounds} instanciar e renderizar. Isso foi necessário pois cada nível contém uma série diferente de variáveis para plataformas, coletáveis e \textit{backgrounds} e, desta forma, também é possível abranger os menus não-jogáveis, como o menu principal e as telas de finalização de um nível. O código \ref{lst:switch} apresenta a definição dos \textit{backgrounds} baseados no nível atual passado como parâmetro.
+
+\begin{lstlisting}[label={lst:switch},caption={Definição dos \textit{backgrounds} baseado no nível passado.]}]
+void TWLevel::load_backgrounds(int level) {
+    m_backgrounds.clear();
+
+    switch(level) {
+        case LEVEL_MENU:
+            m_backgrounds.push_back(new Background(menuPal, menuPalLen, menuTiles, menuTilesLen, menuMap, menuMapLen, 0, 0, 0, 0, 0));
+            break;
+        case MENU_VICTORY:
+            m_backgrounds.push_back(new Background(victoryPal, victoryPalLen, victoryTiles, victoryTilesLen, victoryMap, victoryMapLen, 0, 0, 0, 0, 0));
+            break;
+        case MENU_DEFEAT:
+            m_backgrounds.push_back(new Background(defeatPal, defeatPalLen, defeatTiles, defeatTilesLen, defeatMap, defeatMapLen, 0, 0, 0, 0, 0));
+            break;
+        case LEVEL_1:
+            m_backgrounds.push_back(new Background(level1_b0Pal, level1_b0PalLen, level1_b0Tiles, level1_b0TilesLen, level1_b0Map, level1_b0MapLen, 0, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level1_b1Pal, level1_b1PalLen, level1_b1Tiles, level1_b1TilesLen, level1_b1Map, level1_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level1_b2Pal, level1_b2PalLen, level1_b2Tiles, level1_b2TilesLen, level1_b2Map, level1_b2MapLen, 2, 0, 0, 2, 0));
+
+            m_backgrounds[0]->set_frames_to_skip(2);
+            break;
+        case LEVEL_2:
+            m_backgrounds.push_back(new Background(level2_b0Pal, level2_b0PalLen, level2_b0Tiles, level2_b0TilesLen, level2_b0Map, level2_b0MapLen, 0, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level2_b1Pal, level2_b1PalLen, level2_b1Tiles, level2_b1TilesLen, level2_b1Map, level2_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level2_b2Pal, level2_b2PalLen, level2_b2Tiles, level2_b2TilesLen, level2_b2Map, level2_b2MapLen, 2, 0, 0, 2, 0));
+
+            m_backgrounds[0]->set_frames_to_skip(2);
+            break;
+        // other levels supressed...
+        default:
+            break;
+    }
+
+    for (auto background : m_backgrounds)
+    {
+        add_child(background);
+    }
+}
+\end{lstlisting}
