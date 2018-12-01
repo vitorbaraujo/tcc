@@ -27,7 +27,7 @@ extern "C" void vbaprint(const char *message);
 
 A implementação da função \texttt{print} utiliza o mesmo modelo de implementação da função \texttt{printf} da linguagem C. Ela recebe como parâmetros uma string e um \textit{wildcard} que indica que esta função recebe um número variável de parâmetros. Esses parâmetros variáveis são guardados em uma variável do tipo \texttt{va\_list}. Para realizar o \textit{parse} da \textit{string} recebida é utilizada a função \texttt{vsnprintf}, que recebe a lista de parâmetros, faz a resolução das variáveis na \textit{string} e retorna a string com as substituições feitas. Após isso, é chamada a função \texttt{vbaprint} que se encarrega de escrever o \textit{buffer} recebido na saída padrão. O código \ref{lst:utilsprint} apresenta a implementação da função \texttt{print}.
 
-\begin{lstlisting}[float,caption={Implementação da função \texttt{print}},label={lst:utilsprint}]
+\begin{lstlisting}[caption={Implementação da função \texttt{print}},label={lst:utilsprint}]
 int print(const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
@@ -43,9 +43,7 @@ int print(const char *fmt, ...) {
 }
 \end{lstlisting}
 
-A próxima função utilitária é a \texttt{mem16cpy}. Esta função funciona de forma similar à função \texttt{memcpy} da linguagem C, porém, copia os dados de uma área de memória para outra 2 \textit{bytes} por vez. Isso se faz necessário pois
-
-TODO
+A próxima função utilitária é a \texttt{mem16cpy}. Esta função funciona de forma similar à função \texttt{memcpy} da linguagem C, porém copia os dados de uma área de memória para outra 2 \textit{bytes} por vez. Isso se faz necessário pois a \texttt{memcpy} original faz cópias \textit{byte} a \textit{byte} quando o alinhamento da memória não está compatível com o tamanho da palavra (32 bits, no caso da arquitetura ARM) na arquitetura utilizada e a VRAM não aceita inserções feitas 1 \textit{byte} por vez \cite{coranac}.
 
 O código \ref{lst:mem16cpy} apresenta a implementação da função \texttt{mem16cpy}.
 
