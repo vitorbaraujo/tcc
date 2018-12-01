@@ -10,15 +10,23 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
     O jogo será reescrito utilizando a linguagem C++, na versão 11, pois provê uma série de recursos e estruturas não presentes na linguagem C que facilitarão o desenvolvimento do jogo.
 
-    O ambiente de desenvolvimento utilizado para a implementação do jogo consiste, basicamente, do \textit{kit} de desenvolvimento devkitARM.
+    O ambiente de desenvolvimento utilizado para a implementação do jogo consiste do \textit{kit} de desenvolvimento devkitARM, ferramentas para manipulação das imagens e áudio do jogo.
 
     \subsubsection{\textit{devkitPro} e \textit{devkitARM}}
 
-      O devkitPro\footnote{\textit{devkitPro}, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da \textit{Nintendo}, como \textit{Nintendo GBA}, \textit{Nintendo Wii}, \textit{Nintendo Switch}, dentre outros.
+      O \texttt{\textbf{devkitPro}}\footnote{\textit{devkitPro}, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da \textit{Nintendo}, como \textit{Nintendo GBA}, \textit{Nintendo Wii}, \textit{Nintendo Switch}, dentre outros.
 
       Dentre esses conjuntos de ferramentas encontra-se o \textit{devkitARM}, \textit{toolchain} que contém o ambiente de desenvolvimento necessário para realizar a compilação do código escrito em C/C++ para a arquitetura de processadores ARM existente no GBA, citado na seção \ref{gba} do capítulo \ref{fundamentacao}.
 
-    Para o ajuste das imagens do jogo para a resolução de tela do GBA, será utilizada a ferramenta de manipulação de imagens \textbf{GIMP}\footnote{GNU Image Manipulation Program, disponível em \url{https://www.gimp.org/}}, versão 2.8.
+    \subsubsection{Manipulação das imagens}
+
+      Para o ajuste das imagens do jogo para a resolução de tela do GBA, foi utilizada a ferramenta de manipulação de imagens \textbf{GIMP}\footnote{GNU Image Manipulation Program, disponível em \url{https://www.gimp.org/}}, versão 2.8.
+
+      Para realizar a conversão das imagens para um formato legível no GBA, foi utilizada uma biblioteca C chamada \textbf{GRIT}\footnote{\textit{GBA Raster Image Transmogrifier}, disponível em \url{http://www.coranac.com/projects/grit/}}.
+
+    \subsubsection{Manipulação do áudio}
+      Para a manipulação do áudio do jogo foram utlizadas três ferramentas: \texttt{\textbf{avconv}}\footnote{\texttt{avconv}, disponível em \url{https://github.com/libav/libav}} e \texttt{librosa}\footnote{\texttt{\textbf{librosa}}, disponível em \url{https://github.com/librosa/librosa}} para \textit{downsampling} das músicas; e \texttt{\textbf{modplug tracker}}\footnote{\textit{Open Modplug Tracker}, disponível em \url{http://openmpt.org/features}} para realizar a conversão das músicas para \texttt{.mod}.
+
 
   \subsection{Ambiente de teste}
 
@@ -30,7 +38,7 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
 
       O \textit {console} que está sendo utilizado como ambiente de testes real é um \textbf{\textit{Nintendo DS}}\footnote{\textit{Nintendo DS}, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho está sendo utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
 
-      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{\textit{EZFlash II}}\footnote{\textit{EZ Flash II}, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}}\footnote{Sistema operacional da \textit{Microsoft}, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
+      Para a escrita dos arquivos executáveis neste cartucho é utilizado o dispositivo \textbf{\textit{EZFlash II}}\footnote{\textit{EZ Flash II}, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{\textbf{Windows XP}}\footnote{\textit{Windows XP}, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
 
 \section{Metodologia de desenvolvimento}
 

@@ -24,7 +24,8 @@ EDITAVEIS_SOURCES = informacoes.tex errata.tex dedicatoria.tex \
 					modulo-input.tex modulo-gerenciador-memoria.tex \
 					modulo-video.tex modulo-fisica.tex modulo-utils.tex \
 					adaptacao-musicas.tex adaptacao-imagens.tex \
-					construcao-niveis.tex transicao-niveis.tex comparacao-porte.tex
+					construcao-niveis.tex transicao-niveis.tex comparacao-porte.tex \
+					metodologia.tex
 
 EDITAVEIS_FILES = $(addprefix $(EDITAVEIS_DIR)/, $(EDITAVEIS_SOURCES))
 
