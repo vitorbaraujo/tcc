@@ -1,4 +1,4 @@
-TARGET = TCC_FGA.pdf
+TARGET = TCC_IgorDuarte_140098275_VitorBarbosa_140033149.pdf
 
 BIBTEX = bibtex
 LATEX = latex
