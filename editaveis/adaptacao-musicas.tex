@@ -1,3 +1,31 @@
 \subsection{Adaptação das músicas do jogo}
 
+Para que fosse possível carregar as músicas no GBA, foi necessário reduzir a frequência dos audios originais, técnica conhecida como \textit{downsampling}. No processo de redução, a qualidade dos sons diminui de forma considerável. Após gerar um novo arquivo \textit{.wav} com a frequência reduzida, o arquivo é convertido para o formato \textit{.mod}, para que este, por sua vez, possa ser interpretado pelo GBA.
+ 
+O código \ref{lst:sound-class} mostra o construtor da classe \texttt{Sound}, responsável por inicializar a música e deixá-la pronta para ser tocada; o método \texttt{get\_sound}, que implementa o padrão \textit{singleton} e retorna a instância da classe; e o método \texttt{play}, responsável por tocar a música. Os métodos dessa classe apenas encapsulam funções já existentes na \textit{libgba}. 
 
+\begin{lstlisting}[caption={Classe \texttt{Sound}},label={lst:sound-class}]
+Sound* Sound::instance;
+
+Sound::Sound() {
+    irqInit();
+
+    irqSet( IRQ_VBLANK, mmVBlank );
+    irqEnable(IRQ_VBLANK);
+
+    mmInitDefault( (mm_addr)soundbank_bin, 8); 
+    mmStart( MOD_MUSIC43K, MM_PLAY_LOOP );
+}
+
+Sound *Sound::get_sound() {
+    if (!instance) {
+        instance = new Sound();
+    }   
+
+    return instance;
+}
+
+void Sound::play() {
+    mmFrame();
+}
+\end{lstlisting}

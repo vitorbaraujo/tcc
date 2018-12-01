@@ -43,7 +43,7 @@ int print(const char *fmt, ...) {
 }
 \end{lstlisting}
 
-A próxima função utilitária é a \texttt{mem16cpy}. Esta função funciona de forma similar à função \texttt{memcpy} da linguagem C, porém copia os dados de uma área de memória para outra 2 \textit{bytes} por vez. Isso se faz necessário pois a \texttt{memcpy} original faz cópias \textit{byte} a \textit{byte} quando o alinhamento da memória não está compatível com o tamanho da palavra (32 bits, no caso da arquitetura ARM) na arquitetura utilizada e a VRAM não aceita inserções feitas 1 \textit{byte} por vez \cite{coranac}.
+A próxima função utilitária é a \texttt{mem16cpy}. Esta função funciona de forma similar à função \texttt{memcpy} da linguagem C, porém copia os dados de uma área de memória para outra 2 \textit{bytes} por vez. Isso se faz necessário pois a \texttt{memcpy} original faz cópias \textit{byte} a \textit{byte} quando o alinhamento da memória não está compatível com o tamanho da palavra (32 \textit{bits}, no caso da arquitetura ARM) na arquitetura utilizada e a VRAM não aceita inserções feitas 1 \textit{byte} por vez \cite{coranac}.
 
 O código \ref{lst:mem16cpy} apresenta a implementação da função \texttt{mem16cpy}.
 
