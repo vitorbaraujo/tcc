@@ -8,18 +8,13 @@ A fim de atestar a viabilidade do porte do jogo \textit{Traveling Will}, desenvo
 
 Abaixo é possível comparar o menu principal do jogo original com o protótipo implementado sendo executado em um emulador de \textit{Game Boy Advance}:
 
-\begin{figure}[H]
- \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/tw-original-1.eps}
-   \caption[Jogo original sendo executado em um PC]
-    {Jogo original sendo executado em um PC. Fonte: \textit{Autores}.}
-   \label{tw-original-1}
-\end{figure}
-
-\begin{figure}[H]
- \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/tw-gba-1.eps}
-   \caption[Protótipo sendo executado no emulador de GBA]
-    {Protótipo sendo executado no emulador de GBA. Fonte: \textit{Autores}.}
-   \label{tw-gba-1}
+\begin{figure}%
+    \centering
+    \subfloat[Jogo original sendo executado em um PC. Fonte: \textit{Autores}.]{{\includegraphics[width=16cm]{figuras/tw-original-1.eps} }}%
+    \qquad
+    \subfloat[Protótipo sendo executado no emulador de GBA. Fonte: \textit{Autores}.]{{\includegraphics[width=16cm]{figuras/tw-gba-1.eps} }}%
+    \caption{Comparação entre o jogo original e o protótipo no emulador.}%
+    \label{fig:example}%
 \end{figure}
 
 Este protótipo inicial contém apenas a tela vista acima, com um \textit{background} desenhado ao fundo e quatro botões clicáveis, porém sem nenhuma ação após o clique. Para alterar o botão selecionado, basta
@@ -72,6 +67,8 @@ O protótipo desenvolvido está disponível no seguinte repositório: \url{https
   \input{editaveis/transicao-niveis}
 
   \input{editaveis/adaptacao-musicas}
+
+  \input{editaveis/comparacao-porte}
 
 % - adaptações em relação ao jogo original
 %   - não possui opção para configurar o áudio durante o jogo
