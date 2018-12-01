@@ -6,7 +6,7 @@ O fluxo atual do jogo realiza a transição automática entre os níveis da segu
 
 O esquema de transição entre os níveis se dá utilizando a propriedade \texttt{m\_next} da classe \texttt{TWLevel}, classe que herda da classe abstrata \texttt{Level}. Cada nível é representado por um identificador inteiro, como mostrado no código \ref{lst:niveisid}.
 
-\begin{lstlisting}[label={lst:niveisid},caption={Identificação dos níveis do jogo.]}]
+\begin{lstlisting}[label={lst:niveisid},caption={Identificação dos níveis do jogo.}]
 #define LEVEL_MENU 0
 #define LEVEL_1 1
 #define LEVEL_2 2
@@ -21,7 +21,7 @@ O esquema de transição entre os níveis se dá utilizando a propriedade \textt
 
 Quando o nível acaba, a própria classe \texttt{TWLevel} decide para onde o jogador vai, utilizando duas dessas variáveis: \texttt{LEVEL\_MENU},  para redirecionar o jogador ao menu principal e \texttt{NEXT\_LEVEL}, para informar à classe \texttt{TWGame} que o jogador irá para o próximo nível. Sendo assim, a classe \texttt{TWGame}, responsável por instanciar os níveis do jogo, ao receber essa informação por meio do método \texttt{level->next()}, calcula qual o nível seguinte, altera sua propriedade \texttt{current\_level} e instancia o novo nível. O código \ref{lst:niveisid} apresenta esta implementação.
 
-\begin{lstlisting}[label={lst:niveisid},caption={Transição entre os níveis do jogo.]}]
+\begin{lstlisting}[label={lst:niveisid},caption={Transição entre os níveis do jogo.}]
 if (m_level->done()) {
     if (m_level->next() == NEXT_LEVEL) {
         current_level = (previous_playable_level + 1) % (LOADED_LEVELS + 1);
@@ -45,7 +45,7 @@ if (m_level->done()) {
 
 A criação das texturas relativas à cada nível é feita utilizando o nível como parâmetro para decidir quais plataformas, coletáveis e \textit{backgrounds} instanciar e renderizar. Isso foi necessário pois cada nível contém uma série diferente de variáveis para plataformas, coletáveis e \textit{backgrounds} e, desta forma, também é possível abranger os menus não-jogáveis, como o menu principal e as telas de finalização de um nível. O código \ref{lst:switch} apresenta a definição dos \textit{backgrounds} baseados no nível atual passado como parâmetro.
 
-\begin{lstlisting}[label={lst:switch},caption={Definição dos \textit{backgrounds} baseado no nível passado.]}]
+\begin{lstlisting}[label={lst:switch},caption={Definição dos \textit{backgrounds} baseado no nível passado.}]
 void TWLevel::load_backgrounds(int level) {
     m_backgrounds.clear();
 

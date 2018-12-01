@@ -51,7 +51,7 @@ extern const unsigned short level1_plat0Pal[16];
 //}}BLOCK(level1_plat0)
 \end{lstlisting}
 
-\begin{lstlisting}[caption={\textit{Código fonte} da parte superior da imagem da plataforma da primeira fase.},label={lst:imagecpp}]
+\begin{lstlisting}[caption={Código fonte da parte superior da imagem da plataforma da primeira fase.},label={lst:imagecpp}]
 //{{BLOCK(level1_plat0)
 
 //======================================================================
@@ -110,7 +110,7 @@ void Background::update_self(uint64_t dt) {
     if (dt % frames_to_skip == 0) {
         m_x += m_speed_x;
         m_y += m_speed_y;
-    }   
+    }
 
     switch(this->background_id) {
         case 0:
@@ -132,12 +132,12 @@ void Background::update_self(uint64_t dt) {
         default:
             print("Invalid background id\n");
             break;
-    }   
+    }
 }
 \end{lstlisting}
 
 Dessa forma, sempre que a variável \texttt{m\_x}, que representa o ponto no eixo X onde começa a renderização do \textit{backgrounds} na tela, é atualizado, o registrador correspondente também é atualizado. O mesmo se aplica à variável \texttt{m\_y}, que representa o ponto no eixo Y.
- 
+
 Na versão original do jogo, as imagens das plataformas possuíam \textit{20px} de largura e \textit {400px} de altura. Porém, o GBA possui explícitas limitações em relação às dimensões das imagens a serem renderizadas. Sendo assim, é necessário que as imagens estejam em uma das dimensões mostradas na tabela \ref{table:sprite-sizes}. Tendo em vista que a altura máxima de uma \textit{sprite} no GBA é \textit{64px}, foi necessário dividir a imagem em várias para que fosse possível atingir a altura necessária das plataformas no jogo. As dimensões escolhidas para essas novas imagens foram \textit{16px} de largura por \textit{32px} de altura, pois assim a largura ficava mais próxima da largura original, preservando ao máximo o \textit{level design} original. Já a altura de \textit{32px} foi escolhida tendo em vista que é a altura máxima que pode ser utilizada com largura \textit{16px}, como mostrado na tabela \ref{table:sprite-sizes}.
 
 \begin{table}[htb]
@@ -181,7 +181,7 @@ void TWPlatform::set_y(int y) {
 }
 \end{lstlisting}
 
-No código \ref{lst:platform-textures}, uma única textura é carregada caso a plataforma faça parte do chão do jogo e 4 plataformas são carregadas caso contrário. A variável \texttt{m\_is\_floor} indica se a plataforma faz ou não parte do chão. 
+No código \ref{lst:platform-textures}, uma única textura é carregada caso a plataforma faça parte do chão do jogo e 4 plataformas são carregadas caso contrário. A variável \texttt{m\_is\_floor} indica se a plataforma faz ou não parte do chão.
 
 No código \ref{lst:platform-set-y}, é possível ver que a variável \texttt{m\_y} representa o ponto \texttt{y} (ponto onde a plataforma começa a ser renderizada na tela) da plataforma em si e por isso é utilizado para calcular o \texttt{y} de cada uma das texturas utilizadas na classe.
 
