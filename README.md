@@ -1,5 +1,3 @@
-# Fixme installation and compile instructions
-
 ## Instale as bibliotecas necessárias do latex para instalação do abntex2
 
 	$ sudo apt-get install texlive-publishers texlive-lang-portuguese texlive-lang-french texlive-latex-extra texlive-fonts-recommended
