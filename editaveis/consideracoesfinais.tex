@@ -1,3 +1,17 @@
 \chapter[Considerações finais]{Considerações finais}
 
-O trabalho desenvolvido até aqui conta com uma \textit{engine} contendo versões parciais do módulo de áudio e vídeo e um protótipo da tela de menu do jogo \textit{Traveling Will} já funcionando em um \textit{Game Boy Advance}. Entre as próximas tarefas estão: a conversão dos recursos do jogo, como imagens e áudios para um formato que possa ser utilizado no GBA, aprimoramento da \textit{engine} para que ela permita trabalhar com todos os modos de vídeo presentes no GBA, utilizando a quantidade de \textit{backgrounds} permitida em cada modo de forma simultânea, implementação dos módulos de física e áudio e, por fim, a reescrita do jogo utilizando a \textit{engine} desenvolvida.
+Durante o desenvolvimento da \textit{engine} e do jogo, em diversos momentos bastante tempo foi empregado tentando entender detalhes da especificação do \textit{hardware} do GBA, como a definição da paleta de cores dos \textit{backgrounds} e \textit{sprites} serem bastante diferentes, o \textit{overlap} entre \textit{charblocks} e \textit{screenblocks} na região de memória VRAM, os diferentes canais de áudio que serviam para propósitos bem diferentes, a impossibilidade de se utilizar uma ferramenta de depuração de código, como \texttt{gdb}\footnote{\textit{GNU Debugger}, disponível em \url{https://www.gnu.org/software/gdb/}}, entre outros. Esses impedimentos nos permitiram aprofundar nosso conhecimento em relação a como o \textit{hardware} do GBA funciona e como desenvolvedores de jogos para plataformas mais antigas resolviam problemas difíceis.
+
+Por fim, como resultado final do trabalho, a pergunta de pesquisa pôde ser respondida afirmativamente, significando que foi possível portar o jogo \textit{Traveling Will}, desenvolvido originalmente para PC, para o \textit{Nintendo Gameboy Advance}, no contexto de um trabalho de conclusão de curso, com performance e jogabilidade próximos da versão para computador.
+
+\section{Trabalhos futuros}
+
+  Como sugestões de trabalhos futuros, têm-se:
+
+  \begin{itemize}
+    \item Melhoria do módulo de áudio para permitir carregar efeitos sonoros e pausar músicas durante a execução do jogo;
+    \item Implementação do carregamento e utilização de fontes no jogo;
+    \item Adição de elementos de HUD e seleção de fases;
+    \item Possibilidade de salvar o estado do jogo em memória; e
+    \item Implementação de um desfragmentador de memória na classe \texttt{MemoryManager}.
+  \end{itemize}
