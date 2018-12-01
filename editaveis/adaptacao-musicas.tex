@@ -1,8 +1,141 @@
 \subsection{Adaptação das músicas do jogo}
 
+Antes de falar como foi feita a implementação e carregamento das músicas do jogo no GBA, é importante explicar brevemente como funciona o áudio no \textit{console}. O GBA possui 4 canais específicos para áudio, sendo os canais 1 e 2 geradores de ondas quadradas, o canal 3 para reproduzir \textit{samples} e o canal 4 como gerador de gerador de ruído \cite{tonc}.
+
+A versão inicial do módulo de áudio conseguia reproduzir somente ondas quadradas por uma determinada duração. Para que isso pudesse ser possível, era necessário passar para a função duas listas: uma com as notas a serem reproduzidas e outra com a respectiva duração das notas.
+
+Para conseguir executar as músicas do jogo original utilizando ondas quadradas, foi implementado um \textit{parser} em cima do \textit{parser} do \textit{level design} do jogo original. O \textit{parser} do \textit{level design} do jogo original gera o tamanho das plataformas e coletáveis a partir das notas de um arquivo \textit{.ly} (arquivo gerado utilizando a biblioteca \texttt{lilypond}\footnote{\textit{Lilypond}, disponível em \url{http://lilypond.org/}} e que contém as informações da música de um nível). O incremento realizado neste \textit{script} permite capturar a nota e exportá-la para um vetor secundário, juntamente com sua duração. O código \ref{lst:parserinc} apresenta o trecho responsável por gerar os vetores com as notas e suas durações. Já o código \ref{lst:notastempos} mostra os vetores gerados para a música da primeira fase.
+
+\begin{lstlisting}[caption={\textit{Parser} incrementado para geração das notas e tempos},label={lst:parserinc}]
+void generate_sound_files(string filename, const vector<int> notes, const vector<int> tempos) {
+    string header_filename = filename + ".h";
+    FILE* header_file = fopen(header_filename.c_str(), "w");
+
+    int size = notes.size();
+
+    string upper_filename(filename);
+
+    for(auto &c : upper_filename) {
+        c = toupper(c);
+    }
+
+    // write header
+    fprintf(header_file, "#ifndef %s_H\n", upper_filename.c_str());
+    fprintf(header_file, "#define %s_H\n\n", upper_filename.c_str());
+    fprintf(header_file, "#define %s_notes_len %d\n", filename.c_str(), size);
+    fprintf(header_file, "#define %s_tempos_len %d\n\n", filename.c_str(), size);
+    fprintf(header_file, "extern const int %s_notes[%d];\n", filename.c_str(), size);
+    fprintf(header_file, "extern const int %s_tempos[%d];\n", filename.c_str(), size);
+    fprintf(header_file, "\n#endif\n");
+
+    fclose(header_file);
+    // end write header
+
+    // write c
+    string c_filename = filename + ".c";
+    FILE* c_file = fopen(c_filename.c_str(), "w");
+    fprintf(c_file, "#include \"%s.h\"\n\n", filename.c_str());
+    fprintf(c_file, "const int %s_notes[%d] = {\n", filename.c_str(), size);
+
+    string notes_str = "\t";
+    for(int i=0; i<size; i++) {
+        if (i) notes_str += ", ";
+        notes_str += to_string(notes[i]);
+    }
+
+    fprintf(c_file, notes_str.c_str());
+    fprintf(c_file, "\n};\n\n", filename.c_str(), size);
+    fprintf(c_file, "const int %s_tempos[%d] = {\n", filename.c_str(), size);
+
+    string tempos_str = "\t";
+
+    for(int i=0; i<size; i++) {
+        if (i) tempos_str += ", ";
+        tempos_str += to_string(tempos[i]);
+    }
+
+    fprintf(c_file, tempos_str.c_str());
+    fprintf(c_file, "\n};\n", filename.c_str(), size);
+
+    fclose(c_file);
+    // end write c
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Código gerado com notas e durações.},label={lst:notastempos}]
+// header file
+#ifndef FASE1_H
+#define FASE1_H
+
+#define fase1_notes_len 70
+#define fase1_tempos_len 70
+
+extern const int fase1_notes[70];
+extern const int fase1_tempos[70];
+
+#endif
+
+// source code
+#include "fase1.h"
+
+const int fase1_notes[70] = {
+	1, 0, 1, 0, 10, 8, 5, 3, 2, 3, 2, 0, 10, 7, 7, 6, 7, 6, 3, 2, 0, 10, 9, 7, 5, 7, 9, 10, 9, 10, 0, 2, 1, 0, 1, 3, 1, 0, 10, 8, 5, 2, 3, 2, 3, 2, 3, 2, 3, 2, 10, 7, 7, 6, 7, 6, 3, 2, 0, 10, 9, 7, 5, 7, 9, 10, 9, 10, 0, 2
+};
+
+const int fase1_tempos[70] = {
+	4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 2, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 4, 4, 2, 1, 1, 2, 2, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4
+};
+\end{lstlisting}
+
+O \textit{parser} incrementado pode ser encontrado no seguinte endereço: \url{https://github.com/traveling-will-gba/traveling-will/blob/master/res/parser/sound_parser.cpp}
+
+As funções relativas à reprodução de ondas quadradas são: \texttt{init()}, responsável por inicializar os registradores relativos ao áudio; \texttt{load\_from\_file()}, responsável por ler os vetores com as notas e durações; \texttt{play\_note()}, responsável por reproduzir uma nota por um período de tempo; e \texttt{play()}, responsável por reproduzir todas as notas. O código \ref{lst:oldsound} apresenta estes métodos.
+
+\begin{lstlisting}[caption={Reprodução de notas e durações},label={lst:oldsound}]
+void Sound::init() {
+	// turn sound on
+	REG_SNDSTAT= SSTAT_ENABLE;
+	// snd1 on left/right ; both full volume
+	REG_SNDDMGCNT = SDMG_BUILD_LR(SDMG_SQR1, 7);
+	// DMG ratio to 100%
+	REG_SNDDSCNT= SDS_DMG100;
+	// no sweep
+	REG_SND1SWEEP= SSW_OFF;
+	// envelope: vol=12, decay, max step time (7) ; 50% duty
+	REG_SND1CNT= SSQR_ENV_BUILD(12, 0, 7) | SSQR_DUTY1_2;
+	REG_SND1FREQ= 0;
+}
+
+void Sound::load_from_file(int notes_len, const int* notes, int tempos_len, const int* tempos) {
+    this->notes = notes;
+    this->notes_len = notes_len;
+    this->tempos = tempos;
+    this->tempos_len = tempos_len;
+}
+
+void Sound::play_note(int raw_note, int tempo) {
+	int note = raw_note % 12;
+	int octave = raw_note / 12;
+	REG_SND1FREQ = SFREQ_RESET | SND_RATE(note, octave);
+
+	for(int i=0; i<8*tempo; i++) {
+		vsync();
+	}
+}
+
+void Sound::play() {
+	for(int i=0; i < notes_len; i++) {
+		print("note %d tempo %d\n", notes[i], tempos[i]);
+		play_note(notes[i], tempos[i]);
+	}
+}
+\end{lstlisting}
+
+
+
 Para que fosse possível carregar as músicas no GBA, foi necessário reduzir a frequência dos audios originais, técnica conhecida como \textit{downsampling}. No processo de redução, a qualidade dos sons diminui de forma considerável. Após gerar um novo arquivo \textit{.wav} com a frequência reduzida, o arquivo é convertido para o formato \textit{.mod}, para que este, por sua vez, possa ser interpretado pelo GBA.
- 
-O código \ref{lst:sound-class} mostra o construtor da classe \texttt{Sound}, responsável por inicializar a música e deixá-la pronta para ser tocada; o método \texttt{get\_sound}, que implementa o padrão \textit{singleton} e retorna a instância da classe; e o método \texttt{play}, responsável por tocar a música. Os métodos dessa classe apenas encapsulam funções já existentes na \textit{libgba}. 
+
+O código \ref{lst:sound-class} mostra o construtor da classe \texttt{Sound}, responsável por inicializar a música e deixá-la pronta para ser tocada; o método \texttt{get\_sound}, que implementa o padrão \textit{singleton} e retorna a instância da classe; e o método \texttt{play}, responsável por tocar a música. Os métodos dessa classe apenas encapsulam funções já existentes na \textit{libgba}.
 
 \begin{lstlisting}[caption={Classe \texttt{Sound}},label={lst:sound-class}]
 Sound* Sound::instance;
@@ -13,14 +146,14 @@ Sound::Sound() {
     irqSet( IRQ_VBLANK, mmVBlank );
     irqEnable(IRQ_VBLANK);
 
-    mmInitDefault( (mm_addr)soundbank_bin, 8); 
+    mmInitDefault( (mm_addr)soundbank_bin, 8);
     mmStart( MOD_MUSIC43K, MM_PLAY_LOOP );
 }
 
 Sound *Sound::get_sound() {
     if (!instance) {
         instance = new Sound();
-    }   
+    }
 
     return instance;
 }
