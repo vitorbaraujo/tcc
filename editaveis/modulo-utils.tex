@@ -25,7 +25,7 @@ extern "C" void vbaprint(const char *message);
 #endif
 \end{lstlisting}
 
-A implementação da função \texttt{print} utiliza o mesmo modelo de implementação da função \texttt{printf} da linguagem C. Ela recebe como parâmetros uma string e um \textit{wildcard} que indica que esta função recebe um número variável de parâmetros. Esse parâmetros variáveis são guardados em uma variável do tipo \texttt{va\_list}. Para realizar o \textit{parse} da \textit{string} recebida é utilizada a função \texttt{vsnprintf}, que recebe a lista de parâmetros e faz a resolução das variáveis na \textit{string} e retorna a string com as substituições feitas. Após isso, é chamada a função \texttt{vbaprint} que se encarrega de escrever o buffer recebido na saída padrão. O código \ref{lst:utilsprint} apresenta a implementação da função \texttt{print}.
+A implementação da função \texttt{print} utiliza o mesmo modelo de implementação da função \texttt{printf} da linguagem C. Ela recebe como parâmetros uma string e um \textit{wildcard} que indica que esta função recebe um número variável de parâmetros. Esses parâmetros variáveis são guardados em uma variável do tipo \texttt{va\_list}. Para realizar o \textit{parse} da \textit{string} recebida é utilizada a função \texttt{vsnprintf}, que recebe a lista de parâmetros, faz a resolução das variáveis na \textit{string} e retorna a string com as substituições feitas. Após isso, é chamada a função \texttt{vbaprint} que se encarrega de escrever o \textit{buffer} recebido na saída padrão. O código \ref{lst:utilsprint} apresenta a implementação da função \texttt{print}.
 
 \begin{lstlisting}[float,caption={Implementação da função \texttt{print}},label={lst:utilsprint}]
 int print(const char *fmt, ...) {
