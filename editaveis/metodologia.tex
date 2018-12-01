@@ -57,11 +57,11 @@ A metodologia deste trabalho está descrita nas próximas seções e está divid
       \label{game-object}
     \end{figure}
 
-    Onde o método \textbf{\textit{update()}}, que é puramente virtual, trata de qualquer atualização do objeto a cada frame e o método \textbf{\textit{draw()}}, também puramente virtual, é responsável por renderizar o objeto na posição (\textit{x}, \textit{y}) a cada frame.
+    Onde os métodos \texttt{update()} e \texttt{draw()}, abstratos, tratam de atualizar o objeto a cada frame e renderizar o objeto na posição \texttt{(x, y)}, respectivamente.
 
-    É importante frisar que os métodos \textbf{\textit{update()}} e \textbf{\textit{draw()}} devem ser puramente virtuais, pois isso garante que qualquer classe que venha a extender de \textit{GameObject} seja obrigada a implementer suas próprias rotinas específicas de atualização e renderização.
+    É importante frisar que os métodos \texttt{update()} e \texttt{draw()} são abstratos e, considerando que o jogo será portado utilizando C++, estes métodos devem ser puramente virtuais, pois isso garante que qualquer classe que venha a extender de \texttt{GameObject} seja obrigada a implementer suas próprias rotinas específicas de atualização e renderização.
 
-    Além da classe \textit{GameObject}, os principais componentes da \textit{engine} a serem implementados são: módulo de vídeo, módulo de áudio, módulo de física e módulo de input.
+    Além da classe \texttt{GameObject}, os principais componentes da \textit{engine} a serem implementados são: módulo de vídeo, módulo de áudio, módulo de física e módulo de \textit{input}.
 
     \subsubsection{Módulo de vídeo}
 

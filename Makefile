@@ -51,6 +51,9 @@ $(TARGET): $(MAIN_FILE) $(SOURCES) bibliografia.bib
 	$(PS2PDF) $(PS_FILE)
 	@cp $(PDF_FILE) $(TARGET)
 
+run:
+	xdg-open $(TARGET) 
+
 clean:
 	rm -f *~ *.dvi *.ps *.backup *.aux *.log
 	rm -f *.lof *.lot *.bbl *.blg *.brf *.toc *.idx
