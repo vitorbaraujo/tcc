@@ -2,9 +2,9 @@
 
 Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} do valor guardado por esse registrador. Sempre que um botão é pressionado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}.
 
-Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expoente o \textit{bit} em questão (4, nesse exemplo). No Código \ref{lst:input1} é possível visualizar a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles.
+Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expoente o \textit{bit} em questão (4, nesse exemplo). No Código \ref{lst:input1} é possível visualizar a definição das constantes que representam os botões. A função utilizada para checar o estado de cada um deles pode ser vista no código \ref{lst:lalala}.
 
-\begin{lstlisting}[float,caption={Cabeçalho do módulo de \textit{input}.},label={lst:input1}]
+\begin{lstlisting}[caption={Cabeçalho do módulo de \textit{input}.},label={lst:input1}]
 #ifndef INPUT_H
 #define INPUT_H
 
@@ -31,7 +31,7 @@ bool pressed(int button);
 #endif
 \end{lstlisting}
 
-\begin{lstlisting}[float,caption={Código-fonte do módulo de \textit{input}.}]
+\begin{lstlisting}[caption={Código-fonte do módulo de \textit{input}.},label={lst:lalala}]
 #include "input.h"
 
 volatile unsigned int *buttons_mem = (volatile unsigned int *) 0x04000130;

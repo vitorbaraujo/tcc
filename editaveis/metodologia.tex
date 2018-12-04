@@ -62,7 +62,7 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
       O módulo de vídeo foi responsável por renderizar qualquer tipo de imagem e animação existente. Ele contém as seguintes funcionalidades:
 
       \begin{itemize}
-        \item renderizar de um a até quatro imagens de fundo;
+        \item renderizar de uma a até quatro imagens de fundo;
         \item renderizar uma ou mais \textit{sprites};
         \item renderizar uma animação (como uma série de \textit{sprites});
         \item movimentar horizontalmente qualquer imagem de fundo (\textit{horizontal scroll});
@@ -89,7 +89,7 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
       \begin{itemize}
         \item simular, opcionalmente, a ação da gravidade em qualquer objeto do jogo;
         \item detectar, opcionalmente, colisões entre todos os objetos do jogo; e
-        \item detectar, opcionalmente, colisões entre um objeto e todos os outros objetos do jogo.
+        \item detectar, opcionalmente, colisões entre um objeto do jogo e todos os outros.
       \end{itemize}
 
     \subsubsection{Módulo de \textit{input}}
@@ -97,13 +97,13 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
       O módulo de \textit{input} foi responsável por receber qualquer pressionamento de qualquer um dos 10 botões e teclas do GBA. Ele tem como funcionalidades:
 
       \begin{itemize}
-        \item detectar se determinado botão foi pressionado; e
+        \item detectar se determinado botão foi pressionado e solto; e
         \item detecter se determinado botão está sendo pressionado.
       \end{itemize}
 
   \subsection{Desenvolvimento do jogo}
 
-    A implementação do jogo foi baseada em classes e foi modelado como mostrado na Figura \ref{model-final}. O personagem principal, os itens coletáveis e plataformas foram representados como \textit{game objects} e também herdam da classe \texttt{Collidable}, para que possam colidir entre si. Já os níveis do jogo são representados pela classe \texttt{TWLevel} e esta, por sua vez, herda da classe \texttt{Level}, que contém a generalização de um nível no jogo. Por fim, a classe \texttt{TWGame} tem como responsabilidade iniciar e realizar a transição entre os níveis do jogo.
+    A implementação do jogo foi baseada em classes e foi modelado como mostrado na Figura \ref{model-final}. O personagem principal, os itens coletáveis e plataformas foram representados como \textit{game objects} e também herdam da classe \texttt{Collidable}, para que possam colidir entre si. Já os níveis do jogo são representados pela classe \texttt{TWLevel} e esta, por sua vez, herda da classe \texttt{Level}, que contém a generalização de um nível no jogo. Por fim, a classe \texttt{TWGame} tem como responsabilidade iniciar, atualizar e realizar a transição entre os níveis do jogo.
 
     \begin{figure}[H]
       \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/modelagem-final.eps}
@@ -112,4 +112,4 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
       \label{model-final}
     \end{figure}
 
-    Os recursos como imagens e músicas precisaram ser editados para que pudessem ser carregados em memória e utilizados no GBA. No caso das imagens, por exemplo, foram modificadas características como dimensões e quantidade de cores a fim de diminuir seu tamanho para que possam ser convertidas para um formato utilizável no GBA. Já no caso dos arquivos de áudio, a principal mudança realizada foi a diminuição da frequência das músicas, como será explicado na Seção \ref{adapmusic}.
+    Os recursos como imagens e músicas precisaram ser editados para que pudessem ser carregados em memória e utilizados no GBA. No caso das imagens, por exemplo, foram modificadas características como dimensões e quantidade de cores a fim de diminuir seu tamanho para que possam ser convertidas para um formato utilizável no GBA, como será visto na Seção \ref{adapak}. Já no caso dos arquivos de áudio, a principal mudança realizada foi a diminuição da frequência das músicas, como será explicado na Seção \ref{adapmusic}.
