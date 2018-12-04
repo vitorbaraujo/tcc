@@ -2,11 +2,11 @@
 
 Antes de se falar como se dá o desenvolvimento de jogos eletrônicos, é necessário definir o que é um jogo, quais os componentes que fazem parte de um jogo e como um jogo é estruturado.
 
-Segundo \citeonline{koster2014a}, um jogo pode ser definido como uma experiência interativa que dá ao jogador uma série de padrões com desafios cada vez mais difíceis ao ponto que ele eventualmente os domine. Jogos diferentes contém temáticas diferentes, mecânicas diferentes e são executados em plataformas diferentes. Porém, a construção desses diferentes jogos tendem a ser bastante semelhante. Levando em consideração a semelhança de construção de jogos eletrônicos, Dave Roderick diz que ``Um jogo é somente um banco de dados em tempo real com um \textit{front-end} bonito'' \cite{rollings2004game}.
+Segundo \citeonline{koster2014a}, um jogo pode ser definido como uma experiência interativa que dá ao jogador uma série de padrões com desafios cada vez mais difíceis ao ponto que ele eventualmente os domine. Jogos diferentes contém temáticas diferentes, mecânicas diferentes e são executados em plataformas diferentes. Porém, a construção desses diferentes jogos tendem a ser bastante semelhante. Levando em consideração a semelhança de construção de jogos eletrônicos, Dave Roderick diz que ``um jogo é somente um banco de dados em tempo real com um \textit{front-end} bonito'' \cite{rollings2004game}.
 
-Na próxima seção serão detalhados os componentes principais que compõem jogos eletrônicos.
+Na seção \ref{componentes} serão detalhados os componentes principais que compõem jogos eletrônicos.
 
-\subsection{Componentes de um jogo}
+\subsection{Componentes de um jogo} \label{componentes}
 
 De forma geral, um jogo é composto pelos seguintes módulos: vídeo, áudio, física, \textit{input}, gerenciamento de recursos e eventos.
 
@@ -40,12 +40,12 @@ De acordo com \citeonline{gregory2014game}, a separação entre um jogo e sua en
 
 \subsubsection{Arquitetura monolítica}
 
-A primeira abordagem trata da construção do jogo utilizando um design de arquitetura monolítico. Nesta arquitetura cada objeto do jogo contém toda a sua implementação de mecânicas de renderização de gráficos, detecção de colisões, física, inteligência artificial, etc. Este modelo não é adequado para jogos mais complexos, pois, de acordo com \citeonline{jeffthesis}, o código não é reutilizável porque as mecânicas estão altamente acopladas com o comportamento dos objetos e, além disso, o design não é flexível, prejudicando a manutenção do código, pois qualquer modificação pode afetar o sistema inteiro.
+A primeira abordagem trata da construção do jogo utilizando um design de arquitetura monolítico. Nesta arquitetura cada objeto do jogo contém toda a sua implementação de mecânicas de renderização de gráficos, detecção de colisões, física, inteligência artificial, etc. Este modelo não é adequado para jogos mais complexos, pois, de acordo com \citeonline{jeffthesis}, o código não é reutilizável porque as mecânicas estão altamente acopladas com o comportamento dos objetos e, além disso, o design não é flexível, prejudicando a manutenção do código, pois qualquer modificação pode afetar o sistema inteiro. A figura \ref{arch-monolitica} apresenta um exemplo desta arquitetura.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/monolithic-architecture.eps}
    \caption[Exemplo de arquitetura monolítica]
-    {Exemplo de arquitetura monolítica. Fonte: \textit{Autores}.}
+    {Exemplo de arquitetura monolítica.}
    \label{arch-monolitica}
 \end{figure}
 
@@ -55,13 +55,13 @@ Esta arquitetura tem como objetivo principal desacoplar mecânicas gerais (como 
 
 Segundo \citeonline{rollings2004game}, uma arquitetura bem implementada facilita a flexibilidade e reutilização de código, e mecânicas que tendem a mudar bastante durante o desenvolvimento do jogo estão atrás de uma interface consistente.
 
-\citeonline{rollings2004game} definem esse modelo como “Arquitetura sólida” (do inglês, \textit{Hard Architecture}). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação.
+\citeonline{rollings2004game} definem esse modelo como “Arquitetura Sólida” (do inglês, \textit{Hard Architecture}). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação. A figura \ref{arch-reutilizavel} apresenta um exemplo desta arquitetura.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/reusable-architecture.eps}
    \caption[Exemplo de arquitetura reutilizável]
-    {Exemplo de arquitetura reutilizável. Fonte: \textit{Autores}.}
+    {Exemplo de arquitetura reutilizável.}
    \label{arch-reutilizavel}
 \end{figure}
 
-No modelo de arquitetura sólido, as mecânicas gerais do jogo estão definidas à parte e são providas interfaces para a utilização destas mecânicas. A partir dessa interface, as funcionalidades específicas do jogo são construídas. Esse conjunto de funcionalidades específicas do jogo é chamado de “Arquitetura Flexível” (do inglês, \textit{Soft Architecture}). \citeonline{rollings2004game} definem arquitetura flexível como “Uma arquitetura de um domínio específico, geralmente não reutilizada entre projetos diferentes, construída em cima da arquitetura sólida e fazendo o uso de seus serviços providos”.
+No modelo de arquitetura sólido, as mecânicas gerais do jogo estão definidas à parte e são providas interfaces para a utilização destas mecânicas. A partir dessa interface, as funcionalidades específicas do jogo são construídas. Esse conjunto de funcionalidades específicas do jogo é chamado de “Arquitetura Flexível” (do inglês, \textit{Soft Architecture}). \citeonline{rollings2004game} definem arquitetura flexível como “uma arquitetura de um domínio específico, geralmente não reutilizada entre projetos diferentes, construída em cima da arquitetura sólida e fazendo o uso de seus serviços providos”.

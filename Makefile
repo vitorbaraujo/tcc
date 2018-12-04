@@ -25,7 +25,8 @@ EDITAVEIS_SOURCES = informacoes.tex errata.tex dedicatoria.tex \
 					modulo-video.tex modulo-fisica.tex modulo-utils.tex \
 					adaptacao-musicas.tex adaptacao-imagens.tex \
 					construcao-niveis.tex transicao-niveis.tex comparacao-porte.tex \
-					metodologia.tex consideracoesfinais.tex
+					metodologia.tex consideracoesfinais.tex desenvolvimentodejogos.tex \
+					gba.tex porte.tex
 
 EDITAVEIS_FILES = $(addprefix $(EDITAVEIS_DIR)/, $(EDITAVEIS_SOURCES))
 
@@ -39,9 +40,9 @@ SOURCES = $(FIXOS_FILES) $(EDITAVEIS_FILES)
 
 .PHONY: all clean dist-clean
 
-all: 
+all:
 	@make $(TARGET)
-     
+
 $(TARGET): $(MAIN_FILE) $(SOURCES) bibliografia.bib
 	$(LATEX) -shell-escape $(MAIN_FILE) $(SOURCES)
 	$(BIBTEX) $(AUX_FILE)
@@ -59,7 +60,7 @@ clean:
 	rm -f *.lof *.lot *.bbl *.blg *.brf *.toc *.idx
 	rm -f *.pdf
 	rm -rf _minted*
-	
+
 dist: clean
 	tar vczf tcc-fga-latex-$(VERSION).tar.gz *
 
