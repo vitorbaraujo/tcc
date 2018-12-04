@@ -52,7 +52,9 @@
 
   \subsection{Tratamento de Input}
 
-    O GBA possui 4 teclas direcionais e 6 botões, cujos estados podem ser acessados por meio dos 10 primeiros \textit{bits} do registrador localizado no endereço \texttt{0x4000130} \cite{gbatek}. Há ainda um outro registrador, no endereço \texttt{0x4000132}, que permite escolher quais pressionamentos de teclas geram interrupções \cite{cowbite}. A Figura \ref  {gba-frente} apresenta teclas e botões do GBA.
+    O GBA possui 4 teclas direcionais e 6 botões, cujos estados podem ser acessados por meio dos 10 primeiros \textit{bits} do registrador localizado no endereço \texttt{0x4000130} \cite{gbatek}. Há ainda um outro registrador, no endereço \texttt{0x4000132}, que permite escolher quais pressionamentos de teclas geram interrupções \cite{cowbite}.
+
+    Os botões são compostos por: 3 botões direcionais (cima, baixo, esqueda e direita), quatro botões de ação (A, B, L e R) e os botões \textit{START} e \textit{SELECT}. A Figura \ref  {gba-frente} apresenta o \textit{layout} dos botões do GBA.
 
     \begin{figure}[H]
     \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/gba-frente.eps}

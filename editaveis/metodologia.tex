@@ -1,6 +1,6 @@
 \chapter[Metodologia]{Metodologia} \label{metodologia}
 
-A metodologia deste trabalho está dividida em duas seções: a seção \ref{devtools} apresenta as ferramentas que serão utilizadas para realizar a compilação e manipulação dos recursos do jogo (como áudio e imagens) e a seção \ref{devmet} aborda como se darão o desenvolvimento da \textit{engine} e do jogo.
+A metodologia deste trabalho está dividida em duas seções: a Seção \ref{devtools} apresenta as ferramentas que serão utilizadas para realizar a compilação e manipulação dos recursos do jogo (como áudio e imagens) e a Seção \ref{devmet} aborda como se darão o desenvolvimento da \textit{engine} e do jogo.
 
 \section{Ferramentas de desenvolvimento} \label{devtools}
 
@@ -8,37 +8,37 @@ A metodologia deste trabalho está dividida em duas seções: a seção \ref{dev
 
   \subsection{Ambiente de desenvolvimento}
 
-    O jogo foi reescrito utilizando a linguagem C++, na versão 11, pois provê uma série de recursos e estruturas não presentes na linguagem C que facilitarão o desenvolvimento do jogo.
+    O jogo foi reescrito utilizando a linguagem C++, na versão 11, pois provê uma série de recursos e estruturas não presentes na linguagem C que facilitaram o desenvolvimento do jogo.
 
-    O ambiente de desenvolvimento utilizado para a implementação do jogo consiste do \textit{kit} de desenvolvimento devkitARM, ferramentas para manipulação das imagens e áudio do jogo.
+    O ambiente de desenvolvimento utilizado para a implementação do jogo consiste do \textit{kit} de desenvolvimento devkitARM e ferramentas para manipulação das imagens e áudio do jogo.
 
     \subsubsection{\textit{devkitPro} e \textit{devkitARM}}
 
-      O \texttt{devkitPro}\footnote{\textit{devkitPro}, disponível em \url{https://devkitpro.org/}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da \textit{Nintendo}, como \textit{Nintendo GBA}, \textit{Nintendo Wii}, \textit{Nintendo Switch}, dentre outros.
+      O \texttt{devkitPro}\footnote{\textit{devkitPro}, disponível em \url{https://bit.ly/2pqy7FG}} é uma organização que provê conjuntos de ferramentas para desenvolvimento de jogos em diversos consoles da \textit{Nintendo}, como \textit{Nintendo GBA}, \textit{Nintendo Wii}, \textit{Nintendo Switch}, dentre outros.
 
       Dentre esses conjuntos de ferramentas encontra-se o \textit{devkitARM}, \textit{toolchain} que contém o ambiente de desenvolvimento necessário para realizar a compilação do código escrito em C/C++ para a arquitetura de processadores ARM existente no GBA, citado na Seção \ref{gba} do Capítulo \ref{fundamentacao}.
 
     \subsubsection{Manipulação de imagens e áudio}
 
-      Para o ajuste das imagens do jogo para a resolução de tela do GBA, foi utilizada a ferramenta de manipulação de imagens GIMP\footnote{GNU Image Manipulation Program, disponível em \url{https://www.gimp.org/}}, versão 2.8.
+      Para o ajuste das imagens do jogo para a resolução de tela do GBA, foi utilizada a ferramenta de manipulação de imagens GIMP\footnote{GNU Image Manipulation Program, disponível em \url{https://bit.ly/1I0gRf9}}, versão 2.8.
 
-      Para realizar a conversão das imagens para um formato legível no GBA, foi utilizada uma biblioteca C chamada GRIT\footnote{\textit{GBA Raster Image Transmogrifier}, disponível em \url{http://www.coranac.com/projects/grit/}}, versão \texttt{0.8.15}.
+      Para realizar a conversão das imagens para um formato legível no GBA, foi utilizada uma biblioteca C chamada GRIT\footnote{\textit{GBA Raster Image Transmogrifier}, disponível em \url{https://bit.ly/2RyU68G}}, versão \texttt{0.8.15}.
 
-      Para a manipulação do áudio do jogo foram utlizadas três ferramentas: \texttt{avconv}\footnote{\texttt{avconv}, disponível em \url{https://github.com/libav/libav}} \texttt{13\_dev0-1601-g56f5018} e \texttt{librosa}\footnote{\texttt{librosa}, disponível em \url{https://github.com/librosa/librosa}} \texttt{0.6.2} para \textit{downsampling} das músicas; e \texttt{modplug tracker}\footnote{\textit{Open Modplug Tracker}, disponível em \url{http://openmpt.org/features}} \texttt{1.27.11.00} para realizar a conversão das músicas para \texttt{.mod}.
+      Para a manipulação do áudio do jogo foram utlizadas três ferramentas: \texttt{avconv}\footnote{\texttt{avconv}, disponível em \url{https://bit.ly/2QCpcyQ}} \texttt{13\_dev0-1601-g56f5018} e \texttt{librosa}\footnote{\texttt{librosa}, disponível em \url{https://bit.ly/2zFxuMU}} \texttt{0.6.2} para \textit{downsampling} das músicas; e \texttt{modplug tracker}\footnote{\textit{Open Modplug Tracker}, disponível em \url{https://bit.ly/2Q9w6wa}} \texttt{1.27.11.00} para realizar a conversão das músicas para \texttt{.mod} (formato de áudio que o GBA consegue reproduzir).
 
   \subsection{Ambiente de teste}
 
-      Para a realização de testes com os executáveis gerados pelo \textit{devkitARM} foi utilizado o emulador de \textit{Game Boy Advance} \textit{VisualBoyAdvance-M}\footnote{\textit{VisualBoyAdvance-M}, disponível em \url{https://github.com/visualboyadvance-m/visualboyadvance-m}}, versão \texttt{2.0.1}.
+      Para a realização de testes com os executáveis gerados pelo \textit{devkitARM} foi utilizado o emulador de \textit{Game Boy Advance} \textit{VisualBoyAdvance-M}\footnote{\textit{VisualBoyAdvance-M}, disponível em \url{https://bit.ly/2Stbs6W}}, versão \texttt{2.0.1}.
 
-      O \textit {console} utilizado como ambiente de testes real é um \textit{Nintendo DS}\footnote{\textit{Nintendo DS}, disponível em \url{https://www.nintendo.com/consumer/systems/selectds.jsp}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho foi utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
+      O \textit {console} utilizado como ambiente de testes real é um \textit{Nintendo DS}\footnote{\textit{Nintendo DS}, disponível em \url{https://bit.ly/2E41XHB}}, que possui um \textit{slot} para cartuchos de \textit{Game Boy Advance}. Neste trabalho foi utilizado um cartucho especial onde é possível escrever arquivos executáveis diretamente nele.
 
-      Para a escrita dos arquivos executáveis neste cartucho foi utilizado o dispositivo \textit{EZFlash II}\footnote{\textit{EZ Flash II}, disponível em \url{http://www.ezfadvance.com/cards/EZ-Flash_2.htm}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente só possui compatibilidade com \textit{Windows XP}\footnote{\textit{Windows XP}, disponível em \url{https://support.microsoft.com/pt-br/help/14223/windows-xp-end-of-support}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
+      Para a escrita dos arquivos executáveis neste cartucho foi utilizado o dispositivo \textit{EZFlash II}\footnote{\textit{EZ Flash II}, disponível em \url{https://bit.ly/2BQOcdA}}. Como essa é uma versão antiga do produto, é necessário instalar um cliente para \textit{upload} dos arquivos para o cartucho. Este cliente possui compatibilidade apenas com o \textit{Windows XP}\footnote{\textit{Windows XP}, disponível em \url{https://bit.ly/2QgBLQb}}, fazendo com que seja necessário instalar uma máquina virtual com o sistema operacional.
 
 \section{Metodologia de desenvolvimento} \label{devmet}
 
   \subsection{Desenvolvimento da \textit{Engine}}
 
-    Para contribuir com uma arquitetura mais manutenível, foi optado por desacoplar a \textit{engine} do jogo em si. A \textit{engine} ficará responsável por implementar os módulos genéricos do jogo, enquanto que o jogo em si conterá as funcionalidades mais específicas.
+    Para contribuir com uma arquitetura mais manutenível, foi optado por desacoplar a \textit{engine} do jogo em si. A \textit{engine} ficou responsável por implementar os módulos genéricos do jogo, enquanto que o jogo em si contém as funcionalidades mais específicas.
 
     A \textit{engine} contém uma classe que representa um objeto do jogo (do inglês, \textit{game object}). Esta classe foi responsável por conter o comportamento genérico de um objeto dentro do jogo (podendo este ser um personagem, uma plataforma, um item coletável, etc.). Ele foi representado de acordo com a Figura \ref{game-object}:
 
