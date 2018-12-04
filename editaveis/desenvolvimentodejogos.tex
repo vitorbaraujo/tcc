@@ -40,7 +40,7 @@ De acordo com \citeonline{gregory2014game}, a separação entre um jogo e sua en
 
 \subsubsection{Arquitetura monolítica}
 
-A primeira abordagem trata da construção do jogo utilizando um design de arquitetura monolítico. Nesta arquitetura cada objeto do jogo contém toda a sua implementação de mecânicas de renderização de gráficos, detecção de colisões, física, inteligência artificial, etc. Este modelo não é adequado para jogos mais complexos, pois, de acordo com \citeonline{jeffthesis}, o código não é reutilizável porque as mecânicas estão altamente acopladas com o comportamento dos objetos e, além disso, o design não é flexível, prejudicando a manutenção do código, pois qualquer modificação pode afetar o sistema inteiro. A figura \ref{arch-monolitica} apresenta um exemplo desta arquitetura.
+A primeira abordagem trata da construção do jogo utilizando um design de arquitetura monolítico. Nesta arquitetura cada objeto do jogo contém toda a sua implementação de mecânicas de renderização de gráficos, detecção de colisões, física, inteligência artificial, etc. Este modelo não é adequado para jogos mais complexos, pois, de acordo com \citeonline{jeffthesis}, o código não é reutilizável porque as mecânicas estão altamente acopladas com o comportamento dos objetos e, além disso, o design não é flexível, prejudicando a manutenção do código, pois qualquer modificação pode afetar o sistema inteiro. A Figura \ref{arch-monolitica} apresenta um exemplo desta arquitetura.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/monolithic-architecture.eps}
@@ -55,7 +55,7 @@ Esta arquitetura tem como objetivo principal desacoplar mecânicas gerais (como 
 
 Segundo \citeonline{rollings2004game}, uma arquitetura bem implementada facilita a flexibilidade e reutilização de código, e mecânicas que tendem a mudar bastante durante o desenvolvimento do jogo estão atrás de uma interface consistente.
 
-\citeonline{rollings2004game} definem esse modelo como “Arquitetura Sólida” (do inglês, \textit{Hard Architecture}). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação. A figura \ref{arch-reutilizavel} apresenta um exemplo desta arquitetura.
+\citeonline{rollings2004game} definem esse modelo como “Arquitetura Sólida” (do inglês, \textit{Hard Architecture}). Uma arquitetura sólida pode ser definida como um framework relativamente genérico que não necessariamente depende do tipo de jogo que é produzido utilizando-o, e é conciso e confiável em relação a suas interfaces, trazendo robustez à sua implementação. A Figura \ref{arch-reutilizavel} apresenta um exemplo desta arquitetura.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/reusable-architecture.eps}

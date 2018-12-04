@@ -40,7 +40,7 @@ A metodologia deste trabalho está dividida em duas seções: a seção \ref{dev
 
     Para contribuir com uma arquitetura mais manutenível, foi optado por desacoplar a \textit{engine} do jogo em si. A \textit{engine} ficará responsável por implementar os módulos genéricos do jogo, enquanto que o jogo em si conterá as funcionalidades mais específicas.
 
-    A \textit{engine} contém uma classe que representa um objeto do jogo (do inglês, \textit{game object}). Esta classe foi responsável por conter o comportamento genérico de um objeto dentro do jogo (podendo este ser um personagem, uma plataforma, um item coletável, etc.). Ele foi representado de acordo com a figura \ref{game-object}:
+    A \textit{engine} contém uma classe que representa um objeto do jogo (do inglês, \textit{game object}). Esta classe foi responsável por conter o comportamento genérico de um objeto dentro do jogo (podendo este ser um personagem, uma plataforma, um item coletável, etc.). Ele foi representado de acordo com a Figura \ref{game-object}:
 
     \vspace{\onelineskip}
 
@@ -103,7 +103,7 @@ A metodologia deste trabalho está dividida em duas seções: a seção \ref{dev
 
   \subsection{Desenvolvimento do jogo}
 
-    A implementação do jogo foi baseada em classes e foi modelado como mostrado na figura \ref{model-final}. O personagem principal, os itens coletáveis e plataformas foram representados como \textit{game objects} e também herdam da classe \texttt{Collidable}, para que possam colidir entre si. Já os níveis do jogo são representados pela classe \texttt{TWLevel} e esta, por sua vez, herda da classe \texttt{Level}, que contém a generalização de um nível no jogo. Por fim, a classe \texttt{TWGame} tem como responsabilidade iniciar e realizar a transição entre os níveis do jogo.
+    A implementação do jogo foi baseada em classes e foi modelado como mostrado na Figura \ref{model-final}. O personagem principal, os itens coletáveis e plataformas foram representados como \textit{game objects} e também herdam da classe \texttt{Collidable}, para que possam colidir entre si. Já os níveis do jogo são representados pela classe \texttt{TWLevel} e esta, por sua vez, herda da classe \texttt{Level}, que contém a generalização de um nível no jogo. Por fim, a classe \texttt{TWGame} tem como responsabilidade iniciar e realizar a transição entre os níveis do jogo.
 
     \begin{figure}[H]
       \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/modelagem-final.eps}

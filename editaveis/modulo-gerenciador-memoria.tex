@@ -51,19 +51,11 @@ Para melhor utilização dos recursos providos pelo GBA foi desenvolvido um mód
     \end{lstlisting}
 
 
-    \subsubsection{Gerenciamento seguro de memória}
+    \subsubsection{Gerenciamento de memória}
 
     Para garantir que novos recursos sejam alocados e que nenhum objeto já carregado na memória seja sobrescrito ou corrompido, qualquer chamada que envolva a alocação de novos recursos passa por um processo onde é verificado se a memória que será populada contém espaço suficiente realizar tal alocação.
 
-    Para realizar esta verificação, o gerenciador possui um mapa que associa um endereço na memória com o tamanho que o objeto alocado neste endereço ocupa. Deste modo, quando há uma chamada de alocação com tamanho \texttt{size} e uma posição \texttt{i} está disponível e o tamanho da partição em \textit{bytes} é dado por \texttt{t}, as posições de \texttt{i} até
-
-    \begin{equation} \label{Limite superior de alocação na memória de uma posição i}
-    i + \frac{size}{t} - 1
-    \end{equation}
-
-    são marcadas como utilizadas.
-
-    \subsubsection{Gerenciamento eficiente de memória}
+    Para realizar esta verificação, o gerenciador possui um mapa que associa um endereço na memória com o tamanho que o objeto alocado neste endereço ocupa. Deste modo, quando há uma chamada de alocação com tamanho \texttt{size} e uma posição \texttt{i} está disponível e o tamanho da partição em \textit{bytes} é dado por \texttt{t}, as posições de \texttt{i} até $ i + \frac{size}{t} - 1 $ são marcadas como utilizadas.
 
     As estratégias utilizadas para garantir um gerenciamento eficiente de memória envolvem a utilização de \textit{singleton} para a criação do objeto gerenciador de memória e utilização de estruturas de dados que permitam configurar o tamanho a ser utilizado.
 

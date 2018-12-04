@@ -10,23 +10,48 @@
 \renewcommand{\lstlistingname}{Código}% Listing -> Algorithm
 \renewcommand{\lstlistlistingname}{Lista de \lstlistingname s}% List of Listings -> List of Algorithms
 
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% \definecolor{mygreen}{rgb}{0,0.6,0}
+% \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+% \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
-\lstset {
-  language=C++,
-  basicstyle=\footnotesize,
-  frame=single,
-  numbers=left,
-  % captionpos=b,
-  label=DescriptiveLabel,
-  breaklines=true,
-  keywordstyle=\color{blue},
-  stringstyle=\color{mymauve},
-  commentstyle=\color{mygreen},
+% \lstset {
+%   language=C++,
+%   basicstyle=\footnotesize,
+%   frame=single,
+%   numbers=left,
+%   % captionpos=b,
+%   label=DescriptiveLabel,
+%   breaklines=true,
+%   keywordstyle=\color{blue},
+%   stringstyle=\color{mymauve},
+%   commentstyle=\color{mygreen},
+% }
+
+\usepackage{listings}
+
+\usepackage{color}
+
+\definecolor{mygray}{rgb}{0.7, 0.7, 0.7}
+\definecolor{mygreen}{rgb}{0.2, 0.7, 0.2}
+\definecolor{myblue}{rgb}{0.0, 0.5, 1.0}
+\definecolor{myred}{rgb}{0.9, 0.1, 0.2}
+
+\lstset{
+    showstringspaces=false,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{myblue}\ttfamily\bfseries,
+    stringstyle=\color{myred}\ttfamily,
+    commentstyle=\color{mygray}\bfseries\itshape,
+    morecomment=[l][\color{mygreen}\bfseries\itshape]{\#},
+    breaklines=true,
+    numbers=left,
+    tabsize=2,
+    % captionpos=b,
+    numbersep=7pt,
+    numberstyle=\tiny\color{mygray},
+    literate={\ \ }{{\ }}1,
+    language=C++,
 }
-
 
 \input{editaveis/informacoes}
 \input{fixos/informacoes}

@@ -2,7 +2,7 @@
 
 Os estados dos botões do GBA ficam salvos em um registrador. Cada um desses estados é representado por um \textit{bit} do valor guardado por esse registrador. Sempre que um botão é pressionado, o GBA automaticamente troca o valor guardado nesse registrador de tal forma que o \textit{bit} que representa o botão em questão passe a possuir valor 0. De forma similar, quando o botão é solto, o valor contido no \textit{bit} em questão é modificado para 1, seu valor padrão. Sendo assim, a checagem dos estados pode ser realizada facilmente utilizando \textit{bitmasks}.
 
-Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expoente o \textit{bit} em questão (4, nesse exemplo). No código \ref{lst:input1} é possível visualizar a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles.
+Por exemplo, caso se deseje checar um botão representado pelo \textit{bit} 2 (com a contagem começando em 0), basta pegar o resultado do \textit{AND} binário entre o valor guardado no registrador e a potência de 2 que possui como expoente o \textit{bit} em questão (4, nesse exemplo). No Código \ref{lst:input1} é possível visualizar a definição das constantes que representam os botões, assim como a função utilizada para checar o estado de cada um deles.
 
 \begin{lstlisting}[float,caption={Cabeçalho do módulo de \textit{input}.},label={lst:input1}]
 #ifndef INPUT_H
@@ -47,7 +47,7 @@ bool pressed(int button) {
 }
 \end{lstlisting}
 
-A figura \ref{demo-input} apresenta o teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Nesta figura, os botões B, R, \textit{LEFT}, \textit{DOWN} e \textit{START} estão sendo pressionados simultaneamente. O código \ref{lst:inputtest} apresenta este teste.
+A Figura \ref{demo-input} apresenta o teste implementado para checar o pressionamento dos botões do GBA. Para cada botão pressionado um \textit{pixel} vermelho aparece na tela. Nesta figura, os botões B, R, \textit{LEFT}, \textit{DOWN} e \textit{START} estão sendo pressionados simultaneamente. O código \ref{lst:inputtest} apresenta este teste.
 
 \begin{figure}[H]
  \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/demo-input.eps}

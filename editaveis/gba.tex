@@ -30,7 +30,7 @@
       \textit{All things considered, the GBA knows 3 types of graphics representations: bitmaps, tiled backgrounds and sprites. The bitmap and tiled background (also simply known as background) types affect how the whole screen is built up and as such cannot both be activated at the same time.} \cite[p. 38]{tonc}
     \end{quote}
 
-    O GBA possui 3 modos de vídeo baseados em \textit{bitmaps} e a principal diferença entre eles está no fato de utilizarem ou não paletas de cores, no número de \textit{bits} utilizados para representar as cores e na resolução \cite{harbour}. Nesses modos, a memória de vídeo funciona como se fosse um grande \textit{bitmap}, de tal forma que cada pixel da tela é representado por uma posição na memória \cite{tonc}. A figura \ref{link-bitmap} apresenta um exemplo de \textit{bitmap}.
+    O GBA possui 3 modos de vídeo baseados em \textit{bitmaps} e a principal diferença entre eles está no fato de utilizarem ou não paletas de cores, no número de \textit{bits} utilizados para representar as cores e na resolução \cite{harbour}. Nesses modos, a memória de vídeo funciona como se fosse um grande \textit{bitmap}, de tal forma que cada pixel da tela é representado por uma posição na memória \cite{tonc}. A Figura \ref{link-bitmap} apresenta um exemplo de \textit{bitmap}.
 
     \begin{figure}[H]
     \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/link-bitmap.eps}
@@ -39,7 +39,7 @@
       \label{link-bitmap}
     \end{figure}
 
-    O GBA também possui 3 modos de vídeo baseados em \textit{tiles} e a principal diferença entre eles está na quantidade de \textit{backgrounds} que podem ser utilizados em cada um dos três modos e nas operações (rotação/\textit{zoom}) que podem ser aplicadas ou não em cada um deles \cite{harbour}. Nesses modos, são construídos \textit{tiles} de $8\times8$ \textit{bits} para que posteriormente possam ser utilizados em \textit{tilemaps}, que por sua vez serão utilizados para renderizar os objetos necessários \cite{tonc}. A figura \ref{metroid-sprite} apresenta um exemplo de \textit{sprite} dividida em \textit{tiles}.
+    O GBA também possui 3 modos de vídeo baseados em \textit{tiles} e a principal diferença entre eles está na quantidade de \textit{backgrounds} que podem ser utilizados em cada um dos três modos e nas operações (rotação/\textit{zoom}) que podem ser aplicadas ou não em cada um deles \cite{harbour}. Nesses modos, são construídos \textit{tiles} de $8\times8$ \textit{bits} para que posteriormente possam ser utilizados em \textit{tilemaps}, que por sua vez serão utilizados para renderizar os objetos necessários \cite{tonc}. A Figura \ref{metroid-sprite} apresenta um exemplo de \textit{sprite} dividida em \textit{tiles}.
 
     Há ainda a camada reservada para as \textit{sprites}: ``\textit{Sprites are small ($8\times8$ to $64\times64$ pixels) graphical objects that can be transformed independently from each other and can be used in conjunction with either bitmap or background types.}'' \cite[p. 38]{tonc}
 
@@ -52,7 +52,7 @@
 
   \subsection{Tratamento de Input}
 
-    O GBA possui 4 teclas direcionais e 6 botões, cujos estados podem ser acessados por meio dos 10 primeiros \textit{bits} do registrador localizado no endereço \texttt{0x4000130} \cite{gbatek}. Há ainda um outro registrador, no endereço \texttt{0x4000132}, que permite escolher quais pressionamentos de teclas geram interrupções \cite{cowbite}. A figura \ref{gba-frente} apresenta teclas e botões do GBA.
+    O GBA possui 4 teclas direcionais e 6 botões, cujos estados podem ser acessados por meio dos 10 primeiros \textit{bits} do registrador localizado no endereço \texttt{0x4000130} \cite{gbatek}. Há ainda um outro registrador, no endereço \texttt{0x4000132}, que permite escolher quais pressionamentos de teclas geram interrupções \cite{cowbite}. A Figura \ref  {gba-frente} apresenta teclas e botões do GBA.
 
     \begin{figure}[H]
     \centering \includegraphics[keepaspectratio=true,scale=0.6]{figuras/gba-frente.eps}
