@@ -56,7 +56,10 @@ Texture::Texture(const Texture *texture)
 }
 \end{lstlisting}
 
+\begin{sloppypar}
 O método \texttt{set\_sprite\_pal()} é responsável por chamar o método \texttt{alloc\_texture\_pal()} da classe \texttt{MemoryManager} passando como parâmetro o tamanho da paleta de cores a ser alocada. Como resultado, ele irá receber o endereço de memória aonde a paleta deverá ser guardada. Após fazer a cópia da paleta, é preciso calcular o índice da paleta escolhida na memória, já que esse é um dos metadados necessários para renderização da imagem a 4 \textit{bits} por \textit{pixel}. Como a região reservada para as paletas de cores no \textit{GBA} é dividida em regiões de 32 \textit{bytes}, para realizar tal cálculo basta pegar a diferença entre o início da região escolhida para a cópia e o início da região reservada para as paletas e dividir por 32.
+\end{sloppypar}
+
 Como uma imagem renderizada a 8 \textit{bits} por \textit{pixel} ocupa toda a região reservada para as paletas, o cálculo do índice não é necessário para uma imagem que utilize 256 cores.
 
 \begin{lstlisting}[float,caption={Função de alocação da paleta de cores de uma textura.}]
