@@ -1,6 +1,6 @@
 \chapter[Metodologia]{Metodologia} \label{metodologia}
 
-A metodologia deste trabalho está dividida em duas seções: a Seção \ref{devtools} apresenta as ferramentas que serão utilizadas para realizar a compilação e manipulação dos recursos do jogo (como áudio e imagens) e a Seção \ref{devmet} aborda como se darão o desenvolvimento da \textit{engine} e do jogo.
+A metodologia deste trabalho está dividida em duas seções: a Seção \ref{devtools} apresenta as ferramentas que foram utilizadas para realizar a compilação e manipulação dos recursos do jogo (como áudio e imagens) e a Seção \ref{devmet} aborda como foram realizados o desenvolvimento da \textit{engine} e do jogo.
 
 \section{Ferramentas de desenvolvimento} \label{devtools}
 
@@ -10,7 +10,7 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
 
     O jogo foi reescrito utilizando a linguagem C++, na versão 11, pois provê uma série de recursos e estruturas não presentes na linguagem C que facilitaram o desenvolvimento do jogo.
 
-    O ambiente de desenvolvimento utilizado para a implementação do jogo consiste do \textit{kit} de desenvolvimento devkitARM e ferramentas para manipulação das imagens e áudio do jogo.
+    O ambiente de desenvolvimento utilizado para a implementação do jogo consiste no \textit{kit} de desenvolvimento devkitARM e ferramentas para manipulação das imagens e áudio do jogo.
 
     \subsubsection{\textit{devkitPro} e \textit{devkitARM}}
 
@@ -38,7 +38,7 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
 
   \subsection{Desenvolvimento da \textit{Engine}}
 
-    Para contribuir com uma arquitetura mais manutenível, foi optado por desacoplar a \textit{engine} do jogo em si. A \textit{engine} ficou responsável por implementar os módulos genéricos do jogo, enquanto que o jogo em si contém as funcionalidades mais específicas.
+    Para contribuir com uma arquitetura mais manutenível, optou-se por desacoplar a \textit{engine} do jogo em si. A \textit{engine} ficou responsável por implementar os módulos genéricos do jogo, enquanto que o jogo em si contém as funcionalidades mais específicas.
 
     A \textit{engine} contém uma classe que representa um objeto do jogo (do inglês, \textit{game object}). Esta classe foi responsável por conter o comportamento genérico de um objeto dentro do jogo (podendo este ser um personagem, uma plataforma, um item coletável, etc.). Ele foi representado de acordo com a Figura \ref{game-object}:
 
@@ -51,23 +51,23 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
       \label{game-object}
     \end{figure}
 
-    Onde os métodos \texttt{update\_self()} e \texttt{draw\_self()}, abstratos, tratam de atualizar o objeto a cada frame e renderizar o objeto na posição \texttt{(x, y)}, respectivamente.
+    Onde os métodos \texttt{update\_self()} e \texttt{draw\_self()}, abstratos, tratam de atualizar o objeto a cada \textit{frame} e renderizar o objeto na posição \texttt{(x, y)}, respectivamente.
 
     É importante frisar que os métodos \texttt{update\_self()} e \texttt{draw\_self()} são abstratos e, considerando que o jogo foi portado utilizando C++, estes métodos devem ser puramente virtuais, pois isso garante que qualquer classe que venha a extender de \texttt{GameObject} seja obrigada a implementer suas próprias rotinas específicas de atualização e renderização.
 
-    Além da classe \texttt{GameObject}, os principais componentes da \textit{engine} implementados foram: módulo de vídeo, módulo de áudio, módulo de física e módulo de \textit{input}.
+    Além da classe \texttt{GameObject}, os principais componentes da \textit{engine} implementados foram: módulo de vídeo, módulo de áudio, módulo de física, módulo de \textit{input} e módulo gerenciador de memória.
 
     \subsubsection{Módulo de vídeo}
 
       O módulo de vídeo foi responsável por renderizar qualquer tipo de imagem e animação existente. Ele contém as seguintes funcionalidades:
 
       \begin{itemize}
-        \item renderizar de uma a até quatro imagens de fundo;
+        \item renderizar de uma a quatro imagens de fundo;
         \item renderizar uma ou mais \textit{sprites};
         \item renderizar uma animação (como uma série de \textit{sprites});
         \item movimentar horizontalmente qualquer imagem de fundo (\textit{horizontal scroll});
         \item remover uma imagem, \textit{sprite} ou animação que esteja renderizado da tela;
-        \item atualizar a renderização a cada frame, levando em consideração as posições \textit{x} e \textit{y} da \textit{sprite} ou animação; e
+        \item atualizar a renderização a cada \textit{frame}, levando em consideração as posições \textit{x} e \textit{y} da \textit{sprite} ou animação; e
         \item configurar a prioridade de exibição de texturas (animações ou \textit{sprites})
       \end{itemize}
 
@@ -112,4 +112,4 @@ A metodologia deste trabalho está dividida em duas seções: a Seção \ref{dev
       \label{model-final}
     \end{figure}
 
-    Os recursos como imagens e músicas precisaram ser editados para que pudessem ser carregados em memória e utilizados no GBA. No caso das imagens, por exemplo, foram modificadas características como dimensões e quantidade de cores a fim de diminuir seu tamanho para que possam ser convertidas para um formato utilizável no GBA, como será visto na Seção \ref{adapak}. Já no caso dos arquivos de áudio, a principal mudança realizada foi a diminuição da frequência das músicas, como será explicado na Seção \ref{adapmusic}.
+    Os recursos como imagens e músicas precisaram ser editados para que pudessem ser carregados em memória e utilizados no GBA. No caso das imagens, por exemplo, foram modificadas características como dimensões e quantidade de cores a fim de diminuir seu tamanho para que pudessem ser convertidas para um formato utilizável no GBA, como será visto na Seção \ref{adapak}. Já no caso dos arquivos de áudio, a principal mudança realizada foi a diminuição da frequência das músicas, como será explicado na Seção \ref{adapmusic}.
